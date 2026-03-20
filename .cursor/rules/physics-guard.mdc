@@ -1,0 +1,68 @@
+---
+description: Physics integrity guard for simulation code changes
+globs:
+  - src/simulation/physics/**
+  - src/simulation/filaments/**
+  - src/simulation/emitters/**
+---
+
+# Physics Guard
+
+При изменении файлов в `src/simulation/physics/`, `src/simulation/filaments/`, `src/simulation/emitters/`:
+
+## Перед изменением
+
+1. Проверить статус оператора в `docs/ROADMAP_V2.md` (OK / PARTIAL / FAKE / BROKEN).
+2. Если оператор помечен как FAKE или BROKEN — приоритет на замену, не на патч.
+3. Если оператор помечен как OK — изменение не должно ломать корректность.
+
+## При изменении
+
+- Не добавлять hard clamp (velocity, vorticity, coreRadius) как физический механизм. Clamp допустим только как safety net с логированием.
+- Не добавлять `Math.random()` как замену физической модели.
+- Если оператор меняет ω, γ, или σ — документировать влияние на Γ (циркуляция) и E (энергия).
+- Dual codebase: изменение в JS → нужно аналогичное изменение в WGSL (`src/simulation/physics/webgpu/`), или явный TODO.
+
+## Текущий статус операторов (Audit v2)
+
+| Файл | Оператор | Статус |
+|------|---------|--------|
+| `vpm/biotSavart.js` | Biot-Savart velocity | OK |
+| `vpm/advection.js` | Advection + CFL | OK — Euler (default) + RK2 midpoint + CFL adaptive dt |
+| `vpm/vortexStretching.js` | Vortex stretching | OK — analytic (ω·∇)u (default), legacy fallback available |
+| `vpm/vortexDiffusion.js` | Viscous diffusion | OK — PSE inter-particle (default), core-spread fallback available |
+| `vpm/vortexReconnection.js` | Particle merge | PARTIAL |
+| `vpm/vorticityConfinement.js` | Vorticity confinement | OK (стабилизирующий) |
+| `vpm/vortexCascade.js` | Energy cascade | OK — physical mode available (see below) |
+| `vpm/stability.js` | Clamps + conservation | OK — safety net with tracking + CFL adaptive dt in pipeline; Γ monitor mode |
+| `filaments/biotSavartFilament.js` | Filament Biot-Savart + LIA | OK |
+| `filaments/reconnectFilaments.js` | Filament reconnection | OK — viscous diffusion + topological swap |
+| `filaments/filamentDynamics.js` | Curvature + instability | PARTIAL |
+| `emitters/jetRollupEmitter.js` | Jet emission | OK — curl(u) mode (default: 'edge' legacy); `jetVorticityMode: 'curl'` |
+| `vpm/vortexCascade.js` | Energy cascade | OK — physical mode (`cascadeMode: 'physical'`), artificial splitting optional |
+| `vpm/remesh.js` | M'4 remeshing | OK — Monaghan 1985, integrated into pipeline |
+
+## Scaffold kill-list (Phase 5 targets)
+
+| Scaffold | Проблема | Task |
+|----------|---------|------|
+| ~~`scaling/nondimensionalScaling.js`~~ | ~~Только ν → runtime~~ | ~~P5.1~~ DONE |
+| ~~`adaptive/resolutionController.js`~~ | ~~Lab-only~~ | ~~P5.2~~ DONE |
+| ~~`stability/stabilityMonitor.js`~~ | ~~Только diagnose~~ | ~~P5.5~~ DONE (TT-030C) |
+| ~~`pipeline.js:applyBoundaryInteractionHook`~~ | ~~Empty function~~ | ~~P5.3~~ DONE |
+| ~~`pipeline.js:applyWakeForcingHook`~~ | ~~Empty function~~ | ~~P5.4~~ DONE |
+| ~~`structures/detectVortexStructures.js`~~ | ~~No PCA, no loops~~ | ~~P5.6~~ DONE |
+| ~~`structures/ringValidationContract.js`~~ | ~~No lifecycle~~ | ~~P5.7~~ DONE |
+| ~~`fmm/multipole.js`~~ | ~~p=0 only~~ | ~~P5.8~~ DONE |
+
+## Правило: запрет scaffold inflation
+
+- НЕ создавать contracts/policies для физики, которая не реализована.
+- Сначала оператор, потом contract.
+- scaffold → implementation или → DEPRECATED.
+
+## После изменения
+
+- Проверить, что `docs/ROADMAP_V2.md` Phase 5 отражает новый статус.
+- Обновить scaffold таблицу в RULES.md.
+- Обновить dashboard Phase 5 progress.

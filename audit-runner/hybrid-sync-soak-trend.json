@@ -1,0 +1,31 @@
+{
+  "updatedAt": "2026-03-18T15:17:04.257Z",
+  "snapshots": [
+    {
+      "generatedAt": "2026-03-18T15:12:40.878Z",
+      "strict": true,
+      "repeat": 4,
+      "gatePass": true,
+      "row": {
+        "strict": true,
+        "repeat": 4,
+        "failRunCount": 0,
+        "unsafeUnsyncedTotal": 0,
+        "hybridPlusFrozenP95": 7
+      }
+    },
+    {
+      "generatedAt": "2026-03-18T15:17:04.257Z",
+      "strict": true,
+      "repeat": 4,
+      "gatePass": true,
+      "row": {
+        "strict": true,
+        "repeat": 4,
+        "failRunCount": 0,
+        "unsafeUnsyncedTotal": 0,
+        "hybridPlusFrozenP95": 7
+      }
+    }
+  ]
+}

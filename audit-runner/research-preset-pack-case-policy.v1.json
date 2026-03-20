@@ -1,0 +1,114 @@
+{
+  "schemaVersion": "tt052.research_preset_case_policy.v1",
+  "defaultProfile": "standard",
+  "profiles": {
+    "smoke": {
+      "defaults": {
+        "circulationDriftAbsMaxPct": 50,
+        "stepP95MsMax": 180
+      },
+      "perPreset": {
+        "vortex_ring_collision": {
+          "circulationDriftAbsMaxPct": 40,
+          "stepP95MsMax": 180
+        },
+        "vortex_leapfrogging": {
+          "circulationDriftAbsMaxPct": 40,
+          "stepP95MsMax": 180
+        },
+        "jet_instability": {
+          "circulationDriftAbsMaxPct": 50,
+          "stepP95MsMax": 180
+        },
+        "turbulence_cascade": {
+          "circulationDriftAbsMaxPct": 55,
+          "stepP95MsMax": 160
+        },
+        "helmholtz_shear": {
+          "circulationDriftAbsMaxPct": 50,
+          "stepP95MsMax": 180
+        },
+        "kelvin_wave_train": {
+          "circulationDriftAbsMaxPct": 45,
+          "stepP95MsMax": 180
+        },
+        "reconnection_pair": {
+          "circulationDriftAbsMaxPct": 55,
+          "stepP95MsMax": 180
+        }
+      }
+    },
+    "standard": {
+      "defaults": {
+        "circulationDriftAbsMaxPct": 45,
+        "stepP95MsMax": 170
+      },
+      "perPreset": {
+        "vortex_ring_collision": {
+          "circulationDriftAbsMaxPct": 35,
+          "stepP95MsMax": 170
+        },
+        "vortex_leapfrogging": {
+          "circulationDriftAbsMaxPct": 35,
+          "stepP95MsMax": 170
+        },
+        "jet_instability": {
+          "circulationDriftAbsMaxPct": 45,
+          "stepP95MsMax": 170
+        },
+        "turbulence_cascade": {
+          "circulationDriftAbsMaxPct": 50,
+          "stepP95MsMax": 150
+        },
+        "helmholtz_shear": {
+          "circulationDriftAbsMaxPct": 45,
+          "stepP95MsMax": 170
+        },
+        "kelvin_wave_train": {
+          "circulationDriftAbsMaxPct": 40,
+          "stepP95MsMax": 170
+        },
+        "reconnection_pair": {
+          "circulationDriftAbsMaxPct": 50,
+          "stepP95MsMax": 170
+        }
+      }
+    },
+    "nightly": {
+      "defaults": {
+        "circulationDriftAbsMaxPct": 40,
+        "stepP95MsMax": 165
+      },
+      "perPreset": {
+        "vortex_ring_collision": {
+          "circulationDriftAbsMaxPct": 32,
+          "stepP95MsMax": 165
+        },
+        "vortex_leapfrogging": {
+          "circulationDriftAbsMaxPct": 32,
+          "stepP95MsMax": 165
+        },
+        "jet_instability": {
+          "circulationDriftAbsMaxPct": 42,
+          "stepP95MsMax": 165
+        },
+        "turbulence_cascade": {
+          "circulationDriftAbsMaxPct": 48,
+          "stepP95MsMax": 145
+        },
+        "helmholtz_shear": {
+          "circulationDriftAbsMaxPct": 42,
+          "stepP95MsMax": 165
+        },
+        "kelvin_wave_train": {
+          "circulationDriftAbsMaxPct": 38,
+          "stepP95MsMax": 165
+        },
+        "reconnection_pair": {
+          "circulationDriftAbsMaxPct": 48,
+          "stepP95MsMax": 165
+        }
+      }
+    }
+  }
+}

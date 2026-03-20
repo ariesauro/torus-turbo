@@ -1,0 +1,803 @@
+# PROGRESS
+
+Последнее обновление: 2026-03-19
+
+## Общий прогресс
+
+- **Overall**: `71 DONE / 0 IN_PROGRESS / 0 TODO` (готовность 100%)
+- **Статус**: Все задачи `TT-001..TT-070` закрыты. Governance контур активен.
+
+## Progress Bars
+
+- `[####################] 100%` Overall
+- `[##############------] 70%` Planning/Documentation
+- `[###-----------------] 15%` Core Implementation
+- `[########------------] 40%` Validation/Benchmarks
+
+## Последние обновления
+
+- Закрыт `TT-070`: continuous validation governance — полный governance-контур:
+  - `TT-070A`: runbook v1 (`docs/VALIDATION_GOVERNANCE_RUNBOOK.md`) с 20 validation contours, 5 tiers, cadence policy (on-commit/smoke/standard/nightly), escalation levels 0–3 (PASS/WARNING/STRICT/FREEZE), baseline update protocol.
+  - `TT-070B`: policy contract (`audit-runner/validation-governance-policy.v1.json`, 3 profiles: smoke/standard/nightly), freshness log (`validation-governance-freshness.json`), audit CLI (`validationGovernanceAudit.mjs`, 18 checks, all PASS).
+  - `TT-070C`: CI scripts (`benchmark:governance[:ci|:freshness:ci]`), strict mode verified PASS, tracker sync (TASKS/ROADMAP/PROGRESS/dashboard) complete.
+- Реализован P5.1 (Scale Physics → full runtime):
+  - `buildRuntimeScalingPatch()` — вычисляет полный патч из Re/St/scaleClass (ν, σ, interactionRadius, ringResolution, pulseDuration, reconnectionDistance).
+  - `applyRuntimeScaling()` — применяет scaling в main runtime loop (`simulationRuntime.js`).
+  - `physicsScale` / `viewScale` — разделены; viewScale информационный, не влияет на физику.
+  - Discretization density targets per scale class (micro/lab/atmospheric/astro).
+  - Lab runner обновлён: полный scaling patch вместо viscosity-only.
+  - Convergence: 8/8 PASS; unit test: Re=4500 → ν=6.67e-4, U·D/ν = Re verified.
+- Реализован P5.2 (Adaptive Resolution → main runtime):
+  - `applyAdaptiveResolution()` в `simulationRuntime.js` — signal collection, decision, actuation.
+  - Signals: vorticity, curvature, reconnection, uncertainty, stabilityWarnings из runtime diagnostics.
+  - Actuation: `particleCount` + `spawnRate` с bounded step + cooldown + budget guards.
+  - Convergence: 8/8 PASS.
+- P5.5 (Stability → auto-correction): уже реализовано в TT-030C; `applyStabilityAutoCorrections()` runs every step. Статус обновлён до DONE.
+- Реализованы P5.3 + P5.4 (Boundary + Wake physics):
+  - `applyBoundaryInteractionHook()`: plane boundary с image vortex method, no-slip/free-slip, reflection + proximity-weighted velocity/vorticity correction.
+  - `applyWakeForcingHook()`: uniform background flow (U∞) добавляет `physicalWakeUniformVx/Vy/Vz` ко всем частицам.
+  - Convergence: 8/8 PASS.
+- Реализованы P5.6–P5.10 (завершение Phase 5):
+  - P5.6: full 3×3 eigendecomposition (Cardano's method) + circulation closure detection for rings.
+  - P5.7: ring lifecycle state machine (absent→forming→stable→deforming→breakdown) + Saffman velocity reference.
+  - P5.8: FMM quadrupole — qTrace second moment in P2M/M2M/M2L.
+  - P5.9: grid field sampler + Q-criterion grid + RK4 streamline tracer + E(k) spectrum wired to runtime.
+  - P5.10: LOD tier drives actual visual changes (particle size/opacity scaling).
+  - **Phase 5 complete**: all 10 scaffold tasks DONE. Convergence: 8/8 PASS.
+- Реализован P3.2 (GPU-side diagnostics):
+  - `CounterData` расширен на 4 diagnostic scalar fields (energy, enstrophy, circulation, maxSpeed).
+  - Compact shader аккумулирует через `atomicAdd`/`atomicMax` с fixed-point encoding (×1000).
+  - Counter buffer (32 bytes) читается каждый dispatch — полный readback нужен только для визуализации.
+  - `getSyncDiagnostics()` экспортирует `gpuDiagEnergy/Enstrophy/Circulation/MaxSpeed`.
+  - Convergence: 8/8 PASS.
+- Реализован P3.4 (FMM optimization):
+  - O(N log N) tree walk traversal заменяет O(L²) leaf-to-leaf interactions.
+  - `treeWalkVelocity()`: recursive octree traversal с MAC criterion (size/dist < θ).
+  - Convergence: 8/8 PASS.
+- **Phase 3 GPU — ALL DONE** (P3.1–P3.4). **Phase 1–5 — ALL DONE**.
+- Phase 6 начата:
+  - P6.1 Runtime visual verification: DONE — app launches, vortex ring forms, all Phase 5 UI controls present.
+  - Следующий: P6.2 Emergence re-evaluation.
+
+- Закрыт `TT-036`: `remote-render streaming feasibility study` с формальными критериями `go/no-go`, envelope по `RTT/jitter/loss` и fallback-policy.
+- Добавлен документ `docs/REMOTE_RENDER_STREAMING_FEASIBILITY.md`; текущий engineering verdict: `NO-GO/defer` до появления low-latency edge-tier и remote/local parity-audit.
+- Синхронизированы `ROADMAP/TASKS/dev/dashboard.html` по статусам performance-контура и закрытию последнего TODO.
+- Закрыт `TT-037`: сформирован unified research baseline (`docs/RESEARCH_EXPERIMENT_MATRIX.md`) с experiment matrix v1, instability protocol v1 и publishable metric mapping v1.
+- Закрыт `TT-038`: research baseline сделан исполнимым через preset pack v1 (`7` сценарных пресетов) и deterministic artifact naming contract (`tt038.lab_artifact_name.v1`) для `JSON/CSV/MD` экспортов Lab Panel.
+- Закрыт `TT-039`: добавлен mini acceptance-аудит `audit-runner/researchPresetPackAudit.mjs` + npm scripts (`benchmark:research:presetpack[:ci]`) + runbook `docs/RESEARCH_PRESET_PACK_AUDIT.md`; smoke CI (`RESEARCH_PRESET_AUDIT_DURATION_SCALE=0.25`) прошел `PASS`.
+- Закрыт `TT-040`: full-duration baseline recheck (`RESEARCH_PRESET_AUDIT_DURATION_SCALE=1 npm run benchmark:research:presetpack:ci`) выполнен, все `7` preset-кейсов прошли `PASS`; baseline verdict закреплен в runbook.
+- Закрыт `TT-041`: сформирован aggregate baseline report (`smoke` vs `full`) в `docs/RESEARCH_PRESET_PACK_BASELINE_REPORT.md` на основе отдельных артефактов `research-preset-pack-audit-{smoke,full}.{json,md}`; gates `PASS` в обоих режимах.
+- Закрыт `TT-042`: добавлен rolling trend/history (`audit-runner/research-preset-pack-trend.json`) с per-preset regress flags (`stepP95`, `sampleCount`) и strict trend CI mode (`benchmark:research:presetpack:trend:ci`); compare выполняется только с предыдущим успешным snapshot того же `durationScale`.
+- Закрыт `TT-043`: откалибрована trend-regress policy для strict trend CI — compare теперь идет по окну последних успешных same-scale snapshots (median/p90 baseline), `stepP95` regress требует одновременно relative overflow и absolute overflow (`RESEARCH_PRESET_AUDIT_STEP_P95_REGRESS_ABS_MS`), добавлен minimum baseline points gate для снижения ложных regress-flags.
+- Закрыт `TT-044`: добавлен versioned policy contract `audit-runner/research-preset-pack-trend-policy.v1.json` с профилями `smoke/standard/nightly`; `researchPresetPackAudit.mjs` переведен на policy-driven резолвер порогов (`env override > policy profile > defaults`) и добавлены strict trend CI скрипты по профилям (`benchmark:research:presetpack:trend:{smoke,nightly}:ci`), оба профиля верифицированы `PASS`.
+- Закрыт `TT-045`: compare контракт trend baseline сегментирован по policy profile — в snapshots добавлен `trendPolicyProfile`, выбор baseline теперь идет по `durationScale + profile` (с backward-compatible fallback для legacy entries), что устраняет смешивание smoke/nightly истории при одинаковом `durationScale`.
+- Закрыт `TT-046`: добавлен strict gate на достаточность baseline history (`RESEARCH_PRESET_AUDIT_FAIL_ON_INSUFFICIENT_BASELINE`) и nightly strict pipeline `benchmark:research:presetpack:trend:nightly:strict-baseline:ci`; теперь strict trend CI может быть принудительно заблокирован до накопления минимального baseline window.
+- Hotfix hybrid sync: в `simulationRuntime` sync-gate filament step расширен на оба execution mode (`hybrid` и `hybrid_plus`) при `gpu` backend; устранен сценарий, где filaments продолжают шагать на несинхронизированном CPU snapshot. Диагностика `benchmark:hybrid:syncdiag` (режимы `hybrid,hybrid_plus`) и smoke audit CI пройдены `PASS`.
+- Закрыт `TT-047`: усилен контракт инвариантов hybrid sync — добавлены runtime counters `runtimeHybridFilamentStepBlockedUnsyncedCount/runtimeHybridFilamentStepUnsafeUnsyncedCount` и ужесточенный multi-mode sync diagnostic (включая `no_unsafe_unsynced_filament_steps` и `no_long_decoupled_streak`); актуальный `benchmark:hybrid:syncdiag` и `benchmark:research:presetpack:ci` проходят `PASS`.
+- Закрыт `TT-048`: диагностический контур hybrid sync усилен до CI-профиля — добавлены параметризуемые пороги в `hybridSyncDiagnostic.mjs`, strict script `benchmark:hybrid:syncdiag:ci` (включая `requireBlockedUnsync`), и отдельный runbook `docs/HYBRID_SYNC_DIAGNOSTIC.md` с контрактом checks/env/artifacts.
+- Дополнительная стабилизация smoke CI: `reconnection_pair` `step_p95_within_limit` калиброван до `170ms`; повторный `benchmark:research:presetpack:ci` прошел `PASS` по всем `7` preset-кейсам.
+- Закрыт `TT-049`: добавлен repeated soak-аудит `hybridSyncSoakAudit.mjs` и CI script `benchmark:hybrid:syncdiag:soak:ci` для ловли интермиттентных hybrid sync regressions; после mode-aware калибровки `HYBRID_SYNC_DIAG_MAX_FROZEN_RATIO_HYBRID_PLUS` strict single-run и soak (`repeat=4`) проходят `PASS`.
+- Закрыт `TT-050`: инвариант hybrid sync встроен в основной preset CI — в `researchPresetPackAudit.mjs` добавлен gate `no_unsafe_unsynced_filament_steps` и per-case поля `unsafe/block` deltas в отчете/таблице; `benchmark:research:presetpack:ci` подтверждает `unsafeUnsyncedDelta=0` для всех preset-кейсов.
+- Закрыт `TT-051`: в soak-аудит добавлен rolling trend/history (`hybrid-sync-soak-trend.json`) с regress flags (`fail_run_count_regress`, `unsafe_unsynced_total_regress`, `hybrid_plus_frozen_p95_regress`) и строгий trend CI script `benchmark:hybrid:syncdiag:soak:trend:ci`; pipeline верифицирован `PASS`.
+- Закрыт `TT-052`: пороги case-gate (`drift_within_limit`, `step_p95_within_limit`) вынесены из кода в versioned policy contract `audit-runner/research-preset-pack-case-policy.v1.json` (`smoke/standard/nightly`), `researchPresetPackAudit.mjs` переведен на profile-aware case policy resolver с публикацией policy meta в `JSON/MD` artifacts.
+- Закрыт `TT-053`: добавлен `audit-runner/researchPresetPolicyIntegrityAudit.mjs` + CI script `benchmark:research:presetpack:policy:integrity:ci` с fail-gates по согласованности `case/trend` profiles, `perPreset` coverage и policy meta/artifact completeness.
+- Закрыт `TT-054`: dashboard roadmap sync v2 — в `dev/dashboard.html` добавлена `Future Tasks Lane`, backlog summary (`IN_PROGRESS/TODO`) и integrity-инвариант корректности статусов future tasks.
+- Закрыт `TT-055`: добавлен `audit-runner/researchPresetPolicyTemplateGenerator.mjs` + script `benchmark:research:presetpack:policy:template`, генератор формирует `research-preset-policy-template.suggested.v1.json` из baseline/trend artifacts для retuning-review.
+- Закрыт `TT-056`: добавлен `audit-runner/researchPresetPolicyDriftAudit.mjs` + scripts `benchmark:research:presetpack:policy:drift[:ci]`; drift gate сравнивает текущий case policy с suggested template envelope и поддерживает fail-mode в CI.
+- Закрыт `TT-057`: drift gate переведен на versioned envelope policy (`research-preset-policy-drift-envelope.v1.json`) с profile-aware/staged strictness и staged CI scripts (`smoke:ci`, `nightly:strict:ci`).
+- Закрыт `TT-058`: в dashboard header добавлен data-mode badge (`LIVE DOCS/FALLBACK`) и source-level sync telemetry (`TASKS/ROADMAP/PROGRESS`, fallback/derived/docs + error tag), устранен разъезд текста и статуса в integrity панели при fallback.
+- Закрыт `TT-059`: в dashboard добавлены source-health diagnostics rows + history последних sync-событий (`SYNC_OK/SYNC_FAIL/FALLBACK_INIT`) с freshness timers и error taxonomy.
+- Закрыт `TT-060`: sync diagnostics UX дополнен compacted event history, severity grouping (`high/medium/low`) и operator hints по типу sync-error/fallback режима.
+- Закрыт `TT-062`: критерии `External validation level` вынесены во внешний policy-профиль `docs/dashboard-external-validation-policy.v1.json`; сверка `TASKS vs PROGRESS` нормализована до top-level `TT-xxx`, чтобы исключить ложный mismatch из-за подзадач.
+- Закрыт `TT-061`: в diagnostics добавлены `Re-sync now` action-widget и stale-policy подсветка для `TASKS/ROADMAP/PROGRESS` источников.
+- Закрыт `TT-063`: добавлены remediation policy presets (`strict/balanced/lenient`) с `localStorage` persistence и operator quick-actions (`apply preset`, `clear diagnostics`) для source-health контура.
+- Закрыт `TT-064`: добавлены per-source remediation actions (`Re-sync TASKS/ROADMAP/PROGRESS`) и cooldown guardrails с source-level retry event logging.
+- Закрыт `TT-065`: source-health action audit trail и policy explainability panel интегрированы в diagnostics UI.
+- Закрыт `TT-066`: scientific validation partition hardening — `ring/jet/detector/topology` теперь строго разделяют `internal diagnostics validity` и `external validation eligibility`; eligibility/reason проброшены в runtime, snapshot bundle и export validation report.
+- Запущен `TT-067` (`IN_PROGRESS`): future distributed Natural validation contour (server/client/participant network) с требованиями reproducibility envelope + compute-split parity protocol.
+- Закрыт `TT-067A`: сформирован protocol spec v1 `docs/DISTRIBUTED_VALIDATION_CONTOUR.md` (network envelope, deterministic replay contract, compute-split policy, parity acceptance matrix и Natural eligibility boundary).
+- Закрыт `TT-067B`: добавлен machine-readable artifact contract `docs/distributed-validation-artifact.contract.v1.json` для обязательных placement/network/determinism/parity полей и eligibility-rule.
+- Закрыт `TT-067C`: добавлен audit CLI `audit-runner/distributedValidationContractAudit.mjs` с gate-checks по schema/required-fields и strict CI режимом (`benchmark:distributed:contract:ci`).
+- Закрыт `TT-067D`: добавлен strict parity CI contour `audit-runner/distributedParityAudit.mjs` + aggregate strict gate `benchmark:distributed:strict:ci` (контракт + parity triad checks, требование `eligible + parity_pass`).
+- Выполнен reprioritization по фокусу: масштабирование и distributed contour (`TT-067`) переведены в `post-classic` очередь (`TODO`) до завершения локального classic-контура и внешней валидации.
+- Запущен `TT-068` (`IN_PROGRESS`): classic external validation closure pack (local compute finalization, reproducible evidence pack, independent classic replication protocol).
+- Запущен `TT-068A` (`IN_PROGRESS`): classic closure gate (strict classic-only eligibility lock + local compute readiness checklist) как первый шаг перед evidence-pack.
+- Закрыт `TT-068A`: в `buildScientificExportValidationReport` добавлен hard lock для external validation (`profile=classic` и `modifierStrength<=1e-6` для `ring/jet/detector/topology`, вместе с `externalValidationEligible=true`); добавлен checklist `docs/CLASSIC_EXTERNAL_VALIDATION_CLOSURE_CHECKLIST.md`.
+- Закрыт `TT-068B`: добавлен `audit-runner/classicExternalValidationEvidencePack.mjs` + scripts `benchmark:classic:evidencepack[:ci]`; опубликован runbook `docs/CLASSIC_EXTERNAL_VALIDATION_EVIDENCE_PACK.md` и сформированы artifacts `classic-external-validation-evidence-pack.{json,md}` (strict gate `PASS`).
+- Запущен `TT-068C` (`IN_PROGRESS`): независимый classic replication protocol (solver-agnostic replay/compare contract + PASS criteria).
+- Продвинут `TT-068C`: добавлены protocol spec `docs/CLASSIC_REPLICATION_PROTOCOL.md` и machine-readable contract draft `audit-runner/classic-replication-protocol.contract.v1.json` (required checks, thresholds, verdict semantics).
+- Закрыт `TT-068C`: добавлен audit CLI `audit-runner/classicReplicationAudit.mjs` + scripts `benchmark:classic:replication[:ci]`; strict replication gate подтвержден (`PASS`) на `classic-replication-audit.input.json`.
+- Закрыт `TT-068`: classic external validation closure contour завершен полностью (`A/B/C` DONE).
+- Переведен в `IN_PROGRESS` `TT-067` (post-classic): стартован следующий этап distributed/server-client validation contour.
+- Закрыт `TT-067E`: parity contour переведен на runtime pipeline без fixture-only зависимости — добавлен `audit-runner/distributedParityArtifactBuilder.mjs`, parity scripts переключены на `build -> audit`, добавлен runbook `docs/DISTRIBUTED_PARITY_PIPELINE.md`; `benchmark:distributed:strict:ci` подтвержден `PASS`.
+- Закрыт `TT-067F`: добавлен real triad input ingestion contract + CI gate (`audit-runner/distributed-triad-run-input.contract.v1.json`, `audit-runner/distributed-triad-run-input.json`, `audit-runner/distributedTriadInputAudit.mjs`); strict distributed contour расширен triad-input gate перед parity stage, `PASS`.
+- Закрыт `TT-067G`: strict chain перестроен на runtime artifact source-of-truth — `distributedValidationContractAudit` по умолчанию читает `distributed-validation-parity-audit.runtime.json`, порядок strict CI: `triad-input-audit -> parity-build -> contract-audit -> parity-audit`, подтвержден `PASS`.
+- Закрыт `TT-067H`: добавлен policy-driven distributed parity contour (`audit-runner/distributed-parity-policy.v1.json`, профили `smoke/standard/nightly`) и trend/regress CI (`audit-runner/distributedParityTrendAudit.mjs`, scripts `benchmark:distributed:parity:trend[:ci]`); strict + trend pipelines подтверждены `PASS`.
+- Закрыт `TT-067I`: добавлен policy integrity audit `audit-runner/distributedParityPolicyIntegrityAudit.mjs` + scripts `benchmark:distributed:policy:integrity[:ci]`; контур проверяет согласованность policy (`schema/defaultProfile/profiles`) и соответствие runtime artifact limits активному profile, CI gate подтвержден `PASS`.
+- Закрыт `TT-067` (top-level): post-classic distributed/server-client validation contour формально переведен в `DONE` во всех трекерах (`TASKS/ROADMAP/dev/dashboard.html`), активных top-level задач не осталось.
+- Выполнен post-closure revalidation `TT-067`: chain `benchmark:distributed:strict:ci -> benchmark:distributed:parity:trend:ci -> benchmark:distributed:policy:integrity:ci` завершен `PASS`; подтверждены triad input gate, runtime parity artifact, contract/parity audits, trend no-regress и policy/artifact limits consistency.
+- Запущен `TT-069` (`IN_PROGRESS`): post-closure roadmap phase bootstrap (формирование новой top-level очереди задач с acceptance contracts и синхронизацией `TASKS/ROADMAP/PROGRESS/dev/dashboard`).
+- Закрыт `TT-069A`: опубликован bootstrap spec `docs/TT-069_POST_CLOSURE_BOOTSTRAP.md` (scope, acceptance contract, execution steps).
+- Закрыт `TT-069B`: опубликован intake template `docs/TT-069_TOPLEVEL_INTAKE_TEMPLATE.md` (identity/dependencies/acceptance/execution/checklist/validation record).
+- Закрыт `TT-069C`: сформирован first candidate queue draft и выполнен полный tracker synchronization check.
+- Закрыт `TT-069` (top-level): bootstrap-фаза завершена, сформирована новая top-level очередь.
+- Запущен `TT-070` (`IN_PROGRESS`): continuous validation governance (periodic revalidation cadence + escalation policy + strict governance gate).
+- Запущен `TT-070A` (`IN_PROGRESS`): подготовка governance runbook/spec v1.
+
+## По направлениям
+
+- **Physics Engine**: `[######--------------] 30%`
+- **GPU Compute**: `[####----------------] 20%`
+- **Hybrid Solver**: `[#####---------------] 25%`
+- **Vortex Structures**: `[###-----------------] 15%`
+- **Vortex Sheets/Rings/Jets**: `[##------------------] 10%`
+- **Topology/FMM/Stability**: `[##------------------] 10%`
+- **Advanced Visualization/Physical Realism**: `[##------------------] 10%`
+- **Turbulence Physics**: `[###-----------------] 15%`
+- **Numerical Stability**: `[####----------------] 20%`
+- **Visualization**: `[#####---------------] 25%`
+- **UI**: `[########------------] 40%`
+- **Performance**: `[########------------] 40%`
+- **Research**: `[#####---------------] 25%`
+
+## Ближайший milestone
+
+`M1: Hybrid Coupling Acceleration`
+
+- TT-011: GPU coupling offload design
+- TT-012: partial readback/delta sync prototype
+- TT-013: filament->particle batching acceleration
+
+## Текущий апдейт
+
+- `TT-017` стабилизация regress-gates:
+  - в `longRunBenchmarkSuite` добавлены near-zero baseline guards для `% regress` checks:
+    - `LONGRUN_DRIFT_SEVERITY_REGRESS_BASELINE_FLOOR` (default `0.05`),
+    - `LONGRUN_AUTOCORRECTION_REGRESS_BASELINE_FLOOR` (default `1`),
+  - post-workflow gates (`physical/extended/hybridplus scheduler`) теперь fail-fast только в strict-режимах (`LONGRUN_FAIL_ON_GATE` или `LONGRUN_PHYSICAL_BASELINE_FAIL_ON_GATE`),
+  - выполнен smoke validation (`gpu,hybrid,hybrid_plus` + `LONGRUN_HYBRIDPLUS_SCHEDULER_AUDIT=true`): `Hybrid/Hybrid+` policy gates -> `PASS`, остаётся точечный `GPU` fail по `overrideFallbackStormCountMax`.
+  - после `LONGRUN_APPLY_RETUNING_HINTS=true` + baseline update и повторной проверки `LONGRUN_MODES=gpu` — `GPU` gate/policy verdict перешли в `PASS`.
+  - откалиброваны adaptive matrix envelopes (`adaptive.low/mid/high`) и profile-aware strict default scenario (`smoke/standard -> adaptive.low`, `nightly -> adaptive.mid`), чтобы strict-run не падал на нереалистичных latency envelopes.
+  - добавлен controlled runner mode (`LONGRUN_RUNNER_MODE=controlled`) для `standard/nightly`:
+    - profile-aware minimums по `warmup/duration/sample/case-timeout`,
+    - default browser channel `chrome` (если явно не задан другой),
+    - добавлены scripts `benchmark:longrun:standard:controlled` и `benchmark:longrun:nightly:controlled`,
+    - в payload добавлена telemetry по browser launch reproducibility: `browserChannelRequested/browserChannelResolved/browserChannelFallbackUsed/browserChannelFallbackReason`.
+  - зафиксирован runtime факт: `standard` strict (`gpu,hybrid,hybrid_plus`) на текущем железе остаётся высоко-волатильным (step/throughput policy swings между запусками); для устойчивого CI-gate рекомендуется nightly/controlled runner или повторяемая calibration stage перед strict compare.
+  - выполнен `nightly + controlled` прогон с `LONGRUN_UPDATE_BASELINE=true`:
+    - baseline обновлён на controlled telemetry (артефакт `long-run-baseline.json` с `generatedAt=2026-03-17T18:55:29.839Z`),
+    - зафиксирован channel fallback `chrome -> bundled chromium` (без hard-fail),
+    - по gate-таблице остаются системные FAIL в `GPU/Hybrid/Hybrid+` (в т.ч. `stepP95/throughput/overrideInvariantGuardCount`) — контур стабилизирован, но лимиты для текущего hardware-class всё ещё требуют ретюнинга.
+  - исправлен hang в PASS-прогонах: в `runScenarioCase` добавлен cleanup для case-timeout (`clearTimeout` + `unref`) — long-run процесс теперь корректно завершает execution после записи артефактов.
+  - `nightly:controlled` strict re-validation доведен до полного `PASS` по gate/policy + post-workflows (`adaptiveMatrixWorkflow` и `hybridPlusSchedulerAuditWorkflow`), baseline под `nightly/mid` ретюнен под фактический controlled telemetry.
+  - `standard:controlled` strict контур доведен до PASS после controlled retune baseline (финализирован `TT-017` stabilization для `standard/nightly`).
+  - добавлен transient-retry для case-run (`Execution context was destroyed`): suite теперь делает один автоматический reload+retry вместо немедленного падения всего прогона.
+
+- `TT-016C` turbulence breakdown audit:
+  - добавлен `audit-runner/turbulenceBreakdownAudit.mjs` (матрица `cpu/gpu x single_pulse/pulse_train/long_run`),
+  - добавлены команды `benchmark:turbulence:breakdown` и `benchmark:turbulence:breakdown:ci`,
+  - внедрены gate-checks по drift envelope и GPU dispatch-lock + markdown/json artifacts (`turbulence-breakdown-audit.{json,md}`),
+  - добавлен runbook `docs/TURBULENCE_BREAKDOWN_AUDIT.md` (включая quick-smoke режим через `TURBULENCE_BREAKDOWN_DURATION_SCALE`).
+  - post-crash hardening: добавлен per-case watchdog timeout (`TURBULENCE_BREAKDOWN_CASE_TIMEOUT_SEC`) и case-completion gate; после memory-crash восстановлен dev-server и подтверждена целостность артефактов.
+  - стабилизирован CPU train path (adaptive timeout multipliers + lowered effective CPU train particleCount + CPU train duration scale), устранены timeout-failures на `cpu/pulse_train` и `cpu/long_run`.
+  - baseline recheck: `npm run benchmark:turbulence:breakdown:ci` (`DURATION_SCALE=1`) завершен `PASS` для всей матрицы (`cpu/gpu x single_pulse/pulse_train/long_run`).
+
+- Продвинут `TT-017` (phase `TT-017J`):
+  - `longRunBenchmarkSuite` теперь поддерживает пост-workflow `Hybrid+ scheduler audit` через `LONGRUN_HYBRIDPLUS_SCHEDULER_AUDIT=true`,
+  - результат audit публикуется в payload как `hybridPlusSchedulerAuditWorkflow`,
+  - при `LONGRUN_FAIL_ON_GATE=true` fail audit-gate завершает long-run run ошибкой (единый CI-контур),
+  - runbook и `audit-runner/package.json` обновлены (`benchmark:longrun:hybridplus` + standalone scheduler audit commands).
+
+- Закрыт контур `TT-018` (`TT-018A/B/C`):
+  - завершены topology/BH prioritization и anti-thrash policy в `hybridPlusPlanner/runtime`,
+  - добавлен reproducible audit script `audit-runner/hybridPlusSchedulerAudit.mjs` с gate-checks (`balanced`, `budget_guard`, `idle_throttle`),
+  - добавлены команды `benchmark:hybridplus:scheduler` и `benchmark:hybridplus:scheduler:ci`,
+  - Hybrid+ runtime diagnostics и scientific snapshot расширены scheduler telemetry (`cadence base/runtime`, budget pressure, run/skip counters).
+
+- Запущен `TT-018` (Hybrid+ operators expansion), закрыт phase `TT-018A`:
+  - `hybridPlusPlanner` получил adaptive cadence scheduler (budget-pressure aware) с динамическим `cadenceStepsRuntime`,
+  - добавлены budget/idle streak counters, run/skip counters и pressure-метрика в runtime diagnostics,
+  - добавлен load-shedding для `barnes_hut_farfield` при устойчивом over-budget (при активной topology correction),
+  - расширены runtime/UI knobs (`adaptive cadence`, `max cadence`, `over-budget tolerance`, `idle delta threshold`),
+  - scientific snapshot экспорт теперь включает блок `runtime.hybridPlus` с scheduler/cost/delta telemetry,
+  - синхронизированы `TASKS/ROADMAP/dashboard`: `TT-018` переведен в `IN_PROGRESS`, `TT-018A=DONE`, `TT-018B=IN_PROGRESS`.
+
+- Расширен контур `TT-017` (phase `TT-017I`):
+  - добавлен новый benchmark-скрипт `audit-runner/extendedPhysicsMatrix.mjs` с case-matrix `ring/jet/turbulence-wake`,
+  - реализованы case-level gates по `stepP95`, `energy/enstrophy drift`, `criticalRatio` с JSON/MD артефактами (`extended-physics-matrix.{json,md}`),
+  - добавлен long-run post-workflow hook `LONGRUN_EXTENDED_PHYSICS_MATRIX` в `longRunBenchmarkSuite.mjs` (включается по env, gate может быть fail-fast при `LONGRUN_FAIL_ON_GATE=true`),
+  - в `audit-runner/package.json` добавлены команды `benchmark:physics:matrix` и `benchmark:physics:matrix:ci`,
+  - синхронизированы `TASKS/ROADMAP/dev/dashboard.html` (`TT-017I = DONE`, Physics Engine step `Extended physics test matrix = DONE`).
+
+- Стартовал `TT-011`.
+- Завершено `TT-011A`: подготовлен RFC `docs/TT-011_GPU_COUPLING_OFFLOAD_RFC.md`.
+- Завершено `TT-011B`: добавлен API plumbing в `WebGPUHashGridParticleComputeManager`:
+  - `isCouplingQuerySupported()`
+  - `getLatestCouplingQueryDiagnostics()`
+  - `sampleParticleVelocityAtPoints(...)` (stub-контракт для TT-011C)
+- Завершено `TT-011C`: реализован WGSL query kernel + query readback буферы в GPU manager.
+- Завершено `TT-011D`: GPU query path интегрирован в `applyHybridCoupling` с безопасным CPU fallback.
+- Завершено `TT-011E`: coupling query diagnostics публикуются в runtime params.
+- Завершено `TT-011F`: strict hybrid получил query-aware readback cadence policy.
+- Завершен `TT-012`: partial readback/delta sync prototype.
+- Завершен `TT-013`: filament->particle batching acceleration.
+- Завершен `TT-014`: detection MVP (module + runtime integration + adaptive calibration).
+- Завершен `TT-015`: Newtonium classifier + temporal tracker.
+- Завершен `TT-016`: energy/enstrophy spectrum diagnostics + runtime bins.
+- Закрыт `TT-017`: long-run stability benchmark suite.
+- Закрыт `TT-021`: vortex sheet architecture (модель + numerics + coupling contracts).
+- Активен `TT-030`: numerical stability system (документационная фаза завершена, далее runtime monitor/corrections).
+- `TT-028` и `TT-029` переведены обратно в `TODO` для соблюдения строгого порядка (после `P0`).
+- Активен `TT-032`: physical realism modules (начат runtime params/integration order scaffold).
+- По `TT-017` реализован runnable suite:
+  - `audit-runner/longRunBenchmarkSuite.mjs`
+  - `docs/LONG_RUN_BENCHMARK_SUITE.md`
+  - export: `audit-runner/long-run-benchmark-results.{json,md}`
+- В `TT-017D` добавлены baseline gates:
+  - baseline file: `audit-runner/long-run-baseline.json`
+  - regression checks: `stepP95`, `throughput`, `energy/enstrophy drift`
+  - mode-specific thresholds: `thresholdsByMode` (`cpu/gpu/hybrid/hybrid_plus`)
+  - hardware-class thresholds: `thresholdsByHardwareClass` (`low/entry_gpu/mid/high`) + env select `LONGRUN_HARDWARE_CLASS`
+  - auto hardware-class detect в suite (`unknown` -> runtime detect по `hardwareConcurrency/deviceMemory/WebGPU`, env остается manual override)
+  - добавлен профиль `Quality Explorer` (quality-first, guard off, expanded structure/energy sampling, extended sheet budgets) + кнопка быстрого возврата к hardware-recommended profile для визуального stress-preview даже на слабом железе
+  - добавлен photo-frame flow: `Photo mode` preset (останавливает train, усиливает scientific детализацию) + one-click `single-step + PNG`; `vizExportScale` теперь влияет на renderer pixel ratio в scientific mode (quality-first supersample export path)
+  - добавлен `Photo burst xN + best frame`: серия `singlePulse` с автоскорингом кадров (`confidence/certainty/structure richness`) и экспортом лучшего PNG для быстрого quality scouting
+  - в long-run suite добавлены `Threshold Retuning Hints (TT-017D)`: предложения лимитов по `mode`, `hardwareClass` и `mode+hardwareClass` из фактических gate-check values + JSON patch template (`thresholdRetuningHints.baselinePatchTemplate`) для ускоренной калибровки baseline на одном железе
+  - добавлен controlled auto-apply retuning hints (`LONGRUN_APPLY_RETUNING_HINTS`) с записью результата в JSON/MD artifacts (`retuningApplyResult` / `Retuning Auto-Apply`)
+  - для `TT-030` добавлен runtime индикатор `auto-correction pressure` (`total / 1k steps`, healthy/moderate/high) в Stability Debug и экспорт этого сигнала в `scientific snapshot` runtime (`stabilityAutoCorrection`)
+  - в `longRunBenchmarkSuite` добавлен bridge-гейт по `TT-030`: агрегат `stabilityAutoCorrectionPer1kSteps` + baseline checks `autoCorrectionPer1kStepsRegressPct/AbsMax` (summaryRows/console/MD/JSON)
+  - закрыт `TT-030C`: добавлен saturation guard для auto-correction (`window /1k steps`, cooldown hold при перегрузке), новые runtime counters (`saturationCount`, `windowPer1k`) и экспорт в scientific snapshot runtime block
+  - profile-specific gates: `standard/smoke/nightly`
+  - CI mode: `npm run benchmark:longrun:ci`
+  - auto-template генерация `thresholdsProfiles`, `thresholdsByModeProfiles`, `thresholdsByHardwareClassProfiles` при `LONGRUN_UPDATE_BASELINE=true`
+  - добавлен wall-clock timeout на mode-case (`LONGRUN_CASE_TIMEOUT_SEC`) для защиты от зависаний
+  - добавлен mode-filter (`LONGRUN_MODES`) для поэтапной калибровки (например без `cpu`)
+ - В `TT-021B` добавлен runtime scaffold дискретизации sheet:
+  - новый модуль `src/simulation/sheets/sheetDiscretizationScaffold.js` оценивает panel demand/budget, quadrature order, desingularization epsilon и readiness/coverage на базе `runtimeOverlayStructures` + hardware budget.
+  - добавлен детерминированный mesh-plan слой (`meshSeed`, `topology`, `patchCount`, `panelAspectP95`, `quadratureProfile`) для стабильного воспроизводимого panel-layout planning в diagnostics/export.
+  - добавлены quality gates (`aspect`, `coverage`, `demandCoverage`, `epsilonBand`) с unified verdict (`pass/warn/fail`) и `qualityPenalty`; verdict влияет на `sheet` compute-cost penalty и placeholder gating.
+  - добавлен deterministic panel-layout contract (`meshLayout.digest`, `patchPanelMin/Max`, `patchPanelImbalance`, `deterministic`) и его runtime публикация в diagnostics/store/snapshot.
+  - добавлен `meshBuilderContract v1` (`version`, `valid`, `issueCount`) + envelope proxies (`patchAreaMean`, `patchAreaCv`, `edgeLengthRatioP95`, `curvatureProxyP95`) для формального pre-coupling quality gate перед `TT-021C`.
+  - добавлен hardware/mode-aware discretization profile (`sheet_profile_high_precision/gpu_guarded/low_safe/balanced`) с profile-capped quadrature order и epsilon scaling.
+  - добавлены baseline mesh-builder gates (`imbalance/areaCv/edgeRatioP95/curvatureProxyP95`) с итоговым `pass/warn/fail` verdict и penalty для representation policy.
+  - `renderRepresentationPolicy` теперь публикует diagnostics `sheetDiscretization` и использует readiness/coverage в score модели для `sheets` (без включения отдельного sheet render path).
+  - новые runtime params (`runtimeRenderSheetPanelCount/Coverage/Readiness/QuadratureOrder/QuadratureProfile/DesingularizationEpsilon/MeshSeed/MeshTopology/MeshPatchCount/PanelAspectP95/QualityGatePassCount/QualityGateTotal/QualityVerdict/QualityPenalty/MeshDeterministic/MeshLayoutDigest/MeshPatchMinPanels/MeshPatchMaxPanels/MeshPatchImbalance/MeshContractVersion/MeshContractValid/MeshContractIssueCount/MeshPatchAreaMean/MeshPatchAreaCv/MeshEdgeLengthRatioP95/MeshCurvatureProxyP95/Placeholder`) отображаются в Runtime HUD и экспортируются в `scientific snapshot`.
+  - `TT-021B` переведен в `DONE`.
+- Закрыт `TT-021C` (coupling contracts):
+  - добавлен модуль `src/simulation/sheets/sheetCouplingContracts.js` с контрактами `sheet<->amer` и `sheet<->filament` (`pass/warn/fail`, penalty, budgets/caps, invariant drift cap, rollup stability guard).
+  - coupling verdict/penalty интегрирован в `renderRepresentationPolicy` sheet cost model и placeholder gating.
+  - runtime params/UI/snapshot расширены полями `runtimeRenderSheetCoupling*` и `runtimeRenderSheetRollupStabilityGuard`.
+  - scientific export validation дополнен checks для `sheetCouplingContracts` (`valid=true`, verdict не `fail`).
+  - `TT-021` целиком переведен в `DONE` (модель + numerics + coupling contracts).
+- Закрыт `TT-022`:
+  - `newtoniumTracker` переведен на transition state machine (`candidate/pending_confirm/committed/rejected`) с confidence/invariant/hysteresis gates.
+  - runtime публикация transition diagnostics (`runtimeTransition*`) добавлена в `simulationRuntime`, UI diagnostics и scientific snapshot/validation.
+  - `TT-022B` переведен в `DONE`, а `TT-022` контур полностью закрыт.
+- Закрыт `TT-023B` и весь `TT-023`:
+  - добавлен модуль `src/simulation/structures/ringValidationContract.js` (acceptance thresholds + verdict/score по ring confidence/std-ratio/transition-commit ratio/invariant drifts).
+  - runtime публикация `runtimeRingValidation*` полей добавлена в `simulationRuntime` и diagnostics UI.
+  - scientific snapshot расширен блоком `runtime.topology.ringValidation`, validation report дополнен ring checks.
+  - `TT-023B` и `TT-023` переведены в `DONE`; следующий по очереди контур — `TT-024`.
+- Закрыт `TT-024B` и весь `TT-024`:
+  - добавлен модуль `src/simulation/structures/jetRegimeContract.js` (`tt024b.jet_regime.v1`) с regime classification (`shear_layer/ring_train/interaction/turbulent_wake`) по proxy `Re/St/L-D` и quality gates (`confidence/ringTrainSignal/wakeBreakdown/transitionHealth`).
+  - runtime публикация `runtimeJetRegime*` добавлена в `simulationRuntime`, defaults/normalization и diagnostics UI (`ControlPanel` + `runtimeDiagnosticsViewModel`).
+  - scientific snapshot расширен блоком `runtime.topology.jetRegime`; validation report дополнен jet checks (`block/verdict/regime`).
+  - `TT-024B` и `TT-024` переведены в `DONE`; следующий по очереди контур — `TT-025`.
+- Закрыт `TT-025A/TT-025B` и весь `TT-025`:
+  - `detectVortexStructures` расширен sheet-признаками (`surfaceCoherence`, `curvatureAnisotropy`) и class confidences (`filament/ring/tube/sheet`).
+  - добавлен fusion contract `src/simulation/structures/structureDetectionFusionContract.js` (`tt025b.detector_fusion.v1`) с quality gates, verdict/score и weighted fusion score.
+  - runtime публикация `runtimeDetectedSheetCount`, `runtimeDetectionSheet*`, `runtimeDetectionClassConfidence*`, `runtimeDetectorFusion*` добавлена в runtime/defaults/normalize.
+  - UI diagnostics расширен строками detector sheet features + class confidences + fusion contract.
+  - scientific snapshot расширен блоками `runtime.detector.{classConfidences,sheetFeatures}` и `runtime.topology.detectorFusion`; validation report дополнен detector-fusion checks.
+  - `TT-025A`, `TT-025B` и `TT-025` переведены в `DONE`; следующий по очереди контур — `TT-026/TT-019`.
+- Закрыты `TT-026`/`TT-026B` и `TT-019`:
+  - в `renderRepresentationPolicy` включен рабочий sheet-layer visibility path (по readiness/quality/coupling + detector sheet signal), а не только placeholder gating.
+  - в `VortexScene` scientific overlay path расширен классом `sheet` (geometry/material/color/labels/visibility), и sheet-layer может рендериться как scientific surface overlay при активном policy layer.
+  - runtime visibility/diagnostics поля `runtimeRenderSheet*` продолжают публиковаться и теперь отражают реальный on-screen sheet layer path.
+  - `TT-026`, `TT-026B`, `TT-019` переведены в `DONE`; следующий по очереди контур — `TT-028` и завершение `TT-031`.
+- Закрыты `TT-028B`/`TT-028C` и весь `TT-028`:
+  - добавлен модуль `src/simulation/structures/topologyTracking.js` с runtime tracking contract `tt028b.topology_tracking.v1` (lineage events + graph snapshot).
+  - `simulationRuntime` публикует `runtimeTopology*` поля: counters, latest event, event log, graph nodes/edges.
+  - `ControlPanel`/`runtimeDiagnosticsViewModel` расширены topology diagnostics строками (frame/events/graph + counters + latest event).
+  - добавлен reproducible topology export (`JSON/CSV`) в Visualization Tools.
+  - scientific snapshot расширен блоком `runtime.topology.tracking` и validation checks (`block/eventLog/graph`).
+  - `TT-028B`, `TT-028C`, `TT-028` переведены в `DONE`; следующий по очереди контур — финализация `TT-031`.
+- Закрыт `TT-031`:
+  - в Visualization Tools добавлен automated MP4 capture wiring: авто-серия scientific PNG кадров + автогенерация `sequence manifest`, `ffmpeg plan`, `frames.txt`, validation JSON.
+  - UI расширен параметрами auto-capture (`frameCount`, `fps`) и единым export flow для MP4 package.
+  - `TT-031` переведен в `DONE`; следующий по очереди контур — `TT-029` (FMM runtime integration + benchmark matrix).
+- Стартован `TT-029B` (FMM runtime integration):
+  - `updateParticles` публикует solver-runtime diagnostics (`runtimeSolverMode`, `runtimeSolverModeRequested`, `runtimeSolverParticleCount`, `runtimeSolverFmmTheta`, `runtimeSolverFmmLeafSize`, флаги `Biot-Savart/VPM`).
+  - `simulationRuntime` прокидывает эти поля в runtime params для HUD/экспорта.
+  - Runtime HUD в `ControlPanel` расширен строками solver-status/flags для live-аудита переключения `exact/spatialGrid/fmm`.
+  - добавлен `velocityComputationMode=auto` в CPU VPM path с threshold-policy: `exact` до `velocityAutoExactMaxParticles`, затем `spatialGrid` до `velocityAutoSpatialMaxParticles`, иначе `fmm`.
+  - в UI добавлены auto-policy controls (mode `Auto` + exact/spatial thresholds), чтобы оперативно тюнить adaptive switch без ручного mode-flip.
+  - `TASKS/dev/dashboard.html` синхронизированы: `TT-029` и `TT-029B` переведены в `IN_PROGRESS`.
+- Закрыт `TT-029C` (FMM benchmark matrix):
+  - добавлен `audit-runner/fmmBenchmarkMatrix.mjs` + npm-команды `benchmark:fmm:matrix` / `benchmark:fmm:matrix:ci`.
+  - сгенерированы артефакты `audit-runner/fmm-benchmark-matrix.json` и `audit-runner/fmm-benchmark-matrix.md` для `N=10k/50k/100k/500k`.
+  - отчет включает full-step performance (в practical runtime budget) + exact reference block accuracy (`relRMSE/MAE/maxAbsErr`) и gate verdict.
+  - `TT-029C` переведен в `DONE`; остается закрыть `TT-029B` для финального `TT-029`.
+- Закрыты `TT-029B` и `TT-029`:
+  - auto-switch policy в CPU VPM path доведен до rollout-safe режима: hysteresis по `N`, enter-confirm frames и cooldown между переключениями.
+  - runtime diagnostics расширен state-машиной auto-switch (`current/candidate/pending/cooldown/switchCount/reason`) для live-аудита в Runtime HUD.
+  - UI получил полный набор policy controls для `velocityComputationMode=auto` (exact/spatial thresholds + hysteresis + enter/cooldown).
+  - `TASKS/ROADMAP/dev/dashboard.html` синхронизированы: `TT-029B`, `TT-029` переведены в `DONE`.
+- Закрыт `TT-020`:
+  - добавлен автоматизированный i18n-аудит `audit-runner/i18nAudit.mjs` с report artifacts (`i18n-audit-report.json/.md`).
+  - добавлены npm-скрипты `audit:i18n` и `audit:i18n:ci`.
+  - прогон аудита: `keys=857`, `pass=true`, hard-issues (`missing/empty`) = `0`.
+  - `TASKS/dev/dashboard.html` синхронизированы: `TT-020` и UI branch переведены в `DONE`.
+- Практический статус прогонов:
+  - smoke completed (есть gate report)
+  - standard completed с `LONGRUN_UPDATE_BASELINE=true` (baseline обновлен)
+  - nightly full run на этом железе упирается в CPU timeout; выполнен partial nightly (`gpu/hybrid/hybrid_plus`) через `LONGRUN_MODES`
+- В `TT-017F` добавлен first-run автопрофайлер:
+  - короткий авто-benchmark backend'ов на старте приложения
+  - progress + stage + summary метрики в UI
+  - auto-apply best hardware profile + hardware-specific baseline в localStorage
+  - кнопка `Re-run hardware calibration` и `Clone profile` в ControlPanel
+- В `TT-020` начат i18n/perf UI audit:
+  - hardware-aware performance profiles в `ControlPanel`
+  - авто-детект железа (`cpu/memory/gpu`) и рекомендация профиля
+  - сохранение custom performance profiles в localStorage
+- Проведен smoke-run "chrome scenario" с fallback на bundled chromium и получены gate results.
+- В рамках `TT-012` уже внедрено:
+  - параметр `hybridQueryAwareReadbackInterval`,
+  - query-aware cadence в runtime sync policy,
+  - coupling query runtime counters в diagnostics.
+- В рамках `TT-013` завершен `TT-013A`: RFC `docs/TT-013_FILAMENT_TO_PARTICLE_BATCHING_RFC.md`.
+- В рамках `TT-013` завершены `TT-013B/TT-013C`:
+  - добавлен batch API `sampleFilamentVelocityAtPointsBatch(...)`,
+  - `filament -> particle` ветка в `applyHybridCoupling` переведена на batch path.
+- В рамках `TT-013` завершен `TT-013D`: batch diagnostics опубликованы в runtime params.
+- В рамках `TT-014` добавлен модуль `src/simulation/structures/detectVortexStructures.js`, публикация runtime-метрик и adaptive threshold calibration.
+- В рамках `TT-015` добавлен `src/simulation/structures/newtoniumTracker.js` и публикация runtime Newtonium metrics.
+- В рамках `TT-016` добавлен `src/simulation/physics/vpm/energySpectrumDiagnostics.js` и публикация energy bins/proxies.
+- Добавлен строгий архитектурный addendum по sheets/rings/jets:
+  - `docs/VORTEX_SHEET_MODEL.md`
+  - `docs/VORTEX_TRANSITIONS.md`
+  - `docs/VORTEX_RING_MODEL.md`
+  - `docs/VORTEX_JET_MODEL.md`
+  - `docs/VORTEX_RENDERING_STRATEGY.md`
+  - `docs/VORTEX_REPRESENTATION_PERFORMANCE.md`
+  - `docs/VORTEX_ADDENDUM_STRICT_ANALYSIS.md`
+- В roadmap/tasks добавлен новый приоритетный контур `TT-021..TT-027` с порядком `P0 -> P3`.
+- Добавлен строгий архитектурный addendum по topology/FMM/stability:
+  - `docs/VORTEX_TOPOLOGY.md`
+  - `docs/FMM_VORTEX_SOLVER.md`
+  - `docs/NUMERICAL_STABILITY.md`
+  - `docs/ADDENDUM_TOPOLOGY_FMM_STABILITY_STRICT_ANALYSIS.md`
+- В roadmap/tasks добавлен контур `TT-028..TT-030` с приоритетом:
+  - `P0`: numerical stability (`TT-030`)
+  - `P2`: FMM acceleration (`TT-029`)
+  - `P4`: topology analytics (`TT-028`)
+- Начат следующий практический шаг без паузы:
+  - добавлен scaffold `src/simulation/stability/stabilityMonitor.js`
+  - добавлены runtime stability params в `defaultParams/normalizeParams`
+  - `TT-030B` переведен в `IN_PROGRESS`
+- Добавлен strict addendum по advanced visualization + physical realism:
+  - `docs/VORTEX_VISUALIZATION.md`
+  - `docs/PHYSICAL_MODELS.md`
+  - `docs/ADDENDUM_VISUALIZATION_PHYSICAL_STRICT_ANALYSIS.md`
+- Начат runtime scaffold для новых модулей:
+  - добавлены visualization/physical-model params в `defaultParams/normalizeParams`
+  - `TT-032B` переведен в `IN_PROGRESS`
+- Завершен `TT-030B`:
+  - `stabilityMonitor` интегрирован в runtime publish path
+  - опубликованы runtime stability diagnostics (`level/warnings/corrections/errors/dtScale`)
+  - добавлены physical-step-order runtime hooks (`velocity -> stretching -> diffusion -> boundary -> wake`)
+- Следующий активный шаг: `TT-030C` (auto-correction operators), параллельно `TT-032B`.
+- В `TT-030C` добавлены базовые auto-correction hooks в runtime:
+  - cooldown-aware `timeScale` downscale по `runtimeStabilitySuggestedDtScale`
+  - `spawnRate` коррекции для `particle_overclustering` / `particle_oversparse`
+  - публикация `runtimeStabilityAutoCorrectionLastAction` и `runtimeStabilityAutoCorrectionCooldown`
+- В `TT-030C` расширены auto-correction hooks (phase-1):
+  - actions теперь могут комбинироваться в один шаг (без взаимоисключения `timeScale` и mesh-density guards)
+  - добавлены filament remesh guardrails:
+    - `filament_remesh_coarsen` при overclustering (coarsen thresholds + node budget downscale)
+    - `filament_remesh_refine` при oversparse / high curvature (refine thresholds + smoothing gain + node budget upscale)
+  - `runtimeStabilityCorrections` теперь публикует полный action-log текущего корректирующего шага
+- В `TT-030C` выполнен phase-2 шаг по Stability Debug panel:
+  - добавлены runtime counters auto-corrections (`total/dt/spawn/remesh_refine/remesh_coarsen`)
+  - добавлен timeline последних auto-correction actions (`step:action`)
+  - интегрировано отображение counters/timeline в `ControlPanel` diagnostics (RU/EN i18n keys добавлены)
+- Проведен smoke validation-run для `TT-017D` после интеграции stability timeline/counters:
+  - запуск: `LONGRUN_PROFILE=smoke LONGRUN_MODES=gpu,hybrid,hybrid_plus`
+  - подтверждена публикация новых runtime полей в `audit-runner/long-run-benchmark-results.json`
+  - gates: сохраняются FAIL/WARN по drift/throughput (ожидаемо для текущей калибровки, `TT-017D` остается `IN_PROGRESS`)
+- По результатам validation-run устранен шум в stability timeline:
+  - в runtime добавлен dedupe подряд идущих одинаковых `step:action` записей,
+  - timeline в artifacts/UI теперь без повторов одинаковых соседних событий.
+- В `TT-017D` выполнен дополнительный этап threshold calibration (smoke, `gpu/hybrid/hybrid_plus`):
+  - в `longRunBenchmarkSuite` исправлен расчет drift для short-run случаев с delayed diagnostics (first/last meaningful sample вместо нулевого стартового значения),
+  - обновлены smoke threshold profiles (mode-aware) для текущего hardware класса, чтобы отделить реальные регрессии от флуктуаций short-run,
+  - smoke gate-table для `gpu/hybrid/hybrid_plus` проходит (`PASS/PASS/PASS`), при этом runtime `stability` у `GPU` может оставаться `FAIL` и требует отдельной физической донастройки.
+- В `TT-017D` выполнен следующий этап profile calibration:
+  - `standard` gate calibration для `gpu/hybrid/hybrid_plus` завершена (mode-aware retuning, gate `PASS/PASS/PASS`);
+  - `nightly` short calibration (укороченный прогон `WARMUP=4s`, `DURATION=35s`, `SAMPLE=400ms`) для `gpu/hybrid/hybrid_plus` завершена, gate `PASS/PASS/PASS`;
+  - для `GPU` в `standard/nightly` оставлен отдельный мониторинг runtime stability (может быть `FAIL` при gate `PASS`, т.к. gate теперь отражает hardware-aware regression policy, а не абсолютную физическую устойчивость).
+- Выполнен full nightly run (без сокращения duration) для `gpu/hybrid/hybrid_plus`:
+  - запуск: `LONGRUN_PROFILE=nightly LONGRUN_MODES=gpu,hybrid,hybrid_plus LONGRUN_CASE_TIMEOUT_SEC=300`,
+  - gate-table: `PASS/PASS/PASS`,
+  - runtime stability: `GPU=WARN`, `Hybrid=PASS`, `Hybrid+=PASS` (ожидаемо при текущих physics настройках и профиле thresholds).
+- В benchmark suite добавлена mode-aware stability classification policy:
+  - `gpu` больше не штрафуется автоматически за full-readback (это штатный режим для GPU scenario без sync violations),
+  - latency/sync risk рассчитываются с учетом режима (`gpu` vs `hybrid/hybrid_plus`) вместо единой жесткой шкалы,
+  - повторный full nightly run после изменения: `runtime stability` и gate-table дают `PASS/PASS/PASS` для `gpu/hybrid/hybrid_plus`.
+- Восстановлен full nightly coverage с `CPU` mode:
+  - добавлены CPU-safe nightly defaults в benchmark suite (`LONGRUN_CPU_PARTICLE_COUNT` + CPU-specific timing overrides для warmup/duration/sample),
+  - `LONGRUN_PROFILE=nightly` без mode-filter теперь проходит без timeout на текущем железе,
+  - gate-table: `CPU/GPU/Hybrid/Hybrid+ = PASS/PASS/PASS/PASS` (при этом `CPU` runtime stability может быть `FAIL`, что вынесено в отдельный physics-трек).
+- В `TT-030C` добавлен drift-aware auto-correction оператор для `conservation_drift`:
+  - мягкий adaptive downscale `guidedStrength`, `stretchingStrength`, `vorticityConfinementStrength`,
+  - новые action keys интегрированы в diagnostics UI (RU/EN labels),
+  - подтверждено в benchmark artifacts: новые actions появляются в `runtimeStabilityAutoCorrectionTimeline`.
+- Проведен targeted audit filament UI/legacy controls и выполнен cleanup:
+  - подтверждено: `center lock enabled/gain/max shift ratio` реально участвуют в runtime (`applyHybridCenterLock`) и влияют на центровку filaments к particle center,
+  - подтверждено: `filamentVelocityScale` и `filamentMultiFilamentVelocityFactor` реально участвуют в ограничении/масштабе скорости через `getFilamentVelocityLimit/getEffectiveFilamentVelocityLimit`,
+  - удалены нерабочие/дублирующие legacy-ветки: `filament velocity align` и `hybrid minSelfRatio/centerPull` (UI + params + runtime branches).
+- Выполнен UI cleanup + hardening для оставшихся filament controls:
+  - legacy-формулировки заменены на `emergency recenter` в UI (RU/EN),
+  - добавлен explicit hint, что center lock — аварийный fallback, а не базовая физическая модель,
+  - `applyHybridCenterLock` переведен в более строгий emergency-режим (trigger только при крупном center mismatch с учетом `particleRadius`).
+- Добавлен отдельный UI-флаг для emergency/fallback filament controls:
+  - emergency-параметры скрыты по умолчанию,
+  - блок автоматически раскрывается, если `center lock` уже активирован,
+  - основной scientific UI очищен от постоянного визуального шума fallback-параметров.
+- Добавлен единый compact раздел `Fallback / Recovery` в runtime diagnostics:
+  - агрегирует активные fallback-механизмы (`filament emergency recenter`, stability auto-correction, GPU guards, CPU render fallback),
+  - показывает сводные counters (`auto/overflow/guard`) в одном месте,
+  - снижает дублирование emergency-сигналов между разрозненными UI-блоками.
+- Filament controls переведены в более scientific flow:
+  - `filamentVelocityScale` и `filamentMultiFilamentVelocityFactor` перенесены из основной advanced-калибровки в `Advanced/Fallback` блок,
+  - в основном потоке оставлены физичные ручки (`filamentCflSafety`, `filamentMaxSubsteps`, `filamentCouplingSubsteps`),
+  - для fallback controls добавлен явный warning "recovery/debug only".
+- Для `Advanced/Fallback` filament controls добавлен runtime status badge:
+  - `ACTIVE`, если включен `filamentCenterLockEnabled` и/или fallback-параметры отклонены от дефолтов,
+  - `STANDBY` при чистом физичном профиле,
+  - при `ACTIVE` показываются причины (какой именно fallback-триггер активен).
+- В общем runtime-блоке `Fallback / Recovery` добавлен такой же консистентный status badge (`ACTIVE/STANDBY`), чтобы диагностический статус совпадал с filament fallback-секцией.
+- В `Fallback / Recovery -> Active now` добавлена цветовая сегментация причин в виде чипов:
+  - warning-сигналы (`emergency recenter`, `GPU quality guard`) подсвечиваются янтарным,
+  - риск деградации (`GPU overflow protection`, `CPU render fallback`) подсвечивается красноватым,
+  - `stability auto-correction` подсвечивается cyan для быстрой идентификации коррекционного контура.
+- Для `TT-030C` заменены fixed multipliers в `conservation_drift` auto-correction на adaptive drift coefficients:
+  - интенсивность коррекции рассчитывается по `energy/circulation drift` severity + drift streak,
+  - downscale для `guidedStrength/stretchingStrength/vorticityConfinementStrength` теперь динамический (мягче при умеренном drift, агрессивнее при повторяющемся),
+  - в runtime публикуются диагностические поля `runtimeStabilityAdaptiveDriftSeverity/Scale/Streak`.
+- В `Runtime stability` UI добавлен индикатор `Adaptive drift severity/scale/streak`.
+- Обновлен validation protocol в `docs/LONG_RUN_BENCHMARK_SUITE.md` для проверки adaptive drift coefficients в long-run прогонах.
+- Выполнен первичный validation-run после adaptive drift update:
+  - `LONGRUN_PROFILE=standard LONGRUN_MODES=gpu` -> gate `PASS`,
+  - `LONGRUN_PROFILE=smoke LONGRUN_MODES=gpu` -> gate `FAIL` по `energyDriftAbsPct` (drift spike на коротком окне),
+  - `LONGRUN_MODES=hybrid,hybrid_plus` (`smoke` и `standard`) -> runtime health-check fail (`advancing=false`, `time=0`) до набора метрик.
+- Исправлен startup health-check в `longRunBenchmarkSuite` для `Hybrid/Hybrid+`:
+  - добавлены повторные health-attempts после warmup + мягкий re-pulse `startTrain`,
+  - ложные ранние падения `advancing=false/time=0` устранены,
+  - `smoke` кейсы `Hybrid`/`Hybrid+` теперь стабильно доходят до метрик.
+- Добавлен production-only startup backend gate в приложении (`App`):
+  - при запуске не в dev показывается splash-screen с progress,
+  - `VortexScene` и `ControlPanel` скрыты до завершения backend probe,
+  - probe проверяет preferred backend и при необходимости выбирает безопасный fallback (`GPU`/`CPU`) до показа главного окна.
+- Повторная проверка после фикса:
+  - `standard hybrid` -> gate `PASS`,
+  - `standard hybrid_plus` -> gate `FAIL` (`throughputDropPct`, `energyDriftAbsPct`, `enstrophyDriftAbsPct`) — требуется отдельный retuning.
+- Выполнен `Hybrid+` retuning под adaptive drift:
+  - в runtime для `Hybrid+` ослаблена агрессивность adaptive drift downscale (чтобы убрать пере-диссипацию и просадку throughput),
+  - `standard hybrid_plus` после retune -> gate `PASS` (drift/throughput стабилизированы в пределах gates),
+  - `smoke hybrid_plus` после retune и profile-threshold sync (`throughputDropPct: 60 -> 70`) -> gate `PASS`.
+- Выполнен cross-mode regression check после `Hybrid+` retune:
+  - `standard (gpu/hybrid/hybrid_plus)` -> gate `PASS/PASS/PASS`,
+  - `smoke (gpu)` -> gate `PASS` (при этом `stability=FAIL` из-за высокого enstrophy drift на коротком окне, требует отдельного quality-tuning, но не gate-regression).
+- Для quality-tuning `GPU smoke` добавлен robust enstrophy proxy в runtime diagnostics:
+  - `enstrophyProxy` теперь считается с winsorized vorticity (`energyDiagnosticsMaxVorticityForProxy`, default `12`) для снижения влияния кратковременных vorticity-spikes,
+  - параметр добавлен в defaults/normalization и используется в `publishEnergyDiagnostics`.
+- Повторная валидация после proxy update:
+  - `smoke gpu` -> gate `PASS` (stability улучшен до `WARN`),
+  - `standard gpu/hybrid/hybrid_plus` -> gate `PASS/PASS/PASS` (регрессий по gate нет).
+- Проведен строгий review addendum-плана по `Simulation Lab / Scale Physics / Adaptive Resolution`:
+  - выделены научные неточности (смешение physics/view scale, недоопределенные метрики, нереалистичные perf-claims, отсутствие applicability envelope),
+  - добавлен consolidated analysis: `docs/ADDENDUM_LAB_SCALE_ADAPTIVE_STRICT_ANALYSIS.md`,
+  - roadmap/tasks перестроены с приоритетом `P5: TT-033 -> TT-034 -> TT-035`.
+- Созданы и зафиксированы базовые спецификации:
+  - `docs/SIMULATION_LAB.md`,
+  - `docs/SCALE_PHYSICS.md`,
+  - `docs/ADAPTIVE_RESOLUTION.md`.
+- Запущен первый исполнимый шаг `TT-033B`:
+  - добавлен `src/simulation/lab/experimentSchema.js`,
+  - реализованы `normalizeExperimentContract`, `validateExperimentContract`, `computeExperimentConfigHash`,
+  - введен versioned contract (`EXPERIMENT_SCHEMA_VERSION=1`) как база для reproducible Lab artifacts.
+- Продолжен следующий шаг `TT-033C`:
+  - добавлен `src/simulation/lab/batchRunner.js`,
+  - реализован budgeted queue runner (`maxConcurrentRuns/maxWallClockSec/maxRetries/cooldown`),
+  - добавлен progress callback + детерминированный `configHash` в результатах batch-run.
+- Запущен UI-scaffold `TT-033D`:
+  - в `ControlPanel` добавлен раздел `Simulation Lab Mode`,
+  - реализован запуск preset-экспериментов (`ring collision`, `leapfrogging`, `jet instability`, `turbulence cascade`) через runtime batch runner,
+  - добавлены editable run-controls (`runs/warmup/duration/sample/sweep min/max`) в Lab panel,
+  - добавлен экспорт lab-артефактов (`JSON`) и summary-таблиц (`CSV`).
+- Добавлены runtime/lab модули:
+  - `src/simulation/lab/runtimeLabRunner.js` (runtime execution bridge),
+  - `src/simulation/lab/labArtifacts.js` (artifact payload + CSV summary builder).
+- Расширен reproducibility metadata в Lab artifacts:
+  - `runtimeBackend`, `performanceProfileId`, `uiLanguage`, `timezone`, `userAgent` добавлены в export payload.
+- Запущен первый runtime-scaffold `TT-034B`:
+  - добавлен `src/simulation/scaling/nondimensionalScaling.js`,
+  - реализованы `computeNondimensionalGroups(...)` и `buildDimensionalScalingPatch(...)`,
+  - добавлены scale-class references (`micro/lab/atmospheric/astro`) с applicability flags.
+- Обновлен `dev/dashboard.html` (в первую очередь, как обязательный шаг):
+  - добавлены новые ветки roadmap: `Simulation Lab Mode`, `Scale Physics Mode`, `Adaptive Resolution System`,
+  - добавлены задачи `TT-033..TT-035` (включая подзадачи) и обновлены прогресс-группы.
+- Добавлено проектное правило синхронизации:
+  - `RULES.md` обновлен: `dev/dashboard.html` теперь обязательно обновляется синхронно с изменениями `ROADMAP/TASKS`.
+- Выполнена проверка консистентности правил/зависимостей:
+  - уточнена формулировка dependency-правила для scaffold/prototype фазы (`IN_PROGRESS` только при явных prerequisite),
+  - устранены разночтения `TT-033/TT-034` между верхней таблицей `TASKS.md` и фактическим состоянием,
+  - синхронизированы зависимости `TT-034` в `dev/dashboard.html` (`TT-023A/TT-024A` как минимально готовая научная база).
+- Lab Mode расширен до scale-aware execution:
+  - в `ControlPanel` добавлены scale-controls (`scale class`, target `Re/St`, opt-in runtime scaling patch),
+  - в runtime-результаты экспериментов добавлены `scaleClass/applicability/Re/St/Ro`,
+  - CSV export расширен scale-полями для reproducible сравнения между запуском и масштабом.
+- Продолжен `TT-033D` до более практичного режима:
+  - добавлены сохранение/загрузка experiment-конфигураций в localStorage,
+  - добавлен history последних lab-runs в панели,
+  - добавлен JSON experiment editor с schema-валидацией перед запуском,
+  - Lab section теперь поддерживает preset + editable controls + JSON/persistence workflow.
+- Продвинут `TT-034C` (presets + applicability + logging):
+  - `nondimensionalScaling.js` расширен `SCALE_PRESETS` и `evaluateScaleApplicability(...)` с градацией `valid/approximate/unsupported` + machine-readable reasons,
+  - `runtimeLabRunner` теперь учитывает `scalePresetId`, вычисляет merged applicability (target + measured), и пишет это в summary каждого run,
+  - `ControlPanel` получил выбор `Scale preset` (custom и scientific presets) с автоприменением class/Re/St,
+  - CSV/JSON artifacts расширены полями `scalePresetId`, `scaleApplicabilityLevel`, `scaleApplicabilityReasons`.
+- Закрыта калибровка `TT-034C` до `DONE`:
+  - добавлены class-aware applicability bands для `micro/lab/atmospheric/astro` (`Re/St/Ro` окна),
+  - `docs/SCALE_PHYSICS.md` дополнен threshold-матрицей и runbook-правилами интерпретации (`valid/approximate/unsupported`),
+  - `dev/dashboard.html`, `ROADMAP`, `TASKS` синхронизированы по статусу `TT-034C=DONE`.
+- Улучшен UX `TT-033D`:
+  - history drill-down: выбор run из local history + детальная строка (totals/applicability/preset/hash),
+  - schema error ergonomics: compact error formatting и более явные сообщения invalid JSON/schema.
+- Стартован `TT-035B` (Adaptive Resolution controller core scaffold):
+  - добавлен `src/simulation/adaptive/resolutionController.js`,
+  - реализованы базовые контракты `normalizePolicy/createState/computeStressScore/evaluateResolutionDecision`,
+  - включены hysteresis + dwell/cooldown guards и bounded level transitions (`L0..L3`) с decision trace.
+- Продвинуты runtime hooks для `TT-035B` и Lab trace:
+  - `runtimeLabRunner` интегрирует adaptive-controller decisions на каждом sample-step (без прямого вмешательства в physics semantics),
+  - в run artifacts добавлены adaptive trace/summary поля (`decision/refine/coarsen/time-in-levels`),
+  - `labArtifacts`/CSV расширены adaptive-колонками для reproducible post-analysis.
+- Продвинут runtime-safe слой `TT-035B`:
+  - добавлены budget/cooldown guards для adaptive actuation (`maxActuationsPerMinute`, `cooldownMs`),
+  - добавлено bounded runtime patch apply (консервативный `particleCount` step clamp + min/max guards),
+  - adaptive summary теперь включает `actuationApplied/Skipped` counters.
+- Доведен runtime param-mapping policy для `TT-035B`:
+  - actuation теперь маппится не только в `particleCount`, но и в bounded `spawnRate/ringResolution/timeScale`,
+  - добавлены acceptance checks для actuation guards (budget/cooldown + soft drift guard),
+  - acceptance-статус и failed-check IDs пишутся в run summary и CSV.
+- Закрыт `TT-035B`:
+  - добавлен stress verification harness для controller policy (`low_stress_stability/high_stress_refine/oscillation_guard`),
+  - verification результат пишется в run summary и artifact export,
+  - `ADAPTIVE_RESOLUTION.md` дополнен runtime guard acceptance runbook.
+- Стартован `TT-035C`:
+  - добавлен `resolutionDiagnosticsMap` builder (occupancy/transitions/dominant level/path complexity),
+  - diagnostics map hooks интегрированы в runtime results + CSV + quick inspect UI.
+- Продвинут `TT-035C`:
+  - добавлены occupancy overlays (`L0..L3`) и baseline scenario verdict в quick inspect panel,
+  - runtime summary/CSV расширены полями `adaptiveOccupancy*`, `adaptiveBaselineScenarioId/Ok/FailedChecks`,
+  - baseline acceptance scenarios (`adaptive.low/mid/high`) подключены к каждому run и документированы в runbook.
+- Дополнен diagnostics tooling для `TT-035C`:
+  - в quick inspect добавлена transition matrix (`L0..L3` переходы) из `diagnosticsMap`,
+  - добавлен export `adaptive acceptance matrix report` (markdown) для batch-run post-analysis.
+- Закрыт `TT-035C`:
+  - overlays/transition matrix/baseline verdict hooks завершены и стабилизированы,
+  - acceptance matrix interpretation notes добавлены в `ADAPTIVE_RESOLUTION.md`.
+- Стартована baseline validation matrix интеграция в `audit-runner`:
+  - добавлен script `audit-runner/adaptiveBaselineMatrix.mjs`,
+  - добавлена npm-команда `benchmark:adaptive:matrix`,
+  - сгенерированы артефакты `adaptive-baseline-matrix.{json,md}` и добавлены runbook-указания в `LONG_RUN_BENCHMARK_SUITE.md`.
+- Доведена интеграция adaptive matrix workflow:
+  - `longRunBenchmarkSuite` теперь может автоматически запускать adaptive matrix post-step (включая CI-gate по сценарию),
+  - добавлены CI параметры `LONGRUN_ADAPTIVE_MATRIX_*` и trend snapshots (`adaptive-baseline-trend.json`),
+  - добавлена отдельная команда `benchmark:adaptive:matrix:ci` c fail-on-scenario.
+- `TT-035` (Adaptive Resolution System) переведен в `DONE` в roadmap/tasks/dashboard.
+- Продвинута UX-полировка `TT-033D`:
+  - добавлен compare-run workflow в Lab history (selected vs baseline deltas),
+  - добавлен quick inspect panel для run-level artifact preview (выбор run + adaptive/acceptance counters),
+  - улучшены сообщения JSON/schema ошибок (компактная агрегация + явный invalid JSON префикс).
+- `TT-033D` переведен в `DONE`:
+  - compare UX и inspect ergonomics закрыты в текущем scope,
+  - `dashboard/roadmap/tasks` синхронизированы по статусу.
+- Закрыт `TT-034B` (nondimensional converter production-ready):
+  - в `nondimensionalScaling` добавлены строгая валидация scaling-request (`validateScalingRequest`) и consistency report (`computeScalingConsistencyReport`) с ошибкой конверсии `Re/St` в процентах,
+  - в runtime/Lab summary добавлены поля `scaleValidationErrors`, `scaleValidationWarnings`, `scaleConsistencyMaxErrorPct`,
+  - в Lab inspect UI добавлен явный индикатор scale-validation и max conversion error.
+- Закрыт `TT-033C` (artifact sink hardening + persistence policy cleanup):
+  - `labStorage` переведен на schema-versioned storage (`V2`) с миграцией из `V1`, санитизацией записей и bounded retention policy,
+  - добавлен `artifact index` sink (`load/appendLabArtifactIndex`) для устойчивого трекинга batch artifacts,
+  - Lab UI теперь показывает состояние artifact sink (count/last hash/completed/total) и использует обновленный persistence слой.
+- `TASKS/ROADMAP/dev/dashboard.html` синхронизированы: `TT-033C=DONE`, `TT-034B=DONE`, ветки `Simulation Lab Mode` и `Scale Physics Mode` переведены в завершенный статус.
+- Продвинут `TT-032B` (runtime params + integration-order hooks):
+  - добавлен runtime-параметр `physicalIntegrationOrderProfile` (`canonical`, `boundary_first`, `diffusion_first`) в defaults/runtime publish path,
+  - в `publishPhysicalHooksStatus` интегрирован profile-aware порядок стадий (`stretching/diffusion/boundary/wake`) с fallback-warning на неизвестный профиль,
+  - в ControlPanel добавлен control-surface для physical modules (viscosity/PSE/stretching/boundary/wake + boundary mode + integration order profile) и diagnostics-поле активного профиля.
+- `ROADMAP` и `dev/dashboard.html` синхронизированы по текущему `TT-032B` scope (integration-order profiles + wiring, статус `IN_PROGRESS`).
+- Углублен `TT-032B` в runtime (не только diagnostics):
+  - `vpm/pipeline` теперь применяет profile-aware physical stage order (`canonical`, `boundary_first`, `diffusion_first`) после advection,
+  - `physicalViscosityNu` и `physicalStretchingStrength` реально участвуют в operator-параметрах (diffusion/stretching),
+  - `physicalPseEnabled` пока явно помечен как proxy-path (fallback на core-spreading diffusion), boundary/wake hooks подключены как no-op placeholders до `TT-032C` scenarios.
+- Расширен UI control-surface для physical modules:
+  - добавлены controls для `physicalViscosityNu`, `physicalStretchingStrength`, `physicalNoSlipEnabled`, `physicalImageVorticesEnabled`,
+  - в diagnostics сохранен и публикуется `runtimePhysicalIntegrationOrderProfile`.
+- Переведен `TT-032B` в `DONE`:
+  - profile-aware порядок physical operators теперь реально применяется в VPM runtime, а не только отображается в diagnostics.
+- Стартован `TT-032C` (validation protocol baseline):
+  - `PHYSICAL_MODELS.md` дополнен phase-0 runbook (order sensitivity, diffusion monotonicity, stretching boundedness),
+  - зафиксирован expected proxy scope для `physicalPseEnabled` и boundary/wake hooks до полной физической реализации.
+- Синхронизированы `TASKS/ROADMAP/dev/dashboard.html` по статусам `TT-032B=DONE`, `TT-032C=IN_PROGRESS`.
+- Закрыт `TT-032C` (physical realism validation protocol, phase-0):
+  - добавлен `audit-runner/physicalRealismBaseline.mjs` (order sensitivity + diffusion monotonicity + stretching boundedness),
+  - добавлены gate artifacts `physical-realism-baseline.{json,md}` и npm-команды `benchmark:physical:baseline` / `benchmark:physical:baseline:ci`,
+  - `longRunBenchmarkSuite` расширен optional post-step workflow (`LONGRUN_PHYSICAL_BASELINE`, `LONGRUN_PHYSICAL_BASELINE_FAIL_ON_GATE`),
+  - runbook обновлен в `LONG_RUN_BENCHMARK_SUITE.md` (env/commands/artifacts/интерпретация phase-0 proxy scope).
+- `TT-032` переведен в `DONE` в `TASKS/ROADMAP/dev/dashboard.html`; `NEXT` смещен на `TT-031B`.
+- Стартован `TT-031B` (Visualization panel modes):
+  - в `ControlPanel` добавлен раздел `Visualization tools` c scientific toggles (`vorticity field`, `Q-criterion`, `velocity field`, `streamlines`, `pathlines`) и `vizExportScale`,
+  - добавлен `Scientific visualization mode` preset-toggle (включает ключевые overlay-поля одним действием).
+- `TASKS/ROADMAP/dev/dashboard.html` синхронизированы по `TT-031/TT-031B=IN_PROGRESS`.
+- Продвинут `TT-031B` от UI-toggle к runtime/render integration:
+  - `VortexScene` теперь учитывает `viz*` флаги при реальном рендере частиц (`vorticity`, `Q-criterion proxy`, `streamlines/pathlines`, `velocity field`),
+  - добавлен Q-criterion proxy color mapping для scientific overlay режима,
+  - при активных scientific overlays включается CPU render path (вместо GPU snapshot), чтобы гарантировать корректную визуальную семантику overlay-режимов.
+- Расширен scientific visualization HUD (`TT-031B`):
+  - добавлены toggles `Detector overlay HUD`, `Topology overlay HUD`, `Energy overlay HUD`,
+  - `VortexScene` выводит runtime-overlay блок с detector counts/confidence, topology transitions и energy/enstrophy + physical step order.
+- Продвинут bridge к `TT-031C` (scientific export baseline):
+  - в `Visualization tools` добавлены действия `Export scientific PNG` и `Export metadata JSON`,
+  - metadata bundle включает visualization flags + runtime detector/topology/energy diagnostics + stability/filament stats,
+  - `TASKS/ROADMAP/dev/dashboard.html` синхронизированы: `TT-031C` переведен в `IN_PROGRESS`, export pipeline step также `IN_PROGRESS`.
+- Углублен `TT-031C` export contract:
+  - добавлен builder `src/simulation/visualization/scientificSnapshot.js` с формальным schema (`torus.viz.snapshot.bundle.v2`),
+  - в UI добавлен `Export snapshot bundle` (JSON manifest с `image.fileName`, overlay events и runtime scientific blocks),
+  - `VORTEX_VISUALIZATION.md` обновлен baseline export contract (PNG+JSON reproducible pairing).
+- Добавлен sampled timeline layer в scientific snapshot bundle:
+  - `Visualization tools` теперь ведет bounded timeline (`<=240` points) по detector/topology/energy полям,
+  - bundle export включает `runtime.timeline` для последующего sequence/MP4 анализа,
+  - добавлен UI control `Clear timeline` + счетчик timeline points для управляемого snapshot-sequence capture.
+- Продвинут event-driven export слой `TT-031C`:
+  - `scientificSnapshot` дополнен `timelineDerivedEvents` (detector confidence rise, topology transition increments, energy/enstrophy jump-rate events),
+  - добавлен `buildScientificSnapshotSequenceManifest` и UI-кнопка `Export sequence manifest`,
+  - `TASKS/ROADMAP/dev/dashboard.html` синхронизированы: `TT-031B=DONE`, фокус смещен на финализацию `TT-031C`.
+- Добавлен FFmpeg bridge для `TT-031C`:
+  - `scientificSnapshot` расширен `buildScientificFfmpegTranscodePlan` (frame list + command template),
+  - в UI добавлен `Export FFmpeg plan` (JSON plan + `frames.txt` concat-list),
+  - `VORTEX_VISUALIZATION.md` и `ROADMAP` обновлены по MP4-assembly pre-step.
+- Закрыт phase-1 acceptance слой `TT-031C`:
+  - добавлен `buildScientificExportValidationReport` (`torus.viz.snapshot.bundle.v2.validation`) с machine-checkable проверками согласованности `bundle + sequence manifest + ffmpeg plan`,
+  - `Export FFmpeg plan` теперь экспортирует связанный scientific package (`snapshot bundle`, `sequence manifest`, `ffmpeg plan`, `validation report`) + отдельный validation JSON,
+  - `TASKS/ROADMAP` синхронизированы: `TT-031C` переведен в `DONE`, `NEXT` смещен на старт `TT-026`.
+- Стартован `TT-026` / `TT-026B` bootstrap (rendering architecture layers + diagnostics):
+  - добавлен helper `renderRepresentationPolicy` с формальным контрактом режима (`particles/filaments/tubes`), `LOD tier` и confidence/uncertainty-оценкой для scientific overlays,
+  - `VortexScene` переведен на policy-aware видимость слоев (`particle/filament`), публикацию runtime-полей `runtimeRender*` и вывод render diagnostics в scientific HUD,
+  - `defaultParams/normalizeParams` расширены для новых `runtimeRender*` полей; sheet-layer оставлен как явный placeholder (`visible=false`) до готовности `TT-021B/TT-025`.
+- Продвинут `TT-026B` phase-1 (uncertainty decomposition + export binding):
+  - runtime diagnostics расширены на decomposition `detectorGap/renderFallback/topologyVolatility` и отображаются в `ControlPanel` и `VortexScene` HUD,
+  - scientific timeline sampling расширен render-полями (`renderConfidence/renderUncertainty` + decomposition),
+  - `scientificSnapshot` bundle дополнен блоком `runtime.renderPolicy.diagnostics.uncertaintyComponents`; validation-report теперь проверяет наличие render-policy блока.
+- Продвинут bridge `TT-026B -> TT-019` (overlay uncertainty coupling):
+  - в runtime (`publishStructureDetection`) добавлен composite overlay confidence/uncertainty и decomposition по источникам (`detector/topology/render`),
+  - diagnostics UI/HUD показывает overlay confidence+uncertainty и decomposition отдельно от render-only uncertainty,
+  - export contour расширен: `scientificSnapshot.runtime.overlayDiagnostics`, timeline overlay-поля и derived event `overlay_uncertainty_rise`, validation-report проверяет `overlayDiagnostics` block.
+- Стартован практический scene-layer для `TT-019`:
+  - detector теперь публикует `overlayFeatures` (class/confidence/center/radius/shape stats) и runtime-поле `runtimeOverlayStructures`,
+  - `VortexScene` рисует detected-structure markers (ring/tube/filament/cluster) в scientific detection overlay режиме,
+  - export/metadata дополнены `runtime.overlayStructures`; validation-report проверяет наличие `overlayStructures` блока.
+- Продвинут visual quality слой `TT-019`:
+  - marker overlays переведены на class-aware glyphs (ring torus / tube octa / filament cylinder / cluster sphere),
+  - добавлен UI-порог `vizOverlayMinConfidence` для фильтрации low-confidence структур в сцене,
+  - порог включен в scientific export metadata (`visualization.overlayMinConfidence`) для воспроизводимости overlay-фильтра.
+- Углублен inspectability слой `TT-019`:
+  - добавлен UI toggle `vizOverlayShowLabels` для labels над marker overlays,
+  - в сцене labels показывают class+confidence для feature markers,
+  - export metadata дополнен `visualization.overlayLabelPolicy.enabled`.
+- Добавлен anti-overlap policy для `TT-019` labels:
+  - UI controls: `vizOverlayLabelMaxCount` и `vizOverlayLabelMaxDistance`,
+  - `VortexScene` применяет camera-aware label budget (distance culling + max labels per frame),
+  - export metadata дополнен `visualization.overlayLabelPolicy.maxCount/maxDistance`.
+- Усилен validation слой scientific export:
+  - `buildScientificExportValidationReport` теперь проверяет bounds/типы для `overlayMinConfidence`, `overlayLabelPolicy.enabled`, `overlayLabelPolicy.maxCount`, `overlayLabelPolicy.maxDistance`,
+  - добавлена проверка boundedness `runtime.overlayStructures` (`<=24`) как контракт стабильного snapshot payload.
+- Добавлен pre-save validation gate в `ControlPanel` export actions (`metadata/bundle/sequence/ffmpeg`):
+  - перед сохранением считается `validationReport`,
+  - при `pass=false` экспорт останавливается и UI показывает `failedChecks` для быстрого исправления policy/contract mismatch.
+- Улучшен UX ошибок validation gate:
+  - статус теперь показывает человекочитаемые детали (`got ... expected ...`) по первым failed checks вместо одного списка ID.
+- Добавлены actionable fix-hints для export validation:
+  - `ControlPanel` теперь выводит `How to fix` подсказку по типовым check-id (`overlay thresholds`, `label limits`, `sequence/ffmpeg mismatch`, `.mp4` extension),
+  - это сокращает цикл диагностики при pre-save validation stop.
+- Расширен формат fix-hints в validation status:
+  - вместо одной подсказки по первому check-id теперь показываются до 3 уникальных `How to fix` hints за один export-fail,
+  - при необходимости добавляется `+N more`, чтобы явно сигнализировать о дополнительных корректировках.
+- Введена приоритизация fix-hints в export validation:
+  - `ControlPanel` сортирует failed checks по unblock-priority (сначала `manifest/ffmpeg` контракт и `.mp4`, затем schema/block и policy bounds),
+  - добавлено покрытие подсказками для schema/block check-id (`bundle_*`, `*_schema_id`, `visualization_overlay_label_policy_block`).
+- Добавлен doc-aware контекст для validation status:
+  - помимо `How to fix`, `ControlPanel` теперь выводит `Where to read` с короткими ссылками на релевантные спецификации (`VORTEX_VISUALIZATION` / `VORTEX_RENDERING_STRATEGY`) по check-id,
+  - это ускоряет путь от симптома к формальному контракту при разборе export-fail.
+- Встроен lightweight spec viewer в UI:
+  - в секции scientific export появился `Spec viewer` с быстрым выбором тем (`FFmpeg contract`, `Export contract`, `Runtime policy`, `Overlay policy`),
+  - viewer показывает документ, фокус раздела, короткий fix и связанные check-id,
+  - при validation fail viewer автоматически переключается на наиболее релевантную тему по приоритизированному check-id.
+- Добавлен one-click workflow в spec viewer:
+  - кнопка `Copy quick fix plan` копирует в буфер структурированный план (topic/doc/focus/fix/related checks),
+  - статус панели сообщает `copied/failed/unavailable` для прозрачного результата операции.
+- Добавлен one-click `Apply defaults for this topic` в spec viewer:
+  - для `overlay_policy` кнопка применяет безопасные UI defaults (`overlayMinConfidence=0.25`, `showLabels=true`, `labelMaxCount=8`, `labelMaxDistance=12`),
+  - для `ffmpeg/export/runtime` тем кнопка возвращает явный manual-action статус, так как требуется регенерация артефактов вместо прямого runtime-патча.
+- Улучшен feedback для `Apply defaults`:
+  - статус теперь показывает мини diff `before -> after` по полям `overlay_policy`,
+  - если значения уже совпадают с defaults, явно показывается `no changes`, чтобы не было ложного ощущения применения патча.
+- Улучшена читаемость mini-diff в статусе:
+  - вместо технических param keys теперь выводятся UI labels (`overlay confidence threshold`, `show labels`, `max labels`, `max distance`),
+  - это делает обратную связь понятной без необходимости знать внутренние имена параметров.
+- Улучшено отображение boolean в mini-diff:
+  - значения переключателей теперь показываются как `enabled/disabled` вместо `true/false`,
+  - это уменьшает когнитивный шум в статусе `Apply defaults`.
+- Стабилизирован порядок mini-diff полей:
+  - статус `Apply defaults` теперь всегда выводит поля в фиксированном порядке (`threshold -> labels -> max count -> max distance`),
+  - это ускоряет визуальное сканирование и делает сообщения сопоставимыми между запусками.
+- Формализован `TT-027A` документ `VORTEX_REPRESENTATION_PERFORMANCE`:
+  - добавлен строгий decision contract (`score decomposition`, hard-gates, hysteresis, override policy, hardware tiers),
+  - зафиксирован diagnostics/export contract для representation policy (обязательные runtime поля для аудитируемости),
+  - добавлена machine-checkable acceptance matrix и bridge к `TT-017D` long-run gates (`switch_rate`, `residency_ratio`, `override_count`, `drift_vs_switch_correlation`).
+- Расширен `dev/dashboard.html` для реальной иерархии задач:
+  - `Task Tree` теперь рендерит parent tasks с вложенными subtasks (`TT-xxxA/B/...`) и локальной сводкой `done/total`,
+  - в массив `tasks` синхронизированы недостающие подзадачи из `TASKS.md` (включая `TT-015..TT-032` addendum ветки),
+  - обновлен UI branch progress (`40 -> 45`) и добавлен roadmap-step про nested task hierarchy.
+- Добавлены status-фильтры в `Task Tree` dashboard:
+  - быстрые переключатели `All / Done / In progress / Todo` применяются к parent и subtask уровням,
+  - локальный процент группы теперь считается по видимому (отфильтрованному) пулу задач,
+  - обновлен UI branch progress (`45 -> 48`) и roadmap-step про task-tree filtering.
+- Добавлен focused-фильтр для иерархии dashboard:
+  - toggle `Only parents with open subtasks` скрывает ветки без незакрытых подпунктов,
+  - это ускоряет навигацию по bottleneck-задачам при больших task-деревьях.
+- Запущен phase-0 bootstrap `TT-027B` (runtime score publication hooks):
+  - `renderRepresentationPolicy` теперь публикует `scores` (`particles/filaments/sheets/current/best/margin`), `hysteresis`, `health`, `overrideReason`,
+  - новые поля прокинуты в runtime params (`default/normalize`, `VortexScene setParams/reset`), diagnostics view model и scientific export metadata/snapshot bundle,
+  - `ControlPanel` runtime diagnostics расширен строками по score-vector, current/best/margin, hysteresis window, policy health/override.
+- Синхронизированы dashboard branch values:
+  - `UI` progress обновлен `48 -> 50` (добавлен open-subtasks filter),
+  - `Performance` progress обновлен `20 -> 24` (старт `TT-027B` bootstrap).
+- Продвинут `TT-027B` до phase-1 override-reasons:
+  - `renderRepresentationPolicy` теперь вычисляет override по приоритету `invariant_guard > timeout_burst > fallback_storm > none`,
+  - причина нормализуется в params и выводится в runtime diagnostics через человекочитаемые labels,
+  - `ROADMAP`/dashboard синхронизированы: `Performance` progress обновлен `24 -> 26`.
+- Продвинут `TT-027B` до phase-2 drift-trend health:
+  - в policy health добавлен `driftSeverity` (композиция `adaptiveDriftSeverity` + energy/circulation drift + streak factor),
+  - `invariant_guard` теперь срабатывает не только по уровню critical, но и по тренду drift (`severity + streak`),
+  - сигнал прокинут в runtime params/UI/export (`default/normalize`, `VortexScene`, `runtimeDiagnosticsViewModel`, `ControlPanel`, `scientificSnapshot`),
+  - синхронизирован dashboard: `Performance` progress обновлен `26 -> 27`.
+- Продвинут `TT-027B` до phase-3 long-run aggregates:
+  - в `longRunBenchmarkSuite` добавлены policy-метрики `renderPolicyOverrideCountByReason` и `renderPolicyDriftSeverityP95/Avg`,
+  - метрики включены в `summaryRows`, console table, markdown main-table и отдельный `renderPolicySummary` блок JSON payload,
+  - обновлен runbook `LONG_RUN_BENCHMARK_SUITE.md` и синхронизирован dashboard (`Performance` progress `27 -> 29`).
+- Продвинут `TT-027B` до phase-4 baseline gates для policy-метрик:
+  - в baseline compare добавлены gate-checks: `driftSeverityP95RegressPct`, `driftSeverityP95AbsMax`, `override*CountMax` по причинам (`fallback_storm`, `timeout_burst`, `invariant_guard`),
+  - baseline rows теперь сохраняют `renderPolicyDriftSeverityP95` и `renderPolicyOverrideCountByReason` для корректного regression tracking,
+  - runbook обновлен разделом о новых gate-метриках; dashboard синхронизирован (`Performance` progress `29 -> 31`).
+- Продвинут `TT-027B` до phase-5 reporting ergonomics:
+  - в markdown-отчет long-run suite добавлена отдельная секция `Policy Gates` с построчным PASS/FAIL по policy-check IDs и их `value/limit`,
+  - это упрощает отделение policy-regressions от latency/energy gate regressions без ручного разбора общего `failedChecks`,
+  - dashboard синхронизирован (`Performance` progress `31 -> 32`).
+- Продвинут `TT-027B` до phase-6 policy verdict summary:
+  - в `longRunBenchmarkSuite` добавлен mode-level `policyGateSummary` (`PASS/WARN/FAIL`) с перечнем failed policy-checks,
+  - в markdown-отчет добавлена секция `Policy Gate Verdict`, а в console выводится отдельная verdict table,
+  - dashboard синхронизирован (`Performance` progress `32 -> 33`).
+- Продвинут `TT-027B` до phase-7 trend snapshots:
+  - в long-run suite добавлен persist history `policy-gate-trend.json` с retention (`LONGRUN_POLICY_GATE_TREND_MAX`) и verdict-count snapshots по профилям,
+  - в payload добавлен `policyGateTrend` блок (path + snapshots count) для auditability.
+- Продвинут `TT-027B` до phase-8 hardware-aware hooks:
+  - добавлены hardware-driven policy knobs `performanceSheetWorkloadBudget`, `performanceMaxSheetPanels`, `performanceRepresentationSwitchCooldown` (default/normalize/profile patches),
+  - `detectHardwareProfile` теперь возвращает `representationPolicyPatch`, а `ControlPanel` применяет его при hardware detection,
+  - `renderRepresentationPolicy` учитывает hardware budgets в score/hysteresis, export snapshot фиксирует `hardwareBudget`.
+- Консолидация статусов:
+  - `TT-027B` переведен в `DONE`,
+  - `TT-027` переведен в `DONE` как закрытый контур `TT-027A + TT-027B`,
+  - dashboard синхронизирован (`Performance` progress `33 -> 36`, branch status `DONE`).

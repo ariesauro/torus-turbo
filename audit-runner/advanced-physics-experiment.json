@@ -1,0 +1,87 @@
+{
+  "timestamp": "2026-03-19T15:35:32.925Z",
+  "verdict": "PASS",
+  "experiments": [
+    {
+      "experiment": "les_spectrum",
+      "pass": true,
+      "slopeNoLes": -2.3489976009052804,
+      "slopeLes": -2.3658400209518624,
+      "enstNoLes": 209.8693763273679,
+      "enstLes": 209.59203112916626,
+      "lesMoreDissipative": true,
+      "bothNegativeSlope": true
+    },
+    {
+      "experiment": "les_cascade",
+      "pass": true,
+      "results": [
+        {
+          "Cs": 0,
+          "enst0": 210.6818461795068,
+          "enstFinal": 210.19337899768772,
+          "decay": 0.9976814937277372
+        },
+        {
+          "Cs": 0.1,
+          "enst0": 210.6818461795068,
+          "enstFinal": 210.069208927987,
+          "decay": 0.9970921213069406
+        },
+        {
+          "Cs": 0.15,
+          "enst0": 210.6818461795068,
+          "enstFinal": 209.91458956851338,
+          "decay": 0.9963582215321025
+        },
+        {
+          "Cs": 0.2,
+          "enst0": 210.6818461795068,
+          "enstFinal": 209.69922131642127,
+          "decay": 0.9953359775371994
+        },
+        {
+          "Cs": 0.3,
+          "enst0": 210.6818461795068,
+          "enstFinal": 209.09084422469385,
+          "decay": 0.9924483196646313
+        }
+      ]
+    },
+    {
+      "experiment": "buoyant_ring",
+      "pass": true,
+      "results": [
+        {
+          "label": "warm",
+          "temperature": 10,
+          "y0": 5.7462715141731735e-18,
+          "yFinal": 0.000029429999999640798,
+          "dy": 0.000029429999999635052
+        },
+        {
+          "label": "neutral",
+          "temperature": 0,
+          "y0": 5.7462715141731735e-18,
+          "yFinal": 5.7462715141731735e-18,
+          "dy": 0
+        },
+        {
+          "label": "cold",
+          "temperature": -10,
+          "y0": 5.7462715141731735e-18,
+          "yFinal": -0.000029429999999664,
+          "dy": -0.000029429999999669746
+        }
+      ],
+      "warmRises": true,
+      "coldSinks": true
+    },
+    {
+      "experiment": "baroclinic",
+      "pass": true,
+      "enst0": 0,
+      "enstFinal": 0.004401982060444788
+    }
+  ]
+}

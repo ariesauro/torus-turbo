@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "tt068.classic_replication_protocol_contract.v1",
+  "title": "Independent classic replication protocol contract",
+  "description": "Contract for pairwise replication checks between reference and independent replica classic runs.",
+  "requiredRootFields": [
+    "schemaVersion",
+    "referenceRun",
+    "replicaRun",
+    "checks",
+    "verdict"
+  ],
+  "requiredRunFields": [
+    "runId",
+    "implementationId",
+    "implementationVersion",
+    "scenarioHash",
+    "classicProfile",
+    "naturalModifiersActive",
+    "contracts.ring",
+    "contracts.jet",
+    "contracts.detector",
+    "contracts.topology"
+  ],
+  "requiredChecks": [
+    "config_hash_match",
+    "classic_profile_lock",
+    "invariant_drift_delta_within_limit",
+    "contract_verdict_alignment",
+    "timing_envelope_within_limit"
+  ],
+  "thresholds": {
+    "invariantDriftDeltaMaxPct": 2.0,
+    "timingStepP95DeltaMaxPct": 10.0
+  },
+  "allowedVerdicts": [
+    "replication_pass",
+    "replication_warn",
+    "replication_fail"
+  ],
+  "acceptanceRule": {
+    "requiredVerdict": "replication_pass",
+    "requireAllChecksPass": true
+  }
+}

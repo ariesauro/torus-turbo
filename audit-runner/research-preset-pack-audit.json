@@ -1,0 +1,225 @@
+{
+  "generatedAt": "2026-03-18T05:20:38.901Z",
+  "baseUrl": "http://localhost:5173/",
+  "durationScale": 1,
+  "rows": [
+    {
+      "presetId": "vortex_ring_collision",
+      "family": "rings",
+      "sampleCount": 25,
+      "runError": "",
+      "thresholds": {
+        "circulationDriftAbsMaxPct": 35,
+        "stepP95MsMax": 170
+      },
+      "durationSecObserved": 8,
+      "circulationDriftAbsMaxPct": 0,
+      "stepP95Ms": 54.95000001788139,
+      "hybridBlockedUnsyncedDelta": 287,
+      "hybridUnsafeUnsyncedDelta": 0,
+      "gate": {
+        "pass": true,
+        "checks": {
+          "case_completed": true,
+          "samples_present": true,
+          "drift_within_limit": true,
+          "step_p95_within_limit": true,
+          "no_unsafe_unsynced_filament_steps": true
+        },
+        "failedChecks": [],
+        "notes": []
+      }
+    },
+    {
+      "presetId": "vortex_leapfrogging",
+      "family": "rings",
+      "sampleCount": 25,
+      "runError": "",
+      "thresholds": {
+        "circulationDriftAbsMaxPct": 35,
+        "stepP95MsMax": 170
+      },
+      "durationSecObserved": 8,
+      "circulationDriftAbsMaxPct": 0,
+      "stepP95Ms": 54.89999997615814,
+      "hybridBlockedUnsyncedDelta": 291,
+      "hybridUnsafeUnsyncedDelta": 0,
+      "gate": {
+        "pass": true,
+        "checks": {
+          "case_completed": true,
+          "samples_present": true,
+          "drift_within_limit": true,
+          "step_p95_within_limit": true,
+          "no_unsafe_unsynced_filament_steps": true
+        },
+        "failedChecks": [],
+        "notes": []
+      }
+    },
+    {
+      "presetId": "jet_instability",
+      "family": "jets",
+      "sampleCount": 28,
+      "runError": "",
+      "thresholds": {
+        "circulationDriftAbsMaxPct": 45,
+        "stepP95MsMax": 170
+      },
+      "durationSecObserved": 9,
+      "circulationDriftAbsMaxPct": 0,
+      "stepP95Ms": 134.39999997615814,
+      "hybridBlockedUnsyncedDelta": 0,
+      "hybridUnsafeUnsyncedDelta": 0,
+      "gate": {
+        "pass": true,
+        "checks": {
+          "case_completed": true,
+          "samples_present": true,
+          "drift_within_limit": true,
+          "step_p95_within_limit": true,
+          "no_unsafe_unsynced_filament_steps": true
+        },
+        "failedChecks": [],
+        "notes": []
+      }
+    },
+    {
+      "presetId": "turbulence_cascade",
+      "family": "turbulence",
+      "sampleCount": 28,
+      "runError": "",
+      "thresholds": {
+        "circulationDriftAbsMaxPct": 50,
+        "stepP95MsMax": 150
+      },
+      "durationSecObserved": 10,
+      "circulationDriftAbsMaxPct": 0,
+      "stepP95Ms": 62.69999998807907,
+      "hybridBlockedUnsyncedDelta": 334,
+      "hybridUnsafeUnsyncedDelta": 0,
+      "gate": {
+        "pass": true,
+        "checks": {
+          "case_completed": true,
+          "samples_present": true,
+          "drift_within_limit": true,
+          "step_p95_within_limit": true,
+          "no_unsafe_unsynced_filament_steps": true
+        },
+        "failedChecks": [],
+        "notes": []
+      }
+    },
+    {
+      "presetId": "helmholtz_shear",
+      "family": "helmholtz",
+      "sampleCount": 26,
+      "runError": "",
+      "thresholds": {
+        "circulationDriftAbsMaxPct": 45,
+        "stepP95MsMax": 170
+      },
+      "durationSecObserved": 8,
+      "circulationDriftAbsMaxPct": 0,
+      "stepP95Ms": 134.60000002384186,
+      "hybridBlockedUnsyncedDelta": 0,
+      "hybridUnsafeUnsyncedDelta": 0,
+      "gate": {
+        "pass": true,
+        "checks": {
+          "case_completed": true,
+          "samples_present": true,
+          "drift_within_limit": true,
+          "step_p95_within_limit": true,
+          "no_unsafe_unsynced_filament_steps": true
+        },
+        "failedChecks": [],
+        "notes": []
+      }
+    },
+    {
+      "presetId": "kelvin_wave_train",
+      "family": "kelvin",
+      "sampleCount": 26,
+      "runError": "",
+      "thresholds": {
+        "circulationDriftAbsMaxPct": 40,
+        "stepP95MsMax": 170
+      },
+      "durationSecObserved": 8,
+      "circulationDriftAbsMaxPct": 0,
+      "stepP95Ms": 58.20000001788139,
+      "hybridBlockedUnsyncedDelta": 284,
+      "hybridUnsafeUnsyncedDelta": 0,
+      "gate": {
+        "pass": true,
+        "checks": {
+          "case_completed": true,
+          "samples_present": true,
+          "drift_within_limit": true,
+          "step_p95_within_limit": true,
+          "no_unsafe_unsynced_filament_steps": true
+        },
+        "failedChecks": [],
+        "notes": []
+      }
+    },
+    {
+      "presetId": "reconnection_pair",
+      "family": "reconnection",
+      "sampleCount": 28,
+      "runError": "",
+      "thresholds": {
+        "circulationDriftAbsMaxPct": 50,
+        "stepP95MsMax": 170
+      },
+      "durationSecObserved": 9,
+      "circulationDriftAbsMaxPct": 0,
+      "stepP95Ms": 62.349999994039536,
+      "hybridBlockedUnsyncedDelta": 312,
+      "hybridUnsafeUnsyncedDelta": 0,
+      "gate": {
+        "pass": true,
+        "checks": {
+          "case_completed": true,
+          "samples_present": true,
+          "drift_within_limit": true,
+          "step_p95_within_limit": true,
+          "no_unsafe_unsynced_filament_steps": true
+        },
+        "failedChecks": [],
+        "notes": []
+      }
+    }
+  ],
+  "gate": {
+    "pass": true,
+    "failedChecks": []
+  },
+  "trend": {
+    "path": "/Users/auroboros/Code/Torus Turbo/audit-runner/research-preset-pack-trend.json",
+    "snapshots": 30,
+    "comparedWithGeneratedAt": null,
+    "baselineSnapshotCount": 2,
+    "comparedPresetCount": 0,
+    "skippedReason": "insufficient_baseline_snapshots",
+    "pass": true,
+    "failedChecks": [],
+    "regressions": [],
+    "failOnInsufficientBaseline": false,
+    "thresholds": {
+      "stepP95RegressMaxPct": 120,
+      "stepP95RegressBaselineFloor": 30,
+      "stepP95RegressAbsMs": 40,
+      "sampleCountDropMaxPct": 40,
+      "trendBaselineWindow": 6,
+      "trendMinBaselinePoints": 3
+    },
+    "policy": {
+      "path": "/Users/auroboros/Code/Torus Turbo/audit-runner/research-preset-pack-trend-policy.v1.json",
+      "profile": "standard",
+      "source": "policy_file_profile"
+    }
+  }
+}

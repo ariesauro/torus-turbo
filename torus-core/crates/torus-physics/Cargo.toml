@@ -1,0 +1,12 @@
+[package]
+name = "torus-physics"
+description = "VPM physics core: particle data, simulation parameters, CPU operators"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+bytemuck = { workspace = true }
+glam = { workspace = true }
+serde = { workspace = true }
+rayon = { workspace = true }

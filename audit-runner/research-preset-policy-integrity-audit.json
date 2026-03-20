@@ -1,0 +1,61 @@
+{
+  "generatedAt": "2026-03-18T17:39:03.998Z",
+  "paths": {
+    "casePolicy": "/Users/auroboros/Code/Torus Turbo/audit-runner/research-preset-pack-case-policy.v1.json",
+    "trendPolicy": "/Users/auroboros/Code/Torus Turbo/audit-runner/research-preset-pack-trend-policy.v1.json",
+    "latestAuditJson": "/Users/auroboros/Code/Torus Turbo/audit-runner/research-preset-pack-audit.json"
+  },
+  "gate": {
+    "pass": false,
+    "checks": {
+      "case_policy_exists": true,
+      "trend_policy_exists": true,
+      "case_policy_schema_valid": true,
+      "trend_policy_schema_valid": true,
+      "policy_profiles_complete": true,
+      "policy_default_profiles_valid": true,
+      "policy_profile_sets_aligned": true,
+      "case_policy_preset_coverage": true,
+      "artifact_json_exists": true,
+      "artifact_policy_meta_present": false,
+      "artifact_policy_profiles_known": false,
+      "artifact_case_thresholds_complete": false
+    },
+    "failedChecks": [
+      "artifact_policy_meta_present",
+      "artifact_policy_profiles_known",
+      "artifact_case_thresholds_complete"
+    ]
+  },
+  "details": [
+    "PASS case_policy_exists: case policy file is readable",
+    "PASS trend_policy_exists: trend policy file is readable",
+    "PASS case_policy_schema_valid: case policy schema version matches tt052 v1",
+    "PASS trend_policy_schema_valid: trend policy schema version matches tt044 v1",
+    "PASS policy_profiles_complete: smoke/standard/nightly are present in both policies",
+    "PASS policy_default_profiles_valid: default profiles are valid",
+    "PASS policy_profile_sets_aligned: case/trend profile sets are aligned",
+    "PASS case_policy_preset_coverage: all profiles define perPreset thresholds for expected presets",
+    "PASS artifact_json_exists: research preset audit artifact exists",
+    "FAIL artifact_policy_meta_present: artifact policy meta is missing",
+    "FAIL artifact_policy_profiles_known: unknown artifact profiles case=n/a trend=standard",
+    "FAIL artifact_case_thresholds_complete: artifact missing preset thresholds: vortex_ring_collision,vortex_leapfrogging,jet_instability,turbulence_cascade,helmholtz_shear,kelvin_wave_train,reconnection_pair"
+  ],
+  "expected": {
+    "profiles": [
+      "smoke",
+      "standard",
+      "nightly"
+    ],
+    "presets": [
+      "vortex_ring_collision",
+      "vortex_leapfrogging",
+      "jet_instability",
+      "turbulence_cascade",
+      "helmholtz_shear",
+      "kelvin_wave_train",
+      "reconnection_pair"
+    ]
+  },
+  "artifactMeta": null
+}

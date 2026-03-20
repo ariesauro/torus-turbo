@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "tt067.distributed_triad_run_input.v1",
+  "generatedAt": "2026-03-18T00:00:00.000Z",
+  "network": {
+    "metrics": {
+      "rttMsP50": 9.8,
+      "rttMsP95": 16.5,
+      "jitterMsP95": 3.1,
+      "lossPct": 0.03
+    }
+  },
+  "determinism": {
+    "scenarioHash": "sha256:classic_distributed_scenario_runtime_v1",
+    "scheduleHash": "sha256:classic_distributed_schedule_runtime_v1",
+    "epochChainHash": "sha256:classic_distributed_epoch_runtime_v1"
+  },
+  "computeSplit": {
+    "policy": "runtime_domain_split.v1",
+    "partitionMapHash": "sha256:classic_distributed_partition_runtime_v1"
+  },
+  "natural": {
+    "modifiersActive": false
+  },
+  "triadRuns": [
+    {
+      "mode": "local",
+      "runId": "triad-local-001",
+      "status": "complete",
+      "metrics": {
+        "invariantDriftPct": 0.91,
+        "stepP95Ms": 98.7
+      },
+      "contracts": {
+        "ring": "pass",
+        "jet": "pass",
+        "detector": "pass",
+        "topology": "pass"
+      }
+    },
+    {
+      "mode": "server",
+      "runId": "triad-server-001",
+      "status": "complete",
+      "metrics": {
+        "invariantDriftPct": 1.42,
+        "stepP95Ms": 103.8
+      },
+      "contracts": {
+        "ring": "pass",
+        "jet": "pass",
+        "detector": "pass",
+        "topology": "pass"
+      }
+    },
+    {
+      "mode": "distributed",
+      "runId": "triad-distributed-001",
+      "status": "complete",
+      "metrics": {
+        "invariantDriftPct": 1.76,
+        "stepP95Ms": 107.9
+      },
+      "contracts": {
+        "ring": "pass",
+        "jet": "pass",
+        "detector": "pass",
+        "topology": "pass"
+      }
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+# Dual-Codebase Sync Policy
+
+## Правило
+
+Проект поддерживает два параллельных compute engine:
+1. **JS engine** (`src/simulation/physics/vpm/*.js`) — WebGPU + JS CPU fallback, работает в браузере
+2. **Rust engine** (`torus-core/crates/torus-physics/src/*.rs`) — native CPU (rayon) + native GPU (wgpu)
+
+**Оба engine должны быть синхронизированы.** При изменении физического оператора в одном — обновить другой.
+
+## Маппинг файлов
+
+| JS | Rust |
+|----|------|
+| `vpm/biotSavart.js` | `torus-physics/src/biot_savart.rs` |
+| `vpm/vortexDiffusion.js` | `torus-physics/src/pse_diffusion.rs` |
+| `vpm/vortexStretching.js` | `torus-physics/src/vortex_stretching.rs` |
+| `vpm/advection.js` | `torus-physics/src/advection.rs` |
+| `vpm/stability.js` | `torus-physics/src/stability.rs` |
+| `vpm/vorticityConfinement.js` | `torus-physics/src/vorticity_confinement.rs` |
+| `vpm/vortexReconnection.js` | `torus-physics/src/reconnection.rs` |
+| `vpm/pipeline.js` | `torus-physics/src/pipeline.rs` |
+| `webgpu/hashGridParticleComputeManager.js` | `torus-gpu/src/pipeline.rs` + `shaders/*.wgsl` |
+| `fmm/biotSavartFmm.js` | `torus-fmm/src/fmm_solver.rs` |
+| `fmm/octree.js` | `torus-fmm/src/octree.rs` |
+| `fmm/multipole.js` | `torus-fmm/src/multipole.rs` |
+
+## При изменении физики
+
+1. Изменил JS оператор → обновить соответствующий Rust файл
+2. Изменил Rust оператор → обновить соответствующий JS файл
+3. Изменил WGSL шейдер (JS inline) → обновить `.wgsl` файл в `torus-gpu/src/shaders/`
+4. Запустить `npm run core:test` после Rust изменений
+5. Запустить `npm run test:convergence` после JS изменений
+
+## Сборки
+
+| Команда | Артефакт | Engine |
+|---------|----------|--------|
+| `npm run build:web:portable` | `dist-web/index.html` | JS + WebGPU |
+| `npm run build:native` | Tauri .app/.deb | Rust + wgpu |
+| `npm run build:all` | Все 4 артефакта | Оба |
+
+## Splash screens
+
+- Native: "TORUS TURBO / Native CPU + Native GPU" + платформа
+- Web: "TORUS TURBO / WebGPU" или "CPU" (auto-detect)

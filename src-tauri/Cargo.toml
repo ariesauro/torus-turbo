@@ -1,0 +1,38 @@
+[package]
+name = "app"
+version = "0.1.0"
+description = "A Tauri App"
+authors = ["you"]
+license = ""
+repository = ""
+edition = "2021"
+rust-version = "1.77.2"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+name = "app_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2.5.6", features = [] }
+
+[features]
+default = ["web-core"]
+native-core = ["dep:torus-bridge", "dep:torus-gpu", "dep:torus-physics", "dep:wgpu", "dep:pollster", "dep:bytemuck"]
+web-core = []
+
+[dependencies]
+serde_json = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+log = "0.4"
+tauri = { version = "2.10.3", features = [] }
+tauri-plugin-log = "2"
+tauri-plugin-dialog = "2"
+tauri-plugin-fs = "2"
+torus-bridge = { path = "../torus-core/crates/torus-bridge", optional = true }
+torus-gpu = { path = "../torus-core/crates/torus-gpu", optional = true }
+torus-physics = { path = "../torus-core/crates/torus-physics", optional = true }
+wgpu = { version = "24", optional = true }
+pollster = { version = "0.4", optional = true }
+bytemuck = { version = "1", features = ["derive"], optional = true }

@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "tt067.distributed_validation_artifact_contract.v1",
+  "title": "Distributed validation artifact contract",
+  "description": "Required artifact fields for local/server/distributed parity validation contour.",
+  "placementModes": ["local", "server", "distributed"],
+  "networkEnvelopeClasses": ["eligible", "approximate", "unsupported"],
+  "thresholds": {
+    "eligible": {
+      "rttP95MsMax": 20,
+      "jitterP95MsMax": 5,
+      "lossPctMax": 0.1
+    },
+    "approximate": {
+      "rttP95MsMax": 45,
+      "jitterP95MsMax": 12,
+      "lossPctMax": 0.5
+    }
+  },
+  "requiredFields": [
+    "placement.mode",
+    "placement.policyVersion",
+    "network.envelopeClass",
+    "network.metrics.rttMsP50",
+    "network.metrics.rttMsP95",
+    "network.metrics.jitterMsP95",
+    "network.metrics.lossPct",
+    "determinism.scenarioHash",
+    "determinism.scheduleHash",
+    "determinism.epochChainHash",
+    "computeSplit.policy",
+    "computeSplit.partitionMapHash",
+    "parity.referenceRunId",
+    "parity.verdict",
+    "parity.checks"
+  ],
+  "parityVerdicts": ["parity_pass", "parity_warn", "parity_fail"],
+  "externalValidationEligibilityRule": {
+    "requiresNetworkEnvelopeClass": "eligible",
+    "requiresParityVerdict": "parity_pass",
+    "forbidNaturalActiveModifiers": true
+  }
+}

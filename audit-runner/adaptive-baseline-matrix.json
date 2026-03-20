@@ -1,0 +1,153 @@
+{
+  "generatedAt": "2026-03-17T23:24:24.242Z",
+  "inputPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/long-run-benchmark-results.json",
+  "scenarioRatios": {
+    "adaptive.low": 1,
+    "adaptive.mid": 1,
+    "adaptive.high": 0.6666666666666666
+  },
+  "matrixGate": {
+    "scenarioId": "adaptive.low",
+    "minPassRatio": 0.6666666666666666,
+    "actualPassRatio": 1,
+    "pass": true
+  },
+  "matrix": [
+    {
+      "id": "GPU:0",
+      "source": "longrun",
+      "stepP95Ms": 68.15000000596046,
+      "energyDriftPct": 95.84158252067134,
+      "circulationDriftPct": 0,
+      "pathComplexity": 0,
+      "verdicts": {
+        "adaptive.low": {
+          "ok": true,
+          "failedChecks": [],
+          "checks": {
+            "stepP95": true,
+            "energy": true,
+            "circulation": true,
+            "path": true
+          }
+        },
+        "adaptive.mid": {
+          "ok": true,
+          "failedChecks": [],
+          "checks": {
+            "stepP95": true,
+            "energy": true,
+            "circulation": true,
+            "path": true
+          }
+        },
+        "adaptive.high": {
+          "ok": false,
+          "failedChecks": [
+            "energy"
+          ],
+          "checks": {
+            "stepP95": true,
+            "energy": false,
+            "circulation": true,
+            "path": true
+          }
+        }
+      }
+    },
+    {
+      "id": "Hybrid:1",
+      "source": "longrun",
+      "stepP95Ms": 7,
+      "energyDriftPct": 0,
+      "circulationDriftPct": 0,
+      "pathComplexity": 0,
+      "verdicts": {
+        "adaptive.low": {
+          "ok": true,
+          "failedChecks": [],
+          "checks": {
+            "stepP95": true,
+            "energy": true,
+            "circulation": true,
+            "path": true
+          }
+        },
+        "adaptive.mid": {
+          "ok": true,
+          "failedChecks": [],
+          "checks": {
+            "stepP95": true,
+            "energy": true,
+            "circulation": true,
+            "path": true
+          }
+        },
+        "adaptive.high": {
+          "ok": true,
+          "failedChecks": [],
+          "checks": {
+            "stepP95": true,
+            "energy": true,
+            "circulation": true,
+            "path": true
+          }
+        }
+      }
+    },
+    {
+      "id": "Hybrid+:2",
+      "source": "longrun",
+      "stepP95Ms": 64.55000001192093,
+      "energyDriftPct": 0,
+      "circulationDriftPct": 0,
+      "pathComplexity": 0,
+      "verdicts": {
+        "adaptive.low": {
+          "ok": true,
+          "failedChecks": [],
+          "checks": {
+            "stepP95": true,
+            "energy": true,
+            "circulation": true,
+            "path": true
+          }
+        },
+        "adaptive.mid": {
+          "ok": true,
+          "failedChecks": [],
+          "checks": {
+            "stepP95": true,
+            "energy": true,
+            "circulation": true,
+            "path": true
+          }
+        },
+        "adaptive.high": {
+          "ok": true,
+          "failedChecks": [],
+          "checks": {
+            "stepP95": true,
+            "energy": true,
+            "circulation": true,
+            "path": true
+          }
+        }
+      }
+    }
+  ],
+  "scenarioSummary": {
+    "adaptive.low": {
+      "total": 3,
+      "passed": 3
+    },
+    "adaptive.mid": {
+      "total": 3,
+      "passed": 3
+    },
+    "adaptive.high": {
+      "total": 3,
+      "passed": 2
+    }
+  }
+}

@@ -1,0 +1,10 @@
+[package]
+name = "torus-net"
+description = "Network layer: domain decomposition, ghost sync, distributed FMM"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+torus-physics = { path = "../torus-physics" }
+serde = { workspace = true }

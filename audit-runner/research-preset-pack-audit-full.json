@@ -1,0 +1,179 @@
+{
+  "generatedAt": "2026-03-18T02:50:25.008Z",
+  "baseUrl": "http://localhost:5173/",
+  "durationScale": 1,
+  "rows": [
+    {
+      "presetId": "vortex_ring_collision",
+      "family": "rings",
+      "sampleCount": 25,
+      "runError": "",
+      "thresholds": {
+        "circulationDriftAbsMaxPct": 35,
+        "stepP95MsMax": 170
+      },
+      "durationSecObserved": 8,
+      "circulationDriftAbsMaxPct": 0,
+      "stepP95Ms": 77.2999999821186,
+      "gate": {
+        "pass": true,
+        "checks": {
+          "case_completed": true,
+          "samples_present": true,
+          "drift_within_limit": true,
+          "step_p95_within_limit": true
+        },
+        "failedChecks": [],
+        "notes": []
+      }
+    },
+    {
+      "presetId": "vortex_leapfrogging",
+      "family": "rings",
+      "sampleCount": 25,
+      "runError": "",
+      "thresholds": {
+        "circulationDriftAbsMaxPct": 35,
+        "stepP95MsMax": 120
+      },
+      "durationSecObserved": 8,
+      "circulationDriftAbsMaxPct": 0,
+      "stepP95Ms": 61.95000001788139,
+      "gate": {
+        "pass": true,
+        "checks": {
+          "case_completed": true,
+          "samples_present": true,
+          "drift_within_limit": true,
+          "step_p95_within_limit": true
+        },
+        "failedChecks": [],
+        "notes": []
+      }
+    },
+    {
+      "presetId": "jet_instability",
+      "family": "jets",
+      "sampleCount": 28,
+      "runError": "",
+      "thresholds": {
+        "circulationDriftAbsMaxPct": 45,
+        "stepP95MsMax": 140
+      },
+      "durationSecObserved": 9,
+      "circulationDriftAbsMaxPct": 0,
+      "stepP95Ms": 77.15000000596046,
+      "gate": {
+        "pass": true,
+        "checks": {
+          "case_completed": true,
+          "samples_present": true,
+          "drift_within_limit": true,
+          "step_p95_within_limit": true
+        },
+        "failedChecks": [],
+        "notes": []
+      }
+    },
+    {
+      "presetId": "turbulence_cascade",
+      "family": "turbulence",
+      "sampleCount": 28,
+      "runError": "",
+      "thresholds": {
+        "circulationDriftAbsMaxPct": 50,
+        "stepP95MsMax": 150
+      },
+      "durationSecObserved": 10,
+      "circulationDriftAbsMaxPct": 0,
+      "stepP95Ms": 56.79999998211861,
+      "gate": {
+        "pass": true,
+        "checks": {
+          "case_completed": true,
+          "samples_present": true,
+          "drift_within_limit": true,
+          "step_p95_within_limit": true
+        },
+        "failedChecks": [],
+        "notes": []
+      }
+    },
+    {
+      "presetId": "helmholtz_shear",
+      "family": "helmholtz",
+      "sampleCount": 26,
+      "runError": "",
+      "thresholds": {
+        "circulationDriftAbsMaxPct": 45,
+        "stepP95MsMax": 140
+      },
+      "durationSecObserved": 8,
+      "circulationDriftAbsMaxPct": 0,
+      "stepP95Ms": 7.100000023841858,
+      "gate": {
+        "pass": true,
+        "checks": {
+          "case_completed": true,
+          "samples_present": true,
+          "drift_within_limit": true,
+          "step_p95_within_limit": true
+        },
+        "failedChecks": [],
+        "notes": []
+      }
+    },
+    {
+      "presetId": "kelvin_wave_train",
+      "family": "kelvin",
+      "sampleCount": 26,
+      "runError": "",
+      "thresholds": {
+        "circulationDriftAbsMaxPct": 40,
+        "stepP95MsMax": 170
+      },
+      "durationSecObserved": 8,
+      "circulationDriftAbsMaxPct": 0,
+      "stepP95Ms": 57.29999998211861,
+      "gate": {
+        "pass": true,
+        "checks": {
+          "case_completed": true,
+          "samples_present": true,
+          "drift_within_limit": true,
+          "step_p95_within_limit": true
+        },
+        "failedChecks": [],
+        "notes": []
+      }
+    },
+    {
+      "presetId": "reconnection_pair",
+      "family": "reconnection",
+      "sampleCount": 28,
+      "runError": "",
+      "thresholds": {
+        "circulationDriftAbsMaxPct": 50,
+        "stepP95MsMax": 150
+      },
+      "durationSecObserved": 9,
+      "circulationDriftAbsMaxPct": 0,
+      "stepP95Ms": 125.80000001192093,
+      "gate": {
+        "pass": true,
+        "checks": {
+          "case_completed": true,
+          "samples_present": true,
+          "drift_within_limit": true,
+          "step_p95_within_limit": true
+        },
+        "failedChecks": [],
+        "notes": []
+      }
+    }
+  ],
+  "gate": {
+    "pass": true,
+    "failedChecks": []
+  }
+}

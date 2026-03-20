@@ -1,0 +1,254 @@
+{
+  "generatedAt": "2026-03-18T15:17:04.257Z",
+  "repeat": 4,
+  "strict": true,
+  "runs": [
+    {
+      "runIndex": 1,
+      "exitCode": 0,
+      "gatePass": true,
+      "failedChecks": [],
+      "unsafeUnsyncedTotal": 0,
+      "resultModes": [
+        {
+          "mode": "hybrid",
+          "metrics": {
+            "sampleCount": 80,
+            "gpuStepsDelta": 105,
+            "pendingRatio": 0.8,
+            "particleSpeedAvg": 18.891818366336004,
+            "filamentSpeedAvg": 32.34771034561547,
+            "speedRatioAvg": 0.5707460795798964,
+            "centerGapAvg": 0.0012627441630479528,
+            "frozenParticleWhileFilamentMovesCount": 0,
+            "frozenDecoupledStreakMax": 1,
+            "blockedUnsyncedDelta": 610,
+            "unsafeUnsyncedDelta": 0,
+            "thresholds": {
+              "minGpuStepsDelta": 5,
+              "maxPendingRatio": 0.95,
+              "maxCenterGapAvg": 0.25,
+              "maxFrozenRatio": 0.1,
+              "maxDecoupledStreak": 1,
+              "requireBlockedUnsync": true
+            }
+          }
+        },
+        {
+          "mode": "hybrid_plus",
+          "metrics": {
+            "sampleCount": 80,
+            "gpuStepsDelta": 128,
+            "pendingRatio": 0.775,
+            "particleSpeedAvg": 35.48139195224259,
+            "filamentSpeedAvg": 3.9622769659045276,
+            "speedRatioAvg": 12.128181394256998,
+            "centerGapAvg": 0.009645276780729534,
+            "frozenParticleWhileFilamentMovesCount": 6,
+            "frozenDecoupledStreakMax": 1,
+            "blockedUnsyncedDelta": 593,
+            "unsafeUnsyncedDelta": 0,
+            "thresholds": {
+              "minGpuStepsDelta": 5,
+              "maxPendingRatio": 0.95,
+              "maxCenterGapAvg": 0.25,
+              "maxFrozenRatio": 0.15,
+              "maxDecoupledStreak": 1,
+              "requireBlockedUnsync": true
+            }
+          }
+        }
+      ],
+      "stdoutTail": "Hybrid sync diagnostic: gate=PASS modes=hybrid,hybrid_plus json=./hybrid-sync-diagnostic-run-1.json md=./hybrid-sync-diagnostic-run-1.md"
+    },
+    {
+      "runIndex": 2,
+      "exitCode": 0,
+      "gatePass": true,
+      "failedChecks": [],
+      "unsafeUnsyncedTotal": 0,
+      "resultModes": [
+        {
+          "mode": "hybrid",
+          "metrics": {
+            "sampleCount": 80,
+            "gpuStepsDelta": 108,
+            "pendingRatio": 0.7875,
+            "particleSpeedAvg": 18.744533087127863,
+            "filamentSpeedAvg": 32.34753366210848,
+            "speedRatioAvg": 0.5662995025831397,
+            "centerGapAvg": 0.0008931606087497077,
+            "frozenParticleWhileFilamentMovesCount": 0,
+            "frozenDecoupledStreakMax": 1,
+            "blockedUnsyncedDelta": 612,
+            "unsafeUnsyncedDelta": 0,
+            "thresholds": {
+              "minGpuStepsDelta": 5,
+              "maxPendingRatio": 0.95,
+              "maxCenterGapAvg": 0.25,
+              "maxFrozenRatio": 0.1,
+              "maxDecoupledStreak": 1,
+              "requireBlockedUnsync": true
+            }
+          }
+        },
+        {
+          "mode": "hybrid_plus",
+          "metrics": {
+            "sampleCount": 80,
+            "gpuStepsDelta": 129,
+            "pendingRatio": 0.7625,
+            "particleSpeedAvg": 21.557492427127876,
+            "filamentSpeedAvg": 3.8467745499927632,
+            "speedRatioAvg": 7.35549277239677,
+            "centerGapAvg": 0.008859917236756611,
+            "frozenParticleWhileFilamentMovesCount": 7,
+            "frozenDecoupledStreakMax": 1,
+            "blockedUnsyncedDelta": 607,
+            "unsafeUnsyncedDelta": 0,
+            "thresholds": {
+              "minGpuStepsDelta": 5,
+              "maxPendingRatio": 0.95,
+              "maxCenterGapAvg": 0.25,
+              "maxFrozenRatio": 0.15,
+              "maxDecoupledStreak": 1,
+              "requireBlockedUnsync": true
+            }
+          }
+        }
+      ],
+      "stdoutTail": "Hybrid sync diagnostic: gate=PASS modes=hybrid,hybrid_plus json=./hybrid-sync-diagnostic-run-2.json md=./hybrid-sync-diagnostic-run-2.md"
+    },
+    {
+      "runIndex": 3,
+      "exitCode": 0,
+      "gatePass": true,
+      "failedChecks": [],
+      "unsafeUnsyncedTotal": 0,
+      "resultModes": [
+        {
+          "mode": "hybrid",
+          "metrics": {
+            "sampleCount": 80,
+            "gpuStepsDelta": 82,
+            "pendingRatio": 0.7625,
+            "particleSpeedAvg": 23.685074338068684,
+            "filamentSpeedAvg": 32.347710345615475,
+            "speedRatioAvg": 0.7155564943975741,
+            "centerGapAvg": 0.004793370716813078,
+            "frozenParticleWhileFilamentMovesCount": 0,
+            "frozenDecoupledStreakMax": 1,
+            "blockedUnsyncedDelta": 604,
+            "unsafeUnsyncedDelta": 0,
+            "thresholds": {
+              "minGpuStepsDelta": 5,
+              "maxPendingRatio": 0.95,
+              "maxCenterGapAvg": 0.25,
+              "maxFrozenRatio": 0.1,
+              "maxDecoupledStreak": 1,
+              "requireBlockedUnsync": true
+            }
+          }
+        },
+        {
+          "mode": "hybrid_plus",
+          "metrics": {
+            "sampleCount": 80,
+            "gpuStepsDelta": 144,
+            "pendingRatio": 0.775,
+            "particleSpeedAvg": 39.75742902756552,
+            "filamentSpeedAvg": 3.943860428686949,
+            "speedRatioAvg": 13.612467407965635,
+            "centerGapAvg": 0.011615350265172786,
+            "frozenParticleWhileFilamentMovesCount": 7,
+            "frozenDecoupledStreakMax": 1,
+            "blockedUnsyncedDelta": 618,
+            "unsafeUnsyncedDelta": 0,
+            "thresholds": {
+              "minGpuStepsDelta": 5,
+              "maxPendingRatio": 0.95,
+              "maxCenterGapAvg": 0.25,
+              "maxFrozenRatio": 0.15,
+              "maxDecoupledStreak": 1,
+              "requireBlockedUnsync": true
+            }
+          }
+        }
+      ],
+      "stdoutTail": "Hybrid sync diagnostic: gate=PASS modes=hybrid,hybrid_plus json=./hybrid-sync-diagnostic-run-3.json md=./hybrid-sync-diagnostic-run-3.md"
+    },
+    {
+      "runIndex": 4,
+      "exitCode": 0,
+      "gatePass": true,
+      "failedChecks": [],
+      "unsafeUnsyncedTotal": 0,
+      "resultModes": [
+        {
+          "mode": "hybrid",
+          "metrics": {
+            "sampleCount": 80,
+            "gpuStepsDelta": 73,
+            "pendingRatio": 0.7625,
+            "particleSpeedAvg": 19.22807796351616,
+            "filamentSpeedAvg": 32.347710345615475,
+            "speedRatioAvg": 0.5809049135835977,
+            "centerGapAvg": 0.001653966524872616,
+            "frozenParticleWhileFilamentMovesCount": 0,
+            "frozenDecoupledStreakMax": 1,
+            "blockedUnsyncedDelta": 583,
+            "unsafeUnsyncedDelta": 0,
+            "thresholds": {
+              "minGpuStepsDelta": 5,
+              "maxPendingRatio": 0.95,
+              "maxCenterGapAvg": 0.25,
+              "maxFrozenRatio": 0.1,
+              "maxDecoupledStreak": 1,
+              "requireBlockedUnsync": true
+            }
+          }
+        },
+        {
+          "mode": "hybrid_plus",
+          "metrics": {
+            "sampleCount": 80,
+            "gpuStepsDelta": 198,
+            "pendingRatio": 0.8625,
+            "particleSpeedAvg": 24.74933273291954,
+            "filamentSpeedAvg": 6.513069491761037,
+            "speedRatioAvg": 7.796808593753158,
+            "centerGapAvg": 0.012396805244868938,
+            "frozenParticleWhileFilamentMovesCount": 0,
+            "frozenDecoupledStreakMax": 0,
+            "blockedUnsyncedDelta": 607,
+            "unsafeUnsyncedDelta": 0,
+            "thresholds": {
+              "minGpuStepsDelta": 5,
+              "maxPendingRatio": 0.95,
+              "maxCenterGapAvg": 0.25,
+              "maxFrozenRatio": 0.15,
+              "maxDecoupledStreak": 1,
+              "requireBlockedUnsync": true
+            }
+          }
+        }
+      ],
+      "stdoutTail": "Hybrid sync diagnostic: gate=PASS modes=hybrid,hybrid_plus json=./hybrid-sync-diagnostic-run-4.json md=./hybrid-sync-diagnostic-run-4.md"
+    }
+  ],
+  "gate": {
+    "pass": true,
+    "failedChecks": []
+  },
+  "trend": {
+    "path": "/Users/auroboros/Code/Torus Turbo/audit-runner/hybrid-sync-soak-trend.json",
+    "snapshots": 2,
+    "comparedWithGeneratedAt": "2026-03-18T15:12:40.878Z",
+    "pass": true,
+    "failedChecks": [],
+    "regressions": [],
+    "thresholds": {
+      "hybridPlusFrozenP95RegressAbsMax": 2
+    }
+  }
+}

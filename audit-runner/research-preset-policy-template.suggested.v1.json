@@ -1,0 +1,232 @@
+{
+  "schemaVersion": "tt055.research_preset_policy_template.v1",
+  "generatedAt": "2026-03-18T18:41:51.881Z",
+  "source": {
+    "trendPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/research-preset-pack-trend.json",
+    "auditJsonPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/research-preset-pack-audit.json",
+    "casePolicyPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/research-preset-pack-case-policy.v1.json",
+    "trendSnapshotCount": 30
+  },
+  "notes": [
+    "Suggested template is generated from historical successful trend snapshots and latest audit drift signals.",
+    "Review suggested thresholds manually before replacing production policy values."
+  ],
+  "suggestedPolicy": {
+    "defaultProfile": "standard",
+    "profiles": {
+      "smoke": {
+        "defaults": {
+          "circulationDriftAbsMaxPct": 50,
+          "stepP95MsMax": 180
+        },
+        "perPreset": {
+          "vortex_ring_collision": {
+            "circulationDriftAbsMaxPct": 40,
+            "stepP95MsMax": 180,
+            "basedOn": {
+              "trendSampleCount": 2,
+              "trendStepP90Ms": 56.15,
+              "latestObservedDriftAbsMaxPct": 0
+            }
+          },
+          "vortex_leapfrogging": {
+            "circulationDriftAbsMaxPct": 40,
+            "stepP95MsMax": 180,
+            "basedOn": {
+              "trendSampleCount": 2,
+              "trendStepP90Ms": 107.2,
+              "latestObservedDriftAbsMaxPct": 0
+            }
+          },
+          "jet_instability": {
+            "circulationDriftAbsMaxPct": 50,
+            "stepP95MsMax": 180,
+            "basedOn": {
+              "trendSampleCount": 2,
+              "trendStepP90Ms": 76.75,
+              "latestObservedDriftAbsMaxPct": 0
+            }
+          },
+          "turbulence_cascade": {
+            "circulationDriftAbsMaxPct": 55,
+            "stepP95MsMax": 180,
+            "basedOn": {
+              "trendSampleCount": 2,
+              "trendStepP90Ms": 148.2,
+              "latestObservedDriftAbsMaxPct": 0
+            }
+          },
+          "helmholtz_shear": {
+            "circulationDriftAbsMaxPct": 50,
+            "stepP95MsMax": 180,
+            "basedOn": {
+              "trendSampleCount": 2,
+              "trendStepP90Ms": 129.1,
+              "latestObservedDriftAbsMaxPct": 0
+            }
+          },
+          "kelvin_wave_train": {
+            "circulationDriftAbsMaxPct": 45,
+            "stepP95MsMax": 180,
+            "basedOn": {
+              "trendSampleCount": 2,
+              "trendStepP90Ms": 107.4,
+              "latestObservedDriftAbsMaxPct": 0
+            }
+          },
+          "reconnection_pair": {
+            "circulationDriftAbsMaxPct": 55,
+            "stepP95MsMax": 180,
+            "basedOn": {
+              "trendSampleCount": 2,
+              "trendStepP90Ms": 108.1,
+              "latestObservedDriftAbsMaxPct": 0
+            }
+          }
+        }
+      },
+      "standard": {
+        "defaults": {
+          "circulationDriftAbsMaxPct": 45,
+          "stepP95MsMax": 170
+        },
+        "perPreset": {
+          "vortex_ring_collision": {
+            "circulationDriftAbsMaxPct": 35,
+            "stepP95MsMax": 170,
+            "basedOn": {
+              "trendSampleCount": 14,
+              "trendStepP90Ms": 109,
+              "latestObservedDriftAbsMaxPct": 0
+            }
+          },
+          "vortex_leapfrogging": {
+            "circulationDriftAbsMaxPct": 35,
+            "stepP95MsMax": 170,
+            "basedOn": {
+              "trendSampleCount": 14,
+              "trendStepP90Ms": 151.7,
+              "latestObservedDriftAbsMaxPct": 0
+            }
+          },
+          "jet_instability": {
+            "circulationDriftAbsMaxPct": 45,
+            "stepP95MsMax": 170,
+            "basedOn": {
+              "trendSampleCount": 14,
+              "trendStepP90Ms": 143.15,
+              "latestObservedDriftAbsMaxPct": 0
+            }
+          },
+          "turbulence_cascade": {
+            "circulationDriftAbsMaxPct": 50,
+            "stepP95MsMax": 150,
+            "basedOn": {
+              "trendSampleCount": 14,
+              "trendStepP90Ms": 62.7,
+              "latestObservedDriftAbsMaxPct": 0
+            }
+          },
+          "helmholtz_shear": {
+            "circulationDriftAbsMaxPct": 45,
+            "stepP95MsMax": 170,
+            "basedOn": {
+              "trendSampleCount": 14,
+              "trendStepP90Ms": 134.6,
+              "latestObservedDriftAbsMaxPct": 0
+            }
+          },
+          "kelvin_wave_train": {
+            "circulationDriftAbsMaxPct": 40,
+            "stepP95MsMax": 170,
+            "basedOn": {
+              "trendSampleCount": 14,
+              "trendStepP90Ms": 149.5,
+              "latestObservedDriftAbsMaxPct": 0
+            }
+          },
+          "reconnection_pair": {
+            "circulationDriftAbsMaxPct": 50,
+            "stepP95MsMax": 170,
+            "basedOn": {
+              "trendSampleCount": 14,
+              "trendStepP90Ms": 142.25,
+              "latestObservedDriftAbsMaxPct": 0
+            }
+          }
+        }
+      },
+      "nightly": {
+        "defaults": {
+          "circulationDriftAbsMaxPct": 40,
+          "stepP95MsMax": 165
+        },
+        "perPreset": {
+          "vortex_ring_collision": {
+            "circulationDriftAbsMaxPct": 32,
+            "stepP95MsMax": 165,
+            "basedOn": {
+              "trendSampleCount": 7,
+              "trendStepP90Ms": 148.75,
+              "latestObservedDriftAbsMaxPct": 0
+            }
+          },
+          "vortex_leapfrogging": {
+            "circulationDriftAbsMaxPct": 32,
+            "stepP95MsMax": 165,
+            "basedOn": {
+              "trendSampleCount": 7,
+              "trendStepP90Ms": 112.2,
+              "latestObservedDriftAbsMaxPct": 0
+            }
+          },
+          "jet_instability": {
+            "circulationDriftAbsMaxPct": 42,
+            "stepP95MsMax": 165,
+            "basedOn": {
+              "trendSampleCount": 7,
+              "trendStepP90Ms": 144,
+              "latestObservedDriftAbsMaxPct": 0
+            }
+          },
+          "turbulence_cascade": {
+            "circulationDriftAbsMaxPct": 48,
+            "stepP95MsMax": 145,
+            "basedOn": {
+              "trendSampleCount": 7,
+              "trendStepP90Ms": 82.3,
+              "latestObservedDriftAbsMaxPct": 0
+            }
+          },
+          "helmholtz_shear": {
+            "circulationDriftAbsMaxPct": 42,
+            "stepP95MsMax": 165,
+            "basedOn": {
+              "trendSampleCount": 7,
+              "trendStepP90Ms": 134.8,
+              "latestObservedDriftAbsMaxPct": 0
+            }
+          },
+          "kelvin_wave_train": {
+            "circulationDriftAbsMaxPct": 38,
+            "stepP95MsMax": 165,
+            "basedOn": {
+              "trendSampleCount": 7,
+              "trendStepP90Ms": 122.55,
+              "latestObservedDriftAbsMaxPct": 0
+            }
+          },
+          "reconnection_pair": {
+            "circulationDriftAbsMaxPct": 48,
+            "stepP95MsMax": 165,
+            "basedOn": {
+              "trendSampleCount": 7,
+              "trendStepP90Ms": 111.7,
+              "latestObservedDriftAbsMaxPct": 0
+            }
+          }
+        }
+      }
+    }
+  }
+}

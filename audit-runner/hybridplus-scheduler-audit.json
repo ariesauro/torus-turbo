@@ -1,0 +1,86 @@
+{
+  "generatedAt": "2026-03-17T23:25:07.709Z",
+  "baseUrl": "http://localhost:5173/",
+  "rows": [
+    {
+      "id": "balanced",
+      "title": "Balanced scheduler",
+      "sampleCount": 20,
+      "activeSeen": true,
+      "cadenceBase": 1,
+      "cadenceRuntimeMax": 1,
+      "runCountDelta": 150,
+      "skipCadenceDelta": 0,
+      "skipBudgetDelta": 0,
+      "overBudgetStreakMax": 0,
+      "idleStreakMax": 42,
+      "budgetPressureMax": 0.25,
+      "reasonBudgetGuardSeen": false,
+      "barnesAvg": 60,
+      "topologyAvg": 45.6,
+      "gate": {
+        "pass": true,
+        "checks": {
+          "active_seen": true,
+          "assist_engaged": true
+        },
+        "failedChecks": []
+      }
+    },
+    {
+      "id": "budget_guard",
+      "title": "Budget guard and shedding",
+      "sampleCount": 22,
+      "activeSeen": true,
+      "cadenceBase": 1,
+      "cadenceRuntimeMax": 3,
+      "runCountDelta": 198,
+      "skipCadenceDelta": 0,
+      "skipBudgetDelta": 0,
+      "overBudgetStreakMax": 2,
+      "idleStreakMax": 31,
+      "budgetPressureMax": 9.200000047683716,
+      "reasonBudgetGuardSeen": false,
+      "barnesAvg": 43.63636363636363,
+      "topologyAvg": 33.18181818181818,
+      "gate": {
+        "pass": true,
+        "checks": {
+          "over_budget_detected": true,
+          "scheduler_response": true,
+          "bh_shed_or_guard": true
+        },
+        "failedChecks": []
+      }
+    },
+    {
+      "id": "idle_throttle",
+      "title": "Idle adaptive throttle",
+      "sampleCount": 20,
+      "activeSeen": true,
+      "cadenceBase": 1,
+      "cadenceRuntimeMax": 3,
+      "runCountDelta": 238,
+      "skipCadenceDelta": 0,
+      "skipBudgetDelta": 0,
+      "overBudgetStreakMax": 2,
+      "idleStreakMax": 352,
+      "budgetPressureMax": 0,
+      "reasonBudgetGuardSeen": false,
+      "barnesAvg": 0,
+      "topologyAvg": 0,
+      "gate": {
+        "pass": true,
+        "checks": {
+          "idle_detected": true,
+          "idle_cadence_scale": true
+        },
+        "failedChecks": []
+      }
+    }
+  ],
+  "gate": {
+    "pass": true,
+    "failedChecks": []
+  }
+}

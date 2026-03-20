@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "tt057.research_preset_policy_drift_envelope.v1",
+  "defaultProfile": "standard",
+  "defaultStage": "default",
+  "profiles": {
+    "smoke": {
+      "stages": {
+        "lenient": {
+          "circulationDeltaAbsMaxPct": 20,
+          "stepDeltaAbsMaxMs": 35
+        },
+        "default": {
+          "circulationDeltaAbsMaxPct": 15,
+          "stepDeltaAbsMaxMs": 25
+        },
+        "strict": {
+          "circulationDeltaAbsMaxPct": 12,
+          "stepDeltaAbsMaxMs": 20
+        }
+      }
+    },
+    "standard": {
+      "stages": {
+        "lenient": {
+          "circulationDeltaAbsMaxPct": 18,
+          "stepDeltaAbsMaxMs": 30
+        },
+        "default": {
+          "circulationDeltaAbsMaxPct": 12,
+          "stepDeltaAbsMaxMs": 22
+        },
+        "strict": {
+          "circulationDeltaAbsMaxPct": 10,
+          "stepDeltaAbsMaxMs": 18
+        }
+      }
+    },
+    "nightly": {
+      "stages": {
+        "lenient": {
+          "circulationDeltaAbsMaxPct": 15,
+          "stepDeltaAbsMaxMs": 24
+        },
+        "default": {
+          "circulationDeltaAbsMaxPct": 10,
+          "stepDeltaAbsMaxMs": 18
+        },
+        "strict": {
+          "circulationDeltaAbsMaxPct": 8,
+          "stepDeltaAbsMaxMs": 14
+        }
+      }
+    }
+  }
+}

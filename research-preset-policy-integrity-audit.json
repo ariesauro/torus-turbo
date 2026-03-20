@@ -1,0 +1,66 @@
+{
+  "generatedAt": "2026-03-18T17:38:30.285Z",
+  "paths": {
+    "casePolicy": "/Users/auroboros/Code/Torus Turbo/research-preset-pack-case-policy.v1.json",
+    "trendPolicy": "/Users/auroboros/Code/Torus Turbo/research-preset-pack-trend-policy.v1.json",
+    "latestAuditJson": "/Users/auroboros/Code/Torus Turbo/research-preset-pack-audit.json"
+  },
+  "gate": {
+    "pass": false,
+    "checks": {
+      "case_policy_exists": false,
+      "trend_policy_exists": false,
+      "case_policy_schema_valid": false,
+      "trend_policy_schema_valid": false,
+      "policy_profiles_complete": false,
+      "policy_default_profiles_valid": false,
+      "policy_profile_sets_aligned": false,
+      "case_policy_preset_coverage": true,
+      "artifact_json_exists": false,
+      "artifact_policy_meta_present": true,
+      "artifact_policy_profiles_known": true,
+      "artifact_case_thresholds_complete": true
+    },
+    "failedChecks": [
+      "case_policy_exists",
+      "trend_policy_exists",
+      "case_policy_schema_valid",
+      "trend_policy_schema_valid",
+      "policy_profiles_complete",
+      "policy_default_profiles_valid",
+      "policy_profile_sets_aligned",
+      "artifact_json_exists"
+    ]
+  },
+  "details": [
+    "FAIL case_policy_exists: case policy file not found: /Users/auroboros/Code/Torus Turbo/research-preset-pack-case-policy.v1.json",
+    "FAIL trend_policy_exists: trend policy file not found: /Users/auroboros/Code/Torus Turbo/research-preset-pack-trend-policy.v1.json",
+    "FAIL case_policy_schema_valid: unexpected case schema version: n/a",
+    "FAIL trend_policy_schema_valid: unexpected trend schema version: n/a",
+    "FAIL policy_profiles_complete: missing profiles case=smoke,standard,nightly trend=smoke,standard,nightly",
+    "FAIL policy_default_profiles_valid: invalid default profiles case=n/a trend=n/a",
+    "FAIL policy_profile_sets_aligned: profile mismatch case=[] trend=[]",
+    "PASS case_policy_preset_coverage: all profiles define perPreset thresholds for expected presets",
+    "FAIL artifact_json_exists: audit artifact not found: /Users/auroboros/Code/Torus Turbo/research-preset-pack-audit.json",
+    "PASS artifact_policy_meta_present: artifact policy meta is present",
+    "PASS artifact_policy_profiles_known: artifact policy profiles are recognized",
+    "PASS artifact_case_thresholds_complete: artifact case thresholds include all expected presets"
+  ],
+  "expected": {
+    "profiles": [
+      "smoke",
+      "standard",
+      "nightly"
+    ],
+    "presets": [
+      "vortex_ring_collision",
+      "vortex_leapfrogging",
+      "jet_instability",
+      "turbulence_cascade",
+      "helmholtz_shear",
+      "kelvin_wave_train",
+      "reconnection_pair"
+    ]
+  },
+  "artifactMeta": null
+}

@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "tt067.distributed_validation_parity_audit.v1",
+  "generatedAt": "2026-03-18T00:00:00.000Z",
+  "placement": {
+    "mode": "distributed",
+    "policyVersion": "tt067.compute_split_policy.v1"
+  },
+  "network": {
+    "envelopeClass": "eligible",
+    "metrics": {
+      "rttMsP50": 11.2,
+      "rttMsP95": 18.7,
+      "jitterMsP95": 3.4,
+      "lossPct": 0.04
+    }
+  },
+  "determinism": {
+    "scenarioHash": "sha256:demo_scenario_hash_v1",
+    "scheduleHash": "sha256:demo_schedule_hash_v1",
+    "epochChainHash": "sha256:demo_epoch_chain_hash_v1"
+  },
+  "computeSplit": {
+    "policy": "domain_partition.v1",
+    "partitionMapHash": "sha256:demo_partition_map_hash_v1"
+  },
+  "triadRuns": [
+    {
+      "mode": "local",
+      "runId": "local-ref-001",
+      "status": "complete"
+    },
+    {
+      "mode": "server",
+      "runId": "server-auth-001",
+      "status": "complete"
+    },
+    {
+      "mode": "distributed",
+      "runId": "distributed-mesh-001",
+      "status": "complete"
+    }
+  ],
+  "parity": {
+    "referenceRunId": "local-ref-001",
+    "verdict": "parity_pass",
+    "checks": [
+      {
+        "id": "invariant_drift",
+        "status": "pass",
+        "value": 0.003,
+        "limit": 0.01
+      },
+      {
+        "id": "contract_parity",
+        "status": "pass",
+        "value": 1,
+        "limit": 1
+      },
+      {
+        "id": "timing_parity",
+        "status": "pass",
+        "value": 0.94,
+        "limit": 0.9
+      }
+    ]
+  },
+  "natural": {
+    "profile": "classic",
+    "modifiersActive": false
+  }
+}

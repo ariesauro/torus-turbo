@@ -1,0 +1,269 @@
+{
+  "schemaVersion": "tt070.validation_governance_audit.v1",
+  "generatedAt": "2026-03-19T09:50:27.770Z",
+  "policyPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/validation-governance-policy.v1.json",
+  "freshnessPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/validation-governance-freshness.json",
+  "activeProfile": "standard",
+  "requireFreshness": true,
+  "gate": {
+    "pass": true,
+    "checks": {
+      "policy_schema_valid": true,
+      "required_profiles_present": true,
+      "default_profile_valid": true,
+      "contour_registry_complete": true,
+      "profile_smoke_staleness_complete": true,
+      "profile_smoke_escalation_complete": true,
+      "profile_standard_staleness_complete": true,
+      "profile_standard_escalation_complete": true,
+      "profile_nightly_staleness_complete": true,
+      "profile_nightly_escalation_complete": true,
+      "profile_smoke_staleness_monotonic": true,
+      "profile_standard_staleness_monotonic": true,
+      "profile_nightly_staleness_monotonic": true,
+      "contour_fields_complete": true,
+      "freshness_present_if_required": true,
+      "no_stale_contours": true,
+      "no_unresolved_failures": true,
+      "escalation_level_acceptable": true
+    },
+    "failedChecks": []
+  },
+  "escalation": {
+    "level": 0,
+    "name": "PASS"
+  },
+  "contourStatus": [
+    {
+      "id": "C01",
+      "name": "Convergence tests",
+      "tier": 1,
+      "status": "PASS",
+      "stale": false,
+      "confirmedFail": false,
+      "daysSincePass": 0.4,
+      "lastPass": "2026-03-19T00:00:00.000Z"
+    },
+    {
+      "id": "C02",
+      "name": "Long-run benchmark (smoke)",
+      "tier": 1,
+      "status": "PASS",
+      "stale": false,
+      "confirmedFail": false,
+      "daysSincePass": 0.4,
+      "lastPass": "2026-03-19T00:00:00.000Z"
+    },
+    {
+      "id": "C03",
+      "name": "Long-run benchmark (standard)",
+      "tier": 1,
+      "status": "PASS",
+      "stale": false,
+      "confirmedFail": false,
+      "daysSincePass": 0.4,
+      "lastPass": "2026-03-19T00:00:00.000Z"
+    },
+    {
+      "id": "C04",
+      "name": "Long-run benchmark (nightly)",
+      "tier": 1,
+      "status": "PASS",
+      "stale": false,
+      "confirmedFail": false,
+      "daysSincePass": 0.4,
+      "lastPass": "2026-03-19T00:00:00.000Z"
+    },
+    {
+      "id": "C05",
+      "name": "Research preset pack (smoke)",
+      "tier": 2,
+      "status": "PASS",
+      "stale": false,
+      "confirmedFail": false,
+      "daysSincePass": 0.4,
+      "lastPass": "2026-03-19T00:00:00.000Z"
+    },
+    {
+      "id": "C06",
+      "name": "Research preset pack (nightly)",
+      "tier": 2,
+      "status": "PASS",
+      "stale": false,
+      "confirmedFail": false,
+      "daysSincePass": 0.4,
+      "lastPass": "2026-03-19T00:00:00.000Z"
+    },
+    {
+      "id": "C07",
+      "name": "Research policy integrity",
+      "tier": 2,
+      "status": "PASS",
+      "stale": false,
+      "confirmedFail": false,
+      "daysSincePass": 0.4,
+      "lastPass": "2026-03-19T00:00:00.000Z"
+    },
+    {
+      "id": "C08",
+      "name": "Research policy drift",
+      "tier": 2,
+      "status": "PASS",
+      "stale": false,
+      "confirmedFail": false,
+      "daysSincePass": 0.4,
+      "lastPass": "2026-03-19T00:00:00.000Z"
+    },
+    {
+      "id": "C09",
+      "name": "Hybrid sync diagnostic",
+      "tier": 3,
+      "status": "PASS",
+      "stale": false,
+      "confirmedFail": false,
+      "daysSincePass": 0.4,
+      "lastPass": "2026-03-19T00:00:00.000Z"
+    },
+    {
+      "id": "C10",
+      "name": "Hybrid sync soak",
+      "tier": 3,
+      "status": "PASS",
+      "stale": false,
+      "confirmedFail": false,
+      "daysSincePass": 0.4,
+      "lastPass": "2026-03-19T00:00:00.000Z"
+    },
+    {
+      "id": "C11",
+      "name": "Distributed strict chain",
+      "tier": 4,
+      "status": "PASS",
+      "stale": false,
+      "confirmedFail": false,
+      "daysSincePass": 0.4,
+      "lastPass": "2026-03-19T00:00:00.000Z"
+    },
+    {
+      "id": "C12",
+      "name": "Distributed parity trend",
+      "tier": 4,
+      "status": "PASS",
+      "stale": false,
+      "confirmedFail": false,
+      "daysSincePass": 0.4,
+      "lastPass": "2026-03-19T00:00:00.000Z"
+    },
+    {
+      "id": "C13",
+      "name": "Distributed policy integrity",
+      "tier": 4,
+      "status": "PASS",
+      "stale": false,
+      "confirmedFail": false,
+      "daysSincePass": 0.4,
+      "lastPass": "2026-03-19T00:00:00.000Z"
+    },
+    {
+      "id": "C14",
+      "name": "Classic evidence pack",
+      "tier": 4,
+      "status": "PASS",
+      "stale": false,
+      "confirmedFail": false,
+      "daysSincePass": 0.4,
+      "lastPass": "2026-03-19T00:00:00.000Z"
+    },
+    {
+      "id": "C15",
+      "name": "Classic replication",
+      "tier": 4,
+      "status": "PASS",
+      "stale": false,
+      "confirmedFail": false,
+      "daysSincePass": 0.4,
+      "lastPass": "2026-03-19T00:00:00.000Z"
+    },
+    {
+      "id": "C16",
+      "name": "FMM benchmark matrix",
+      "tier": 5,
+      "status": "PASS",
+      "stale": false,
+      "confirmedFail": false,
+      "daysSincePass": 0.4,
+      "lastPass": "2026-03-19T00:00:00.000Z"
+    },
+    {
+      "id": "C17",
+      "name": "Turbulence breakdown",
+      "tier": 5,
+      "status": "PASS",
+      "stale": false,
+      "confirmedFail": false,
+      "daysSincePass": 0.4,
+      "lastPass": "2026-03-19T00:00:00.000Z"
+    },
+    {
+      "id": "C18",
+      "name": "Physical realism baseline",
+      "tier": 5,
+      "status": "PASS",
+      "stale": false,
+      "confirmedFail": false,
+      "daysSincePass": 0.4,
+      "lastPass": "2026-03-19T00:00:00.000Z"
+    },
+    {
+      "id": "C19",
+      "name": "Adaptive resolution matrix",
+      "tier": 5,
+      "status": "PASS",
+      "stale": false,
+      "confirmedFail": false,
+      "daysSincePass": 0.4,
+      "lastPass": "2026-03-19T00:00:00.000Z"
+    },
+    {
+      "id": "C20",
+      "name": "Extended physics matrix",
+      "tier": 5,
+      "status": "PASS",
+      "stale": false,
+      "confirmedFail": false,
+      "daysSincePass": 0.4,
+      "lastPass": "2026-03-19T00:00:00.000Z"
+    }
+  ],
+  "details": [
+    "PASS policy_schema_valid: policy schema version matches v1",
+    "PASS required_profiles_present: required profiles present (smoke/standard/nightly)",
+    "PASS default_profile_valid: default profile valid (standard)",
+    "PASS contour_registry_complete: 20 contours registered (>= 20)",
+    "PASS profile_smoke_staleness_complete: profile smoke: all tier staleness thresholds present",
+    "PASS profile_smoke_escalation_complete: profile smoke: escalation policy complete",
+    "PASS profile_standard_staleness_complete: profile standard: all tier staleness thresholds present",
+    "PASS profile_standard_escalation_complete: profile standard: escalation policy complete",
+    "PASS profile_nightly_staleness_complete: profile nightly: all tier staleness thresholds present",
+    "PASS profile_nightly_escalation_complete: profile nightly: escalation policy complete",
+    "PASS profile_smoke_staleness_monotonic: profile smoke: tier staleness monotonic (tier1 <= tier2 <= ... <= tier5)",
+    "PASS profile_standard_staleness_monotonic: profile standard: tier staleness monotonic (tier1 <= tier2 <= ... <= tier5)",
+    "PASS profile_nightly_staleness_monotonic: profile nightly: tier staleness monotonic (tier1 <= tier2 <= ... <= tier5)",
+    "PASS contour_fields_complete: all contours have required fields (id, name, tier, cadence, command)",
+    "PASS freshness_present_if_required: freshness log present",
+    "PASS no_stale_contours: all contours within freshness bounds",
+    "PASS no_unresolved_failures: no confirmed (Level 2+) failures",
+    "PASS escalation_level_acceptable: escalation level 0 (PASS) is acceptable"
+  ],
+  "observed": {
+    "policySchemaVersion": "tt070.validation_governance_policy.v1",
+    "policyDefaultProfile": "standard",
+    "policyProfiles": [
+      "smoke",
+      "standard",
+      "nightly"
+    ],
+    "contourCount": 20,
+    "freshnessPresent": true
+  }
+}

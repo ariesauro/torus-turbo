@@ -1,0 +1,14 @@
+[package]
+name = "torus-bridge"
+description = "Tauri FFI bridge: IPC commands, state serialization, event streaming"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+torus-physics = { path = "../torus-physics" }
+torus-gpu = { path = "../torus-gpu" }
+torus-fmm = { path = "../torus-fmm" }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tauri = "2.10"

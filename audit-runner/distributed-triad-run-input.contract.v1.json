@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "tt067.distributed_triad_run_input_contract.v1",
+  "title": "Distributed triad run input contract",
+  "description": "Input contract for local/server/distributed runtime triad payload consumed by distributed parity artifact builder.",
+  "requiredRootFields": [
+    "schemaVersion",
+    "generatedAt",
+    "network.metrics.rttMsP95",
+    "network.metrics.jitterMsP95",
+    "network.metrics.lossPct",
+    "determinism.scenarioHash",
+    "determinism.scheduleHash",
+    "determinism.epochChainHash",
+    "computeSplit.policy",
+    "computeSplit.partitionMapHash",
+    "natural.modifiersActive",
+    "triadRuns"
+  ],
+  "requiredTriadModes": ["local", "server", "distributed"],
+  "requiredTriadRunFields": [
+    "mode",
+    "runId",
+    "status",
+    "metrics.invariantDriftPct",
+    "metrics.stepP95Ms",
+    "contracts.ring",
+    "contracts.jet",
+    "contracts.detector",
+    "contracts.topology"
+  ],
+  "acceptedStatuses": ["complete", "incomplete"]
+}

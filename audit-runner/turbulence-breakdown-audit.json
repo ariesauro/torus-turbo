@@ -1,0 +1,202 @@
+{
+  "generatedAt": "2026-03-18T02:18:18.402Z",
+  "baseUrl": "http://localhost:5173/",
+  "rows": [
+    {
+      "backend": "cpu",
+      "scenario": "single_pulse",
+      "sampleCount": 60,
+      "runError": "",
+      "thresholds": {
+        "circulationDriftAbsMaxPct": 7,
+        "sigmaOverRMin": 0.03,
+        "sigmaOverRMax": 0.35
+      },
+      "circulationDriftAbsMaxPct": 0,
+      "sigmaOverRMinObserved": null,
+      "sigmaOverRMaxObserved": null,
+      "dispatchPendingMaxStreak": 0,
+      "gpuStepsDelta": 0,
+      "dispatchStuck": false,
+      "gate": {
+        "pass": true,
+        "checks": {
+          "case_completed": true,
+          "metrics_present": true,
+          "drift_within_limit": true,
+          "sigma_min_ok": true,
+          "sigma_max_ok": true,
+          "gpu_dispatch_not_stuck": true
+        },
+        "failedChecks": [],
+        "notes": [
+          "sigma_metric_unavailable_in_runtime_params"
+        ]
+      }
+    },
+    {
+      "backend": "cpu",
+      "scenario": "pulse_train",
+      "sampleCount": 30,
+      "runError": "",
+      "thresholds": {
+        "circulationDriftAbsMaxPct": 12,
+        "sigmaOverRMin": 0.03,
+        "sigmaOverRMax": 0.4
+      },
+      "circulationDriftAbsMaxPct": 0,
+      "sigmaOverRMinObserved": null,
+      "sigmaOverRMaxObserved": null,
+      "dispatchPendingMaxStreak": 0,
+      "gpuStepsDelta": 0,
+      "dispatchStuck": false,
+      "gate": {
+        "pass": true,
+        "checks": {
+          "case_completed": true,
+          "metrics_present": true,
+          "drift_within_limit": true,
+          "sigma_min_ok": true,
+          "sigma_max_ok": true,
+          "gpu_dispatch_not_stuck": true
+        },
+        "failedChecks": [],
+        "notes": [
+          "sigma_metric_unavailable_in_runtime_params"
+        ]
+      }
+    },
+    {
+      "backend": "cpu",
+      "scenario": "long_run",
+      "sampleCount": 60,
+      "runError": "",
+      "thresholds": {
+        "circulationDriftAbsMaxPct": 18,
+        "sigmaOverRMin": 0.02,
+        "sigmaOverRMax": 0.45
+      },
+      "circulationDriftAbsMaxPct": 0,
+      "sigmaOverRMinObserved": null,
+      "sigmaOverRMaxObserved": null,
+      "dispatchPendingMaxStreak": 0,
+      "gpuStepsDelta": 0,
+      "dispatchStuck": false,
+      "gate": {
+        "pass": true,
+        "checks": {
+          "case_completed": true,
+          "metrics_present": true,
+          "drift_within_limit": true,
+          "sigma_min_ok": true,
+          "sigma_max_ok": true,
+          "gpu_dispatch_not_stuck": true
+        },
+        "failedChecks": [],
+        "notes": [
+          "sigma_metric_unavailable_in_runtime_params"
+        ]
+      }
+    },
+    {
+      "backend": "gpu",
+      "scenario": "single_pulse",
+      "sampleCount": 60,
+      "runError": "",
+      "thresholds": {
+        "circulationDriftAbsMaxPct": 7,
+        "sigmaOverRMin": 0.03,
+        "sigmaOverRMax": 0.35
+      },
+      "circulationDriftAbsMaxPct": 0,
+      "sigmaOverRMinObserved": null,
+      "sigmaOverRMaxObserved": null,
+      "dispatchPendingMaxStreak": 60,
+      "gpuStepsDelta": 1183,
+      "dispatchStuck": false,
+      "gate": {
+        "pass": true,
+        "checks": {
+          "case_completed": true,
+          "metrics_present": true,
+          "drift_within_limit": true,
+          "sigma_min_ok": true,
+          "sigma_max_ok": true,
+          "gpu_dispatch_not_stuck": true
+        },
+        "failedChecks": [],
+        "notes": [
+          "sigma_metric_unavailable_in_runtime_params"
+        ]
+      }
+    },
+    {
+      "backend": "gpu",
+      "scenario": "pulse_train",
+      "sampleCount": 120,
+      "runError": "",
+      "thresholds": {
+        "circulationDriftAbsMaxPct": 12,
+        "sigmaOverRMin": 0.03,
+        "sigmaOverRMax": 0.4
+      },
+      "circulationDriftAbsMaxPct": 0,
+      "sigmaOverRMinObserved": null,
+      "sigmaOverRMaxObserved": null,
+      "dispatchPendingMaxStreak": 15,
+      "gpuStepsDelta": 631,
+      "dispatchStuck": false,
+      "gate": {
+        "pass": true,
+        "checks": {
+          "case_completed": true,
+          "metrics_present": true,
+          "drift_within_limit": true,
+          "sigma_min_ok": true,
+          "sigma_max_ok": true,
+          "gpu_dispatch_not_stuck": true
+        },
+        "failedChecks": [],
+        "notes": [
+          "sigma_metric_unavailable_in_runtime_params"
+        ]
+      }
+    },
+    {
+      "backend": "gpu",
+      "scenario": "long_run",
+      "sampleCount": 240,
+      "runError": "",
+      "thresholds": {
+        "circulationDriftAbsMaxPct": 18,
+        "sigmaOverRMin": 0.02,
+        "sigmaOverRMax": 0.45
+      },
+      "circulationDriftAbsMaxPct": 0,
+      "sigmaOverRMinObserved": null,
+      "sigmaOverRMaxObserved": null,
+      "dispatchPendingMaxStreak": 1,
+      "gpuStepsDelta": 1072,
+      "dispatchStuck": false,
+      "gate": {
+        "pass": true,
+        "checks": {
+          "case_completed": true,
+          "metrics_present": true,
+          "drift_within_limit": true,
+          "sigma_min_ok": true,
+          "sigma_max_ok": true,
+          "gpu_dispatch_not_stuck": true
+        },
+        "failedChecks": [],
+        "notes": [
+          "sigma_metric_unavailable_in_runtime_params"
+        ]
+      }
+    }
+  ],
+  "gate": {
+    "pass": true,
+    "failedChecks": []
+  }
+}

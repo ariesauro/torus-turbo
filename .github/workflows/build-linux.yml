@@ -1,0 +1,81 @@
+name: Build Linux x64
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'src-tauri/**'
+      - 'torus-core/**'
+      - 'package.json'
+      - 'vite.config.*'
+      - '.github/workflows/build-linux.yml'
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build-linux-x64:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libwebkit2gtk-4.1-dev \
+            libgtk-3-dev \
+            libayatana-appindicator3-dev \
+            librsvg2-dev \
+            patchelf
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: 1.77.2
+
+      - name: Cache Rust
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            torus-core/target
+            src-tauri/target
+          key: linux-x64-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: linux-x64-cargo-
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Build Rust core
+        run: cargo build --release --manifest-path torus-core/Cargo.toml
+
+      - name: Build frontend
+        run: npm run build
+
+      - name: Build Tauri app
+        run: npx tauri build --features native-core
+
+      - name: Prepare release artifacts
+        run: |
+          mkdir -p release-linux
+          cp src-tauri/target/release/bundle/deb/*.deb release-linux/ 2>/dev/null || true
+          cp src-tauri/target/release/bundle/appimage/*.AppImage release-linux/ 2>/dev/null || true
+          cp src-tauri/target/release/bundle/rpm/*.rpm release-linux/ 2>/dev/null || true
+
+      - name: Upload Linux artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: torus-turbo-linux-x64
+          path: release-linux/*
+          retention-days: 30

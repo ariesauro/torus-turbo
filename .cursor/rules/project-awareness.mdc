@@ -1,0 +1,31 @@
+---
+description: Project awareness and navigation shortcuts
+alwaysApply: true
+---
+
+# Project Awareness
+
+## Быстрая навигация
+
+- Физика (текущая): `docs/ROADMAP_V2.md` — 4 фазы, emergence score, critical path
+- PM/задачи: `docs/ROADMAP.md` + `docs/TASKS.md`
+- Контекст: `docs/PROJECT_CONTEXT.md` — сжатое состояние проекта
+- Правила: `RULES.md` — единые правила, conservation laws, dual-codebase policy
+- Dashboard: `dev/dashboard.html` — визуальное состояние + Physics Integrity блок
+
+## Ключевые точки входа в код
+
+- VPM pipeline: `src/simulation/physics/vpm/pipeline.js`
+- Particle orchestrator: `src/simulation/physics/updateParticles.js`
+- Filament solver: `src/simulation/filaments/filamentSolver.js`
+- GPU pipeline: `src/simulation/physics/webgpu/hashGridParticleComputeManager.js`
+- Emission: `src/simulation/physics/emission/emitParticles.js`
+- State: `src/state/simulationStore.js`
+
+## Приоритет задач
+
+Phase 1 из ROADMAP_V2 (Fix Physics) блокирует всё остальное:
+1. P1.1 — PSE diffusion (`vpm/vortexDiffusion.js`)
+2. P1.2 — Proper stretching (`vpm/vortexStretching.js`)
+3. P1.3 — Remove energy clamps (`vpm/stability.js`)
+4. P1.4 — Circulation conservation

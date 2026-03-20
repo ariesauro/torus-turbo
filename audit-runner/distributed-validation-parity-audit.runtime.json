@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "tt067.distributed_validation_parity_audit.v1",
+  "generatedAt": "2026-03-18T23:56:12.177Z",
+  "source": {
+    "mode": "runtime_triad_input",
+    "contractAuditPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/distributed-validation-contract-audit.json",
+    "evidencePackPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/classic-external-validation-evidence-pack.json",
+    "replicationAuditPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/classic-replication-audit-report.json",
+    "policyPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/distributed-parity-policy.v1.json",
+    "triadInputPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/distributed-triad-run-input.json"
+  },
+  "placement": {
+    "mode": "distributed",
+    "policyVersion": "tt067.compute_split_policy.v1"
+  },
+  "network": {
+    "envelopeClass": "eligible",
+    "metrics": {
+      "rttMsP50": 9.8,
+      "rttMsP95": 16.5,
+      "jitterMsP95": 3.1,
+      "lossPct": 0.03
+    }
+  },
+  "determinism": {
+    "scenarioHash": "sha256:classic_distributed_scenario_runtime_v1",
+    "scheduleHash": "sha256:classic_distributed_schedule_runtime_v1",
+    "epochChainHash": "sha256:classic_distributed_epoch_runtime_v1"
+  },
+  "computeSplit": {
+    "policy": "runtime_domain_split.v1",
+    "partitionMapHash": "sha256:classic_distributed_partition_runtime_v1"
+  },
+  "triadRuns": [
+    {
+      "mode": "local",
+      "runId": "triad-local-001",
+      "status": "complete"
+    },
+    {
+      "mode": "server",
+      "runId": "triad-server-001",
+      "status": "complete"
+    },
+    {
+      "mode": "distributed",
+      "runId": "triad-distributed-001",
+      "status": "complete"
+    }
+  ],
+  "parity": {
+    "referenceRunId": "triad-local-001",
+    "verdict": "parity_pass",
+    "policy": {
+      "schemaVersion": "tt067.distributed_parity_policy.v1",
+      "profile": "standard"
+    },
+    "checks": [
+      {
+        "id": "invariant_drift",
+        "status": "pass",
+        "value": 0.0085,
+        "limit": 0.02
+      },
+      {
+        "id": "contract_parity",
+        "status": "pass",
+        "value": 1,
+        "limit": 1
+      },
+      {
+        "id": "timing_parity",
+        "status": "pass",
+        "value": 0.9067882472137792,
+        "limit": 0.9
+      }
+    ]
+  },
+  "natural": {
+    "profile": "classic",
+    "modifiersActive": false
+  }
+}

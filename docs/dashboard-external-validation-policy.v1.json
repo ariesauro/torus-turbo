@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "tt062.dashboard_external_validation_policy.v1",
+  "title": "Dashboard external validation policy",
+  "criteria": [
+    {
+      "id": "audit_pack_reproducible",
+      "label": {
+        "ru": "Reproducible audit pack",
+        "en": "Reproducible audit pack"
+      },
+      "taskIds": ["TT-037", "TT-038", "TT-039", "TT-040", "TT-041", "TT-042"],
+      "requiredDoneRatio": 1
+    },
+    {
+      "id": "independent_solver_replication",
+      "label": {
+        "ru": "Independent solver replication",
+        "en": "Independent solver replication"
+      },
+      "status": "TODO"
+    },
+    {
+      "id": "cfd_experimental_cross_validation",
+      "label": {
+        "ru": "CFD/experimental cross-validation envelope",
+        "en": "CFD/experimental cross-validation envelope"
+      },
+      "status": "TODO"
+    }
+  ]
+}

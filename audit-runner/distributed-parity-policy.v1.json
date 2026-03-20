@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "tt067.distributed_parity_policy.v1",
+  "title": "Distributed parity policy",
+  "defaultProfile": "standard",
+  "profiles": {
+    "smoke": {
+      "invariantDriftDeltaMaxPct": 3.0,
+      "timingStepP95DeltaMaxPct": 15.0,
+      "networkEligible": {
+        "rttMsP95Max": 25.0,
+        "jitterMsP95Max": 7.0,
+        "lossPctMax": 0.15
+      }
+    },
+    "standard": {
+      "invariantDriftDeltaMaxPct": 2.0,
+      "timingStepP95DeltaMaxPct": 10.0,
+      "networkEligible": {
+        "rttMsP95Max": 20.0,
+        "jitterMsP95Max": 5.0,
+        "lossPctMax": 0.1
+      }
+    },
+    "nightly": {
+      "invariantDriftDeltaMaxPct": 1.5,
+      "timingStepP95DeltaMaxPct": 8.0,
+      "networkEligible": {
+        "rttMsP95Max": 18.0,
+        "jitterMsP95Max": 4.0,
+        "lossPctMax": 0.08
+      }
+    }
+  },
+  "trend": {
+    "historyMax": 80,
+    "regress": {
+      "failOnCheckStatusDrop": true,
+      "maxInvariantDriftDeltaIncreasePct": 0.5,
+      "maxTimingParityDrop": 0.05
+    }
+  }
+}

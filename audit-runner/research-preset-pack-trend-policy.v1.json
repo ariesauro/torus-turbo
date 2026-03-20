@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "tt044.research_preset_trend_policy.v1",
+  "defaultProfile": "standard",
+  "profiles": {
+    "smoke": {
+      "stepP95RegressMaxPct": 150,
+      "stepP95RegressBaselineFloor": 30,
+      "stepP95RegressAbsMs": 60,
+      "sampleCountDropMaxPct": 45,
+      "trendBaselineWindow": 6,
+      "trendMinBaselinePoints": 3
+    },
+    "standard": {
+      "stepP95RegressMaxPct": 120,
+      "stepP95RegressBaselineFloor": 30,
+      "stepP95RegressAbsMs": 40,
+      "sampleCountDropMaxPct": 40,
+      "trendBaselineWindow": 6,
+      "trendMinBaselinePoints": 3
+    },
+    "nightly": {
+      "stepP95RegressMaxPct": 90,
+      "stepP95RegressBaselineFloor": 30,
+      "stepP95RegressAbsMs": 25,
+      "sampleCountDropMaxPct": 25,
+      "trendBaselineWindow": 10,
+      "trendMinBaselinePoints": 4
+    }
+  }
+}

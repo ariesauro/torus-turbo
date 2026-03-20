@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "tt070.validation_governance_policy.v1",
+  "defaultProfile": "standard",
+  "profiles": {
+    "smoke": {
+      "maxStalenessDays": {
+        "tier1": 14,
+        "tier2": 30,
+        "tier3": 30,
+        "tier4": 60,
+        "tier5": 60
+      },
+      "escalation": {
+        "retryWindowHours": 48,
+        "strictDeadlineHours": 168,
+        "freezeThreshold": {
+          "tier1FailCount": 2,
+          "tier12ConfirmedFailCount": 3
+        }
+      }
+    },
+    "standard": {
+      "maxStalenessDays": {
+        "tier1": 7,
+        "tier2": 14,
+        "tier3": 14,
+        "tier4": 30,
+        "tier5": 30
+      },
+      "escalation": {
+        "retryWindowHours": 24,
+        "strictDeadlineHours": 72,
+        "freezeThreshold": {
+          "tier1FailCount": 1,
+          "tier12ConfirmedFailCount": 2
+        }
+      }
+    },
+    "nightly": {
+      "maxStalenessDays": {
+        "tier1": 3,
+        "tier2": 7,
+        "tier3": 7,
+        "tier4": 14,
+        "tier5": 14
+      },
+      "escalation": {
+        "retryWindowHours": 12,
+        "strictDeadlineHours": 48,
+        "freezeThreshold": {
+          "tier1FailCount": 1,
+          "tier12ConfirmedFailCount": 2
+        }
+      }
+    }
+  },
+  "contours": {
+    "C01": { "id": "C01", "name": "Convergence tests", "tier": 1, "cadence": "on-commit", "command": "npm run test:convergence" },
+    "C02": { "id": "C02", "name": "Long-run benchmark (smoke)", "tier": 1, "cadence": "smoke", "command": "benchmark:longrun:smoke" },
+    "C03": { "id": "C03", "name": "Long-run benchmark (standard)", "tier": 1, "cadence": "standard", "command": "benchmark:longrun:standard:controlled" },
+    "C04": { "id": "C04", "name": "Long-run benchmark (nightly)", "tier": 1, "cadence": "nightly", "command": "benchmark:longrun:nightly:controlled" },
+    "C05": { "id": "C05", "name": "Research preset pack (smoke)", "tier": 2, "cadence": "smoke", "command": "benchmark:research:presetpack:trend:smoke:ci" },
+    "C06": { "id": "C06", "name": "Research preset pack (nightly)", "tier": 2, "cadence": "nightly", "command": "benchmark:research:presetpack:trend:nightly:strict-baseline:ci" },
+    "C07": { "id": "C07", "name": "Research policy integrity", "tier": 2, "cadence": "smoke", "command": "benchmark:research:presetpack:policy:integrity:ci" },
+    "C08": { "id": "C08", "name": "Research policy drift", "tier": 2, "cadence": "smoke", "command": "benchmark:research:presetpack:policy:drift:smoke:ci" },
+    "C09": { "id": "C09", "name": "Hybrid sync diagnostic", "tier": 3, "cadence": "standard", "command": "benchmark:hybrid:syncdiag:ci" },
+    "C10": { "id": "C10", "name": "Hybrid sync soak", "tier": 3, "cadence": "nightly", "command": "benchmark:hybrid:syncdiag:soak:trend:ci" },
+    "C11": { "id": "C11", "name": "Distributed strict chain", "tier": 4, "cadence": "nightly", "command": "benchmark:distributed:strict:ci" },
+    "C12": { "id": "C12", "name": "Distributed parity trend", "tier": 4, "cadence": "nightly", "command": "benchmark:distributed:parity:trend:ci" },
+    "C13": { "id": "C13", "name": "Distributed policy integrity", "tier": 4, "cadence": "nightly", "command": "benchmark:distributed:policy:integrity:ci" },
+    "C14": { "id": "C14", "name": "Classic evidence pack", "tier": 4, "cadence": "nightly", "command": "benchmark:classic:evidencepack:ci" },
+    "C15": { "id": "C15", "name": "Classic replication", "tier": 4, "cadence": "nightly", "command": "benchmark:classic:replication:ci" },
+    "C16": { "id": "C16", "name": "FMM benchmark matrix", "tier": 5, "cadence": "standard", "command": "benchmark:fmm:matrix:ci" },
+    "C17": { "id": "C17", "name": "Turbulence breakdown", "tier": 5, "cadence": "standard", "command": "benchmark:turbulence:breakdown:ci" },
+    "C18": { "id": "C18", "name": "Physical realism baseline", "tier": 5, "cadence": "standard", "command": "benchmark:physical:baseline:ci" },
+    "C19": { "id": "C19", "name": "Adaptive resolution matrix", "tier": 5, "cadence": "standard", "command": "benchmark:adaptive:matrix:ci" },
+    "C20": { "id": "C20", "name": "Extended physics matrix", "tier": 5, "cadence": "standard", "command": "benchmark:physics:matrix:ci" }
+  }
+}

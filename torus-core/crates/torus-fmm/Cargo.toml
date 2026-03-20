@@ -1,0 +1,11 @@
+[package]
+name = "torus-fmm"
+description = "Fast Multipole Method: octree, multipole expansion, tree walk traversal"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+torus-physics = { path = "../torus-physics" }
+glam = { workspace = true }
+rayon = { workspace = true }

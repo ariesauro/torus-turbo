@@ -1,0 +1,890 @@
+{
+  "updatedAt": "2026-03-17T23:24:23.818Z",
+  "snapshots": [
+    {
+      "generatedAt": "2026-03-17T14:56:49.467Z",
+      "profile": "smoke",
+      "hardwareClass": "mid",
+      "verdictCounts": {
+        "PASS": 0,
+        "WARN": 0,
+        "FAIL": 3
+      },
+      "byMode": [
+        {
+          "mode": "GPU",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "overrideFallbackStormCountMax",
+            "overrideInvariantGuardCountMax"
+          ]
+        },
+        {
+          "mode": "Hybrid",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "driftSeverityP95RegressPct",
+            "overrideInvariantGuardCountMax"
+          ]
+        },
+        {
+          "mode": "Hybrid+",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "overrideInvariantGuardCountMax"
+          ]
+        }
+      ]
+    },
+    {
+      "generatedAt": "2026-03-17T15:01:00.762Z",
+      "profile": "smoke",
+      "hardwareClass": "mid",
+      "verdictCounts": {
+        "PASS": 0,
+        "WARN": 0,
+        "FAIL": 3
+      },
+      "byMode": [
+        {
+          "mode": "GPU",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "overrideFallbackStormCountMax",
+            "overrideInvariantGuardCountMax"
+          ]
+        },
+        {
+          "mode": "Hybrid",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "overrideInvariantGuardCountMax"
+          ]
+        },
+        {
+          "mode": "Hybrid+",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "overrideInvariantGuardCountMax"
+          ]
+        }
+      ]
+    },
+    {
+      "generatedAt": "2026-03-17T15:04:28.762Z",
+      "profile": "smoke",
+      "hardwareClass": "mid",
+      "verdictCounts": {
+        "PASS": 0,
+        "WARN": 0,
+        "FAIL": 3
+      },
+      "byMode": [
+        {
+          "mode": "GPU",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "overrideFallbackStormCountMax",
+            "overrideInvariantGuardCountMax"
+          ]
+        },
+        {
+          "mode": "Hybrid",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "overrideInvariantGuardCountMax"
+          ]
+        },
+        {
+          "mode": "Hybrid+",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "overrideInvariantGuardCountMax"
+          ]
+        }
+      ]
+    },
+    {
+      "generatedAt": "2026-03-17T15:07:54.095Z",
+      "profile": "smoke",
+      "hardwareClass": "mid",
+      "verdictCounts": {
+        "PASS": 0,
+        "WARN": 0,
+        "FAIL": 3
+      },
+      "byMode": [
+        {
+          "mode": "GPU",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "overrideFallbackStormCountMax",
+            "overrideInvariantGuardCountMax"
+          ]
+        },
+        {
+          "mode": "Hybrid",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "overrideInvariantGuardCountMax"
+          ]
+        },
+        {
+          "mode": "Hybrid+",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "overrideInvariantGuardCountMax"
+          ]
+        }
+      ]
+    },
+    {
+      "generatedAt": "2026-03-17T15:11:38.908Z",
+      "profile": "smoke",
+      "hardwareClass": "mid",
+      "verdictCounts": {
+        "PASS": 3,
+        "WARN": 0,
+        "FAIL": 0
+      },
+      "byMode": [
+        {
+          "mode": "GPU",
+          "verdict": "PASS",
+          "failedChecks": []
+        },
+        {
+          "mode": "Hybrid",
+          "verdict": "PASS",
+          "failedChecks": []
+        },
+        {
+          "mode": "Hybrid+",
+          "verdict": "PASS",
+          "failedChecks": []
+        }
+      ]
+    },
+    {
+      "generatedAt": "2026-03-17T15:15:43.819Z",
+      "profile": "smoke",
+      "hardwareClass": "mid",
+      "verdictCounts": {
+        "PASS": 2,
+        "WARN": 0,
+        "FAIL": 1
+      },
+      "byMode": [
+        {
+          "mode": "GPU",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "overrideFallbackStormCountMax"
+          ]
+        },
+        {
+          "mode": "Hybrid",
+          "verdict": "PASS",
+          "failedChecks": []
+        },
+        {
+          "mode": "Hybrid+",
+          "verdict": "PASS",
+          "failedChecks": []
+        }
+      ]
+    },
+    {
+      "generatedAt": "2026-03-17T15:22:16.567Z",
+      "profile": "smoke",
+      "hardwareClass": "mid",
+      "verdictCounts": {
+        "PASS": 2,
+        "WARN": 0,
+        "FAIL": 1
+      },
+      "byMode": [
+        {
+          "mode": "GPU",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "overrideFallbackStormCountMax"
+          ]
+        },
+        {
+          "mode": "Hybrid",
+          "verdict": "PASS",
+          "failedChecks": []
+        },
+        {
+          "mode": "Hybrid+",
+          "verdict": "PASS",
+          "failedChecks": []
+        }
+      ]
+    },
+    {
+      "generatedAt": "2026-03-17T15:24:45.495Z",
+      "profile": "smoke",
+      "hardwareClass": "mid",
+      "verdictCounts": {
+        "PASS": 1,
+        "WARN": 0,
+        "FAIL": 0
+      },
+      "byMode": [
+        {
+          "mode": "GPU",
+          "verdict": "PASS",
+          "failedChecks": []
+        }
+      ]
+    },
+    {
+      "generatedAt": "2026-03-17T15:40:00.267Z",
+      "profile": "standard",
+      "hardwareClass": "mid",
+      "verdictCounts": {
+        "PASS": 0,
+        "WARN": 0,
+        "FAIL": 3
+      },
+      "byMode": [
+        {
+          "mode": "GPU",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "overrideInvariantGuardCountMax"
+          ]
+        },
+        {
+          "mode": "Hybrid",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "driftSeverityP95AbsMax",
+            "overrideInvariantGuardCountMax"
+          ]
+        },
+        {
+          "mode": "Hybrid+",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "driftSeverityP95AbsMax",
+            "overrideInvariantGuardCountMax"
+          ]
+        }
+      ]
+    },
+    {
+      "generatedAt": "2026-03-17T15:45:16.898Z",
+      "profile": "standard",
+      "hardwareClass": "mid",
+      "verdictCounts": {
+        "PASS": 0,
+        "WARN": 0,
+        "FAIL": 3
+      },
+      "byMode": [
+        {
+          "mode": "GPU",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "overrideInvariantGuardCountMax"
+          ]
+        },
+        {
+          "mode": "Hybrid",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "driftSeverityP95AbsMax",
+            "overrideFallbackStormCountMax",
+            "overrideInvariantGuardCountMax"
+          ]
+        },
+        {
+          "mode": "Hybrid+",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "driftSeverityP95AbsMax",
+            "overrideInvariantGuardCountMax"
+          ]
+        }
+      ]
+    },
+    {
+      "generatedAt": "2026-03-17T15:49:20.589Z",
+      "profile": "standard",
+      "hardwareClass": "mid",
+      "verdictCounts": {
+        "PASS": 0,
+        "WARN": 0,
+        "FAIL": 3
+      },
+      "byMode": [
+        {
+          "mode": "GPU",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "overrideInvariantGuardCountMax"
+          ]
+        },
+        {
+          "mode": "Hybrid",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "driftSeverityP95AbsMax",
+            "overrideInvariantGuardCountMax"
+          ]
+        },
+        {
+          "mode": "Hybrid+",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "driftSeverityP95AbsMax",
+            "overrideInvariantGuardCountMax"
+          ]
+        }
+      ]
+    },
+    {
+      "generatedAt": "2026-03-17T18:22:44.674Z",
+      "profile": "standard",
+      "hardwareClass": "mid",
+      "verdictCounts": {
+        "PASS": 2,
+        "WARN": 0,
+        "FAIL": 1
+      },
+      "byMode": [
+        {
+          "mode": "GPU",
+          "verdict": "PASS",
+          "failedChecks": []
+        },
+        {
+          "mode": "Hybrid",
+          "verdict": "PASS",
+          "failedChecks": []
+        },
+        {
+          "mode": "Hybrid+",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "overrideInvariantGuardCountMax"
+          ]
+        }
+      ]
+    },
+    {
+      "generatedAt": "2026-03-17T18:34:47.133Z",
+      "profile": "standard",
+      "hardwareClass": "mid",
+      "verdictCounts": {
+        "PASS": 1,
+        "WARN": 0,
+        "FAIL": 0
+      },
+      "byMode": [
+        {
+          "mode": "GPU",
+          "verdict": "PASS",
+          "failedChecks": []
+        }
+      ]
+    },
+    {
+      "generatedAt": "2026-03-17T18:55:29.839Z",
+      "profile": "nightly",
+      "hardwareClass": "mid",
+      "verdictCounts": {
+        "PASS": 0,
+        "WARN": 0,
+        "FAIL": 3
+      },
+      "byMode": [
+        {
+          "mode": "GPU",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "overrideInvariantGuardCountMax"
+          ]
+        },
+        {
+          "mode": "Hybrid",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "driftSeverityP95AbsMax",
+            "overrideFallbackStormCountMax",
+            "overrideInvariantGuardCountMax"
+          ]
+        },
+        {
+          "mode": "Hybrid+",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "driftSeverityP95AbsMax",
+            "overrideInvariantGuardCountMax"
+          ]
+        }
+      ]
+    },
+    {
+      "generatedAt": "2026-03-17T19:26:20.043Z",
+      "profile": "smoke",
+      "hardwareClass": "mid",
+      "verdictCounts": {
+        "PASS": 0,
+        "WARN": 0,
+        "FAIL": 1
+      },
+      "byMode": [
+        {
+          "mode": "GPU",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "overrideInvariantGuardCountMax"
+          ]
+        }
+      ]
+    },
+    {
+      "generatedAt": "2026-03-17T19:42:53.369Z",
+      "profile": "nightly",
+      "hardwareClass": "mid",
+      "verdictCounts": {
+        "PASS": 2,
+        "WARN": 0,
+        "FAIL": 1
+      },
+      "byMode": [
+        {
+          "mode": "GPU",
+          "verdict": "PASS",
+          "failedChecks": []
+        },
+        {
+          "mode": "Hybrid",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "overrideInvariantGuardCountMax"
+          ]
+        },
+        {
+          "mode": "Hybrid+",
+          "verdict": "PASS",
+          "failedChecks": []
+        }
+      ]
+    },
+    {
+      "generatedAt": "2026-03-17T19:54:20.541Z",
+      "profile": "nightly",
+      "hardwareClass": "mid",
+      "verdictCounts": {
+        "PASS": 2,
+        "WARN": 0,
+        "FAIL": 1
+      },
+      "byMode": [
+        {
+          "mode": "GPU",
+          "verdict": "PASS",
+          "failedChecks": []
+        },
+        {
+          "mode": "Hybrid",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "overrideInvariantGuardCountMax"
+          ]
+        },
+        {
+          "mode": "Hybrid+",
+          "verdict": "PASS",
+          "failedChecks": []
+        }
+      ]
+    },
+    {
+      "generatedAt": "2026-03-17T20:09:17.999Z",
+      "profile": "nightly",
+      "hardwareClass": "mid",
+      "verdictCounts": {
+        "PASS": 2,
+        "WARN": 0,
+        "FAIL": 1
+      },
+      "byMode": [
+        {
+          "mode": "GPU",
+          "verdict": "PASS",
+          "failedChecks": []
+        },
+        {
+          "mode": "Hybrid",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "overrideInvariantGuardCountMax"
+          ]
+        },
+        {
+          "mode": "Hybrid+",
+          "verdict": "PASS",
+          "failedChecks": []
+        }
+      ]
+    },
+    {
+      "generatedAt": "2026-03-17T20:21:00.954Z",
+      "profile": "nightly",
+      "hardwareClass": "mid",
+      "verdictCounts": {
+        "PASS": 1,
+        "WARN": 0,
+        "FAIL": 2
+      },
+      "byMode": [
+        {
+          "mode": "GPU",
+          "verdict": "PASS",
+          "failedChecks": []
+        },
+        {
+          "mode": "Hybrid",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "overrideInvariantGuardCountMax"
+          ]
+        },
+        {
+          "mode": "Hybrid+",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "overrideFallbackStormCountMax"
+          ]
+        }
+      ]
+    },
+    {
+      "generatedAt": "2026-03-17T20:36:37.546Z",
+      "profile": "nightly",
+      "hardwareClass": "mid",
+      "verdictCounts": {
+        "PASS": 1,
+        "WARN": 0,
+        "FAIL": 2
+      },
+      "byMode": [
+        {
+          "mode": "GPU",
+          "verdict": "PASS",
+          "failedChecks": []
+        },
+        {
+          "mode": "Hybrid",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "overrideFallbackStormCountMax"
+          ]
+        },
+        {
+          "mode": "Hybrid+",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "overrideFallbackStormCountMax"
+          ]
+        }
+      ]
+    },
+    {
+      "generatedAt": "2026-03-17T20:50:02.428Z",
+      "profile": "nightly",
+      "hardwareClass": "mid",
+      "verdictCounts": {
+        "PASS": 3,
+        "WARN": 0,
+        "FAIL": 0
+      },
+      "byMode": [
+        {
+          "mode": "GPU",
+          "verdict": "PASS",
+          "failedChecks": []
+        },
+        {
+          "mode": "Hybrid",
+          "verdict": "PASS",
+          "failedChecks": []
+        },
+        {
+          "mode": "Hybrid+",
+          "verdict": "PASS",
+          "failedChecks": []
+        }
+      ]
+    },
+    {
+      "generatedAt": "2026-03-17T20:57:02.093Z",
+      "profile": "smoke",
+      "hardwareClass": "mid",
+      "verdictCounts": {
+        "PASS": 0,
+        "WARN": 0,
+        "FAIL": 1
+      },
+      "byMode": [
+        {
+          "mode": "GPU",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "overrideInvariantGuardCountMax"
+          ]
+        }
+      ]
+    },
+    {
+      "generatedAt": "2026-03-17T21:04:18.773Z",
+      "profile": "standard",
+      "hardwareClass": "mid",
+      "verdictCounts": {
+        "PASS": 3,
+        "WARN": 0,
+        "FAIL": 0
+      },
+      "byMode": [
+        {
+          "mode": "GPU",
+          "verdict": "PASS",
+          "failedChecks": []
+        },
+        {
+          "mode": "Hybrid",
+          "verdict": "PASS",
+          "failedChecks": []
+        },
+        {
+          "mode": "Hybrid+",
+          "verdict": "PASS",
+          "failedChecks": []
+        }
+      ]
+    },
+    {
+      "generatedAt": "2026-03-17T21:10:30.946Z",
+      "profile": "standard",
+      "hardwareClass": "mid",
+      "verdictCounts": {
+        "PASS": 3,
+        "WARN": 0,
+        "FAIL": 0
+      },
+      "byMode": [
+        {
+          "mode": "GPU",
+          "verdict": "PASS",
+          "failedChecks": []
+        },
+        {
+          "mode": "Hybrid",
+          "verdict": "PASS",
+          "failedChecks": []
+        },
+        {
+          "mode": "Hybrid+",
+          "verdict": "PASS",
+          "failedChecks": []
+        }
+      ]
+    },
+    {
+      "generatedAt": "2026-03-17T21:21:07.927Z",
+      "profile": "standard",
+      "hardwareClass": "mid",
+      "verdictCounts": {
+        "PASS": 2,
+        "WARN": 0,
+        "FAIL": 1
+      },
+      "byMode": [
+        {
+          "mode": "GPU",
+          "verdict": "PASS",
+          "failedChecks": []
+        },
+        {
+          "mode": "Hybrid",
+          "verdict": "PASS",
+          "failedChecks": []
+        },
+        {
+          "mode": "Hybrid+",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "driftSeverityP95AbsMax",
+            "overrideInvariantGuardCountMax"
+          ]
+        }
+      ]
+    },
+    {
+      "generatedAt": "2026-03-17T21:53:07.336Z",
+      "profile": "smoke",
+      "hardwareClass": "mid",
+      "verdictCounts": {
+        "PASS": 0,
+        "WARN": 0,
+        "FAIL": 1
+      },
+      "byMode": [
+        {
+          "mode": "GPU",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "overrideInvariantGuardCountMax"
+          ]
+        }
+      ]
+    },
+    {
+      "generatedAt": "2026-03-17T22:54:26.283Z",
+      "profile": "standard",
+      "hardwareClass": "mid",
+      "verdictCounts": {
+        "PASS": 2,
+        "WARN": 0,
+        "FAIL": 1
+      },
+      "byMode": [
+        {
+          "mode": "GPU",
+          "verdict": "PASS",
+          "failedChecks": []
+        },
+        {
+          "mode": "Hybrid",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "overrideFallbackStormCountMax"
+          ]
+        },
+        {
+          "mode": "Hybrid+",
+          "verdict": "PASS",
+          "failedChecks": []
+        }
+      ]
+    },
+    {
+      "generatedAt": "2026-03-17T23:03:08.622Z",
+      "profile": "standard",
+      "hardwareClass": "mid",
+      "verdictCounts": {
+        "PASS": 2,
+        "WARN": 0,
+        "FAIL": 1
+      },
+      "byMode": [
+        {
+          "mode": "GPU",
+          "verdict": "PASS",
+          "failedChecks": []
+        },
+        {
+          "mode": "Hybrid",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "overrideFallbackStormCountMax"
+          ]
+        },
+        {
+          "mode": "Hybrid+",
+          "verdict": "PASS",
+          "failedChecks": []
+        }
+      ]
+    },
+    {
+      "generatedAt": "2026-03-17T23:11:05.459Z",
+      "profile": "standard",
+      "hardwareClass": "mid",
+      "verdictCounts": {
+        "PASS": 2,
+        "WARN": 0,
+        "FAIL": 1
+      },
+      "byMode": [
+        {
+          "mode": "GPU",
+          "verdict": "PASS",
+          "failedChecks": []
+        },
+        {
+          "mode": "Hybrid",
+          "verdict": "PASS",
+          "failedChecks": []
+        },
+        {
+          "mode": "Hybrid+",
+          "verdict": "FAIL",
+          "failedChecks": [
+            "overrideFallbackStormCountMax"
+          ]
+        }
+      ]
+    },
+    {
+      "generatedAt": "2026-03-17T23:17:33.970Z",
+      "profile": "standard",
+      "hardwareClass": "mid",
+      "verdictCounts": {
+        "PASS": 3,
+        "WARN": 0,
+        "FAIL": 0
+      },
+      "byMode": [
+        {
+          "mode": "GPU",
+          "verdict": "PASS",
+          "failedChecks": []
+        },
+        {
+          "mode": "Hybrid",
+          "verdict": "PASS",
+          "failedChecks": []
+        },
+        {
+          "mode": "Hybrid+",
+          "verdict": "PASS",
+          "failedChecks": []
+        }
+      ]
+    },
+    {
+      "generatedAt": "2026-03-17T23:24:23.818Z",
+      "profile": "standard",
+      "hardwareClass": "mid",
+      "verdictCounts": {
+        "PASS": 3,
+        "WARN": 0,
+        "FAIL": 0
+      },
+      "byMode": [
+        {
+          "mode": "GPU",
+          "verdict": "PASS",
+          "failedChecks": []
+        },
+        {
+          "mode": "Hybrid",
+          "verdict": "PASS",
+          "failedChecks": []
+        },
+        {
+          "mode": "Hybrid+",
+          "verdict": "PASS",
+          "failedChecks": []
+        }
+      ]
+    }
+  ]
+}

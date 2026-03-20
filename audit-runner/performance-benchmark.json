@@ -1,0 +1,162 @@
+{
+  "timestamp": "2026-03-19T17:05:05.356Z",
+  "platform": "darwin arm64",
+  "benchmarks": [
+    {
+      "benchmark": "biot_savart_scaling",
+      "pass": true,
+      "results": [
+        {
+          "N": 64,
+          "directMs": 1.3769169999999988,
+          "fmmMs": 1.7489169999999987,
+          "speedup": 0.7872969386197286,
+          "directComplexity": 336.1613769531247,
+          "fmmComplexity": 4554.471354166663
+        },
+        {
+          "N": 128,
+          "directMs": 1.1048329999999993,
+          "fmmMs": 1.2052090000000035,
+          "speedup": 0.9167148602441535,
+          "directComplexity": 67.43365478515621,
+          "fmmComplexity": 1345.0993303571468
+        },
+        {
+          "N": 256,
+          "directMs": 4.5290839999999974,
+          "fmmMs": 4.422334000000006,
+          "speedup": 1.0241388370937137,
+          "directComplexity": 69.10833740234371,
+          "fmmComplexity": 2159.342773437503
+        },
+        {
+          "N": 512,
+          "directMs": 19.008083999999997,
+          "fmmMs": 21.195333000000005,
+          "speedup": 0.8968051598906227,
+          "directComplexity": 72.5100860595703,
+          "fmmComplexity": 4599.681640625002
+        },
+        {
+          "N": 1024,
+          "directMs": 76.28233399999999,
+          "fmmMs": 52.77191600000003,
+          "speedup": 1.4455100322679195,
+          "directComplexity": 72.74850273132323,
+          "fmmComplexity": 5153.507421875003
+        },
+        {
+          "N": 2048,
+          "directMs": 295.71116600000005,
+          "fmmMs": 88.20129199999974,
+          "speedup": 3.352685196493504,
+          "directComplexity": 70.5030360221863,
+          "fmmComplexity": 3915.185191761352
+        }
+      ],
+      "scalingExponent": 2.0370288920729105
+    },
+    {
+      "benchmark": "pipeline_breakdown",
+      "pass": true,
+      "N": 512,
+      "total": 54.929249000000254,
+      "components": [
+        {
+          "name": "Biot-Savart (N²)",
+          "ms": 26.42687500000011,
+          "pct": 48.11075243355318
+        },
+        {
+          "name": "Advection",
+          "ms": 0.1068329999998241,
+          "pct": 0.19449200916587006
+        },
+        {
+          "name": "Stretching",
+          "ms": 3.591208000000279,
+          "pct": 6.537879299970517
+        },
+        {
+          "name": "PSE Diffusion",
+          "ms": 24.804333000000042,
+          "pct": 45.15687625731043
+        }
+      ]
+    },
+    {
+      "benchmark": "throughput",
+      "pass": true,
+      "results": [
+        {
+          "N": 128,
+          "stepMs": 17.699291999999787,
+          "stepsPerSec": 56,
+          "particlesPerSec": 7232,
+          "canRealtime30fps": true
+        },
+        {
+          "N": 256,
+          "stepMs": 32.027042000000165,
+          "stepsPerSec": 31,
+          "particlesPerSec": 7993,
+          "canRealtime30fps": true
+        },
+        {
+          "N": 512,
+          "stepMs": 53.64637499999981,
+          "stepsPerSec": 19,
+          "particlesPerSec": 9544,
+          "canRealtime30fps": false
+        },
+        {
+          "N": 1024,
+          "stepMs": 1062.5074590000004,
+          "stepsPerSec": 1,
+          "particlesPerSec": 964,
+          "canRealtime30fps": false
+        },
+        {
+          "N": 2048,
+          "stepMs": 1199.9609170000003,
+          "stepsPerSec": 1,
+          "particlesPerSec": 1707,
+          "canRealtime30fps": false
+        }
+      ],
+      "maxRealtimeN": 256
+    },
+    {
+      "benchmark": "memory_scaling",
+      "pass": true,
+      "results": [
+        {
+          "N": 1000,
+          "memMB": 0.3446502685546875,
+          "bytesPerParticle": 361.392
+        },
+        {
+          "N": 5000,
+          "memMB": 0,
+          "bytesPerParticle": 0
+        },
+        {
+          "N": 10000,
+          "memMB": 1.60791015625,
+          "bytesPerParticle": 168.6016
+        },
+        {
+          "N": 20000,
+          "memMB": 3.2451171875,
+          "bytesPerParticle": 170.1376
+        },
+        {
+          "N": 50000,
+          "memMB": 6.43145751953125,
+          "bytesPerParticle": 134.87744
+        }
+      ]
+    }
+  ]
+}

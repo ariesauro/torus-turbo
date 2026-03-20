@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "tt068.classic_replication_audit_input.v1",
+  "referenceRun": {
+    "runId": "classic-ref-001",
+    "implementationId": "torus-turbo.reference",
+    "implementationVersion": "v1",
+    "scenarioHash": "sha256:classic_scenario_001",
+    "classicProfile": true,
+    "naturalModifiersActive": false,
+    "contracts": {
+      "ring": "pass",
+      "jet": "pass",
+      "detector": "pass",
+      "topology": "pass"
+    },
+    "metrics": {
+      "invariantDriftPct": 0.83,
+      "stepP95Ms": 94.2
+    }
+  },
+  "replicaRun": {
+    "runId": "classic-replica-001",
+    "implementationId": "independent.classic.solver",
+    "implementationVersion": "v1",
+    "scenarioHash": "sha256:classic_scenario_001",
+    "classicProfile": true,
+    "naturalModifiersActive": false,
+    "contracts": {
+      "ring": "pass",
+      "jet": "pass",
+      "detector": "pass",
+      "topology": "pass"
+    },
+    "metrics": {
+      "invariantDriftPct": 1.57,
+      "stepP95Ms": 101.4
+    }
+  },
+  "checks": [
+    { "id": "config_hash_match", "status": "pass" },
+    { "id": "classic_profile_lock", "status": "pass" },
+    { "id": "invariant_drift_delta_within_limit", "status": "pass" },
+    { "id": "contract_verdict_alignment", "status": "pass" },
+    { "id": "timing_envelope_within_limit", "status": "pass" }
+  ],
+  "verdict": "replication_pass"
+}

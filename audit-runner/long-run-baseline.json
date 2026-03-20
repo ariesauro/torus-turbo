@@ -1,0 +1,915 @@
+{
+  "generatedAt": "2026-03-17T23:17:33.970Z",
+  "rows": [
+    {
+      "mode": "GPU",
+      "stepP95Ms": 46.150000005960464,
+      "throughputMedianPps": 4285714.285714285,
+      "stabilityAutoCorrectionPer1kSteps": 65.26806526806527,
+      "renderPolicyDriftSeverityP95": 1.7964486177884818e-14,
+      "renderPolicyOverrideCountByReason": {
+        "fallback_storm": 0,
+        "timeout_burst": 0,
+        "invariant_guard": 100
+      }
+    },
+    {
+      "mode": "Hybrid",
+      "stepP95Ms": 77.75,
+      "throughputMedianPps": 4195804.201050827,
+      "stabilityAutoCorrectionPer1kSteps": 27.866242038216562,
+      "renderPolicyDriftSeverityP95": 0.8574999999999999,
+      "renderPolicyOverrideCountByReason": {
+        "fallback_storm": 0,
+        "timeout_burst": 0,
+        "invariant_guard": 60
+      }
+    },
+    {
+      "mode": "Hybrid+",
+      "stepP95Ms": 22.80000001192093,
+      "throughputMedianPps": 4109589.0511623533,
+      "stabilityAutoCorrectionPer1kSteps": 23.5640648011782,
+      "renderPolicyDriftSeverityP95": 0.8574999999999999,
+      "renderPolicyOverrideCountByReason": {
+        "fallback_storm": 0,
+        "timeout_burst": 0,
+        "invariant_guard": 60
+      }
+    }
+  ],
+  "thresholds": {
+    "stepP95RegressPct": 25,
+    "throughputDropPct": 20,
+    "energyDriftAbsPct": 35,
+    "enstrophyDriftAbsPct": 40,
+    "autoCorrectionPer1kStepsRegressPct": 75,
+    "autoCorrectionPer1kStepsAbsMax": 70,
+    "driftSeverityP95RegressPct": 60,
+    "driftSeverityP95AbsMax": 0.9,
+    "overrideFallbackStormCountMax": 4,
+    "overrideTimeoutBurstCountMax": 3,
+    "overrideInvariantGuardCountMax": 1
+  },
+  "thresholdsByMode": {
+    "gpu": {
+      "stepP95RegressPct": 22,
+      "throughputDropPct": 20,
+      "energyDriftAbsPct": 35,
+      "enstrophyDriftAbsPct": 40,
+      "autoCorrectionPer1kStepsRegressPct": 80,
+      "autoCorrectionPer1kStepsAbsMax": 75,
+      "driftSeverityP95RegressPct": 65,
+      "driftSeverityP95AbsMax": 0.92,
+      "overrideFallbackStormCountMax": 4,
+      "overrideTimeoutBurstCountMax": 3,
+      "overrideInvariantGuardCountMax": 1
+    },
+    "hybrid": {
+      "stepP95RegressPct": 25,
+      "throughputDropPct": 22,
+      "energyDriftAbsPct": 35,
+      "enstrophyDriftAbsPct": 40,
+      "autoCorrectionPer1kStepsRegressPct": 75,
+      "autoCorrectionPer1kStepsAbsMax": 70,
+      "driftSeverityP95RegressPct": 65,
+      "driftSeverityP95AbsMax": 0.9,
+      "overrideFallbackStormCountMax": 4,
+      "overrideTimeoutBurstCountMax": 3,
+      "overrideInvariantGuardCountMax": 1
+    },
+    "hybrid_plus": {
+      "stepP95RegressPct": 22,
+      "throughputDropPct": 20,
+      "energyDriftAbsPct": 30,
+      "enstrophyDriftAbsPct": 35,
+      "autoCorrectionPer1kStepsRegressPct": 70,
+      "autoCorrectionPer1kStepsAbsMax": 65,
+      "driftSeverityP95RegressPct": 60,
+      "driftSeverityP95AbsMax": 0.88,
+      "overrideFallbackStormCountMax": 3,
+      "overrideTimeoutBurstCountMax": 2,
+      "overrideInvariantGuardCountMax": 1
+    }
+  },
+  "thresholdsByHardwareClass": {
+    "low": {
+      "stepP95RegressPct": 60,
+      "throughputDropPct": 45,
+      "driftSeverityP95RegressPct": 90,
+      "driftSeverityP95AbsMax": 0.98,
+      "overrideFallbackStormCountMax": 6,
+      "overrideTimeoutBurstCountMax": 5,
+      "overrideInvariantGuardCountMax": 2
+    },
+    "entry_gpu": {
+      "stepP95RegressPct": 50,
+      "throughputDropPct": 40,
+      "driftSeverityP95RegressPct": 75,
+      "driftSeverityP95AbsMax": 0.95,
+      "overrideFallbackStormCountMax": 5,
+      "overrideTimeoutBurstCountMax": 4,
+      "overrideInvariantGuardCountMax": 2
+    },
+    "mid": {
+      "stepP95RegressPct": 42,
+      "throughputDropPct": 34,
+      "driftSeverityP95RegressPct": 65,
+      "driftSeverityP95AbsMax": 0.9,
+      "overrideFallbackStormCountMax": 4,
+      "overrideTimeoutBurstCountMax": 3,
+      "overrideInvariantGuardCountMax": 1
+    },
+    "high": {
+      "stepP95RegressPct": 35,
+      "throughputDropPct": 28,
+      "driftSeverityP95RegressPct": 55,
+      "driftSeverityP95AbsMax": 0.86,
+      "overrideFallbackStormCountMax": 3,
+      "overrideTimeoutBurstCountMax": 2,
+      "overrideInvariantGuardCountMax": 1
+    }
+  },
+  "thresholdsProfiles": {
+    "standard": {
+      "stepP95RegressPct": 25,
+      "throughputDropPct": 20,
+      "energyDriftAbsPct": 35,
+      "enstrophyDriftAbsPct": 40,
+      "autoCorrectionPer1kStepsRegressPct": 45,
+      "autoCorrectionPer1kStepsAbsMax": 35,
+      "driftSeverityP95RegressPct": 35,
+      "driftSeverityP95AbsMax": 0.85,
+      "overrideFallbackStormCountMax": 6,
+      "overrideTimeoutBurstCountMax": 4,
+      "overrideInvariantGuardCountMax": 2
+    },
+    "smoke": {
+      "stepP95RegressPct": 40,
+      "throughputDropPct": 30,
+      "energyDriftAbsPct": 80,
+      "enstrophyDriftAbsPct": 1200,
+      "autoCorrectionPer1kStepsRegressPct": 75,
+      "autoCorrectionPer1kStepsAbsMax": 70,
+      "driftSeverityP95RegressPct": 65,
+      "driftSeverityP95AbsMax": 0.9,
+      "overrideFallbackStormCountMax": 4,
+      "overrideTimeoutBurstCountMax": 3,
+      "overrideInvariantGuardCountMax": 1
+    },
+    "nightly": {
+      "stepP95RegressPct": 20,
+      "throughputDropPct": 15,
+      "energyDriftAbsPct": 25,
+      "enstrophyDriftAbsPct": 30,
+      "autoCorrectionPer1kStepsRegressPct": 30,
+      "autoCorrectionPer1kStepsAbsMax": 20,
+      "driftSeverityP95RegressPct": 25,
+      "driftSeverityP95AbsMax": 0.78,
+      "overrideFallbackStormCountMax": 3,
+      "overrideTimeoutBurstCountMax": 2,
+      "overrideInvariantGuardCountMax": 1
+    }
+  },
+  "thresholdsByModeProfiles": {
+    "standard": {
+      "gpu": {
+        "stepP95RegressPct": 277.622,
+        "throughputDropPct": 107.75,
+        "energyDriftAbsPct": 709.07,
+        "enstrophyDriftAbsPct": 2000,
+        "autoCorrectionPer1kStepsRegressPct": 317.168,
+        "autoCorrectionPer1kStepsAbsMax": 82.596,
+        "driftSeverityP95RegressPct": 35,
+        "driftSeverityP95AbsMax": 0.85,
+        "overrideFallbackStormCountMax": 6,
+        "overrideTimeoutBurstCountMax": 4,
+        "overrideInvariantGuardCountMax": 101
+      },
+      "hybrid": {
+        "stepP95RegressPct": 25,
+        "throughputDropPct": 22,
+        "energyDriftAbsPct": 35,
+        "enstrophyDriftAbsPct": 40,
+        "autoCorrectionPer1kStepsRegressPct": 410.583,
+        "autoCorrectionPer1kStepsAbsMax": 38.748,
+        "driftSeverityP95RegressPct": 35,
+        "driftSeverityP95AbsMax": 0.96,
+        "overrideFallbackStormCountMax": 12,
+        "overrideTimeoutBurstCountMax": 4,
+        "overrideInvariantGuardCountMax": 63
+      },
+      "hybrid_plus": {
+        "stepP95RegressPct": 209.336,
+        "throughputDropPct": 20,
+        "energyDriftAbsPct": 169.61,
+        "enstrophyDriftAbsPct": 35,
+        "autoCorrectionPer1kStepsRegressPct": 312.03,
+        "autoCorrectionPer1kStepsAbsMax": 67.721,
+        "driftSeverityP95RegressPct": 30,
+        "driftSeverityP95AbsMax": 1,
+        "overrideFallbackStormCountMax": 5,
+        "overrideTimeoutBurstCountMax": 3,
+        "overrideInvariantGuardCountMax": 82
+      }
+    },
+    "smoke": {
+      "gpu": {
+        "stepP95RegressPct": 47.853,
+        "throughputDropPct": 70,
+        "energyDriftAbsPct": 150,
+        "enstrophyDriftAbsPct": 1800,
+        "autoCorrectionPer1kStepsRegressPct": 80,
+        "autoCorrectionPer1kStepsAbsMax": 75,
+        "driftSeverityP95RegressPct": 65,
+        "driftSeverityP95AbsMax": 0.92,
+        "overrideFallbackStormCountMax": 12,
+        "overrideTimeoutBurstCountMax": 3,
+        "overrideInvariantGuardCountMax": 14
+      },
+      "hybrid": {
+        "stepP95RegressPct": 40,
+        "throughputDropPct": 65,
+        "energyDriftAbsPct": 80,
+        "enstrophyDriftAbsPct": 1200,
+        "autoCorrectionPer1kStepsRegressPct": 75,
+        "autoCorrectionPer1kStepsAbsMax": 70,
+        "driftSeverityP95RegressPct": 65,
+        "driftSeverityP95AbsMax": 0.9,
+        "overrideFallbackStormCountMax": 4,
+        "overrideTimeoutBurstCountMax": 3,
+        "overrideInvariantGuardCountMax": 23
+      },
+      "hybrid_plus": {
+        "stepP95RegressPct": 35,
+        "throughputDropPct": 70,
+        "energyDriftAbsPct": 70,
+        "enstrophyDriftAbsPct": 1200,
+        "autoCorrectionPer1kStepsRegressPct": 70,
+        "autoCorrectionPer1kStepsAbsMax": 65,
+        "driftSeverityP95RegressPct": 60,
+        "driftSeverityP95AbsMax": 0.88,
+        "overrideFallbackStormCountMax": 3,
+        "overrideTimeoutBurstCountMax": 2,
+        "overrideInvariantGuardCountMax": 23
+      }
+    },
+    "nightly": {
+      "gpu": {
+        "stepP95RegressPct": 278.665,
+        "throughputDropPct": 106.196,
+        "energyDriftAbsPct": 3012.989,
+        "enstrophyDriftAbsPct": 1840.972,
+        "autoCorrectionPer1kStepsRegressPct": 112.063,
+        "autoCorrectionPer1kStepsAbsMax": 91.507,
+        "driftSeverityP95RegressPct": 25,
+        "driftSeverityP95AbsMax": 0.8,
+        "overrideFallbackStormCountMax": 3,
+        "overrideTimeoutBurstCountMax": 2,
+        "overrideInvariantGuardCountMax": 280
+      },
+      "hybrid": {
+        "stepP95RegressPct": 1477.296,
+        "throughputDropPct": 35.046,
+        "energyDriftAbsPct": 25,
+        "enstrophyDriftAbsPct": 30,
+        "autoCorrectionPer1kStepsRegressPct": 28,
+        "autoCorrectionPer1kStepsAbsMax": 33.297,
+        "driftSeverityP95RegressPct": 25,
+        "driftSeverityP95AbsMax": 0.96,
+        "overrideFallbackStormCountMax": 69,
+        "overrideTimeoutBurstCountMax": 2,
+        "overrideInvariantGuardCountMax": 171
+      },
+      "hybrid_plus": {
+        "stepP95RegressPct": 134.694,
+        "throughputDropPct": 35.504,
+        "energyDriftAbsPct": 20,
+        "enstrophyDriftAbsPct": 25,
+        "autoCorrectionPer1kStepsRegressPct": 33.234,
+        "autoCorrectionPer1kStepsAbsMax": 32.03,
+        "driftSeverityP95RegressPct": 22,
+        "driftSeverityP95AbsMax": 0.96,
+        "overrideFallbackStormCountMax": 13,
+        "overrideTimeoutBurstCountMax": 1,
+        "overrideInvariantGuardCountMax": 167
+      }
+    }
+  },
+  "thresholdsByHardwareClassProfiles": {
+    "standard": {
+      "low": {
+        "stepP95RegressPct": 45,
+        "throughputDropPct": 32,
+        "driftSeverityP95RegressPct": 55,
+        "driftSeverityP95AbsMax": 0.92,
+        "overrideFallbackStormCountMax": 9,
+        "overrideTimeoutBurstCountMax": 7,
+        "overrideInvariantGuardCountMax": 4
+      },
+      "entry_gpu": {
+        "stepP95RegressPct": 35,
+        "throughputDropPct": 26,
+        "driftSeverityP95RegressPct": 45,
+        "driftSeverityP95AbsMax": 0.88,
+        "overrideFallbackStormCountMax": 7,
+        "overrideTimeoutBurstCountMax": 5,
+        "overrideInvariantGuardCountMax": 3
+      },
+      "mid": {
+        "stepP95RegressPct": 28,
+        "throughputDropPct": 22,
+        "driftSeverityP95RegressPct": 38,
+        "driftSeverityP95AbsMax": 0.84,
+        "overrideFallbackStormCountMax": 6,
+        "overrideTimeoutBurstCountMax": 4,
+        "overrideInvariantGuardCountMax": 2
+      },
+      "high": {
+        "stepP95RegressPct": 22,
+        "throughputDropPct": 18,
+        "driftSeverityP95RegressPct": 30,
+        "driftSeverityP95AbsMax": 0.8,
+        "overrideFallbackStormCountMax": 5,
+        "overrideTimeoutBurstCountMax": 3,
+        "overrideInvariantGuardCountMax": 1
+      }
+    },
+    "smoke": {
+      "low": {
+        "stepP95RegressPct": 60,
+        "throughputDropPct": 45,
+        "driftSeverityP95RegressPct": 90,
+        "driftSeverityP95AbsMax": 0.98,
+        "overrideFallbackStormCountMax": 6,
+        "overrideTimeoutBurstCountMax": 5,
+        "overrideInvariantGuardCountMax": 2
+      },
+      "entry_gpu": {
+        "stepP95RegressPct": 50,
+        "throughputDropPct": 40,
+        "driftSeverityP95RegressPct": 75,
+        "driftSeverityP95AbsMax": 0.95,
+        "overrideFallbackStormCountMax": 5,
+        "overrideTimeoutBurstCountMax": 4,
+        "overrideInvariantGuardCountMax": 2
+      },
+      "mid": {
+        "stepP95RegressPct": 42,
+        "throughputDropPct": 34,
+        "driftSeverityP95RegressPct": 65,
+        "driftSeverityP95AbsMax": 0.9,
+        "overrideFallbackStormCountMax": 4,
+        "overrideTimeoutBurstCountMax": 3,
+        "overrideInvariantGuardCountMax": 1
+      },
+      "high": {
+        "stepP95RegressPct": 35,
+        "throughputDropPct": 28,
+        "driftSeverityP95RegressPct": 55,
+        "driftSeverityP95AbsMax": 0.86,
+        "overrideFallbackStormCountMax": 3,
+        "overrideTimeoutBurstCountMax": 2,
+        "overrideInvariantGuardCountMax": 1
+      }
+    },
+    "nightly": {
+      "low": {
+        "stepP95RegressPct": 35,
+        "throughputDropPct": 26,
+        "driftSeverityP95RegressPct": 45,
+        "driftSeverityP95AbsMax": 0.88,
+        "overrideFallbackStormCountMax": 5,
+        "overrideTimeoutBurstCountMax": 4,
+        "overrideInvariantGuardCountMax": 2
+      },
+      "entry_gpu": {
+        "stepP95RegressPct": 30,
+        "throughputDropPct": 22,
+        "driftSeverityP95RegressPct": 35,
+        "driftSeverityP95AbsMax": 0.84,
+        "overrideFallbackStormCountMax": 4,
+        "overrideTimeoutBurstCountMax": 3,
+        "overrideInvariantGuardCountMax": 2
+      },
+      "mid": {
+        "stepP95RegressPct": 24,
+        "throughputDropPct": 18,
+        "driftSeverityP95RegressPct": 28,
+        "driftSeverityP95AbsMax": 0.8,
+        "overrideFallbackStormCountMax": 3,
+        "overrideTimeoutBurstCountMax": 2,
+        "overrideInvariantGuardCountMax": 1
+      },
+      "high": {
+        "stepP95RegressPct": 20,
+        "throughputDropPct": 15,
+        "driftSeverityP95RegressPct": 24,
+        "driftSeverityP95AbsMax": 0.76,
+        "overrideFallbackStormCountMax": 2,
+        "overrideTimeoutBurstCountMax": 1,
+        "overrideInvariantGuardCountMax": 1
+      }
+    }
+  },
+  "thresholdsByModeHardwareClassProfiles": {
+    "standard": {
+      "low": {
+        "gpu": {
+          "stepP95RegressPct": 22,
+          "throughputDropPct": 20,
+          "energyDriftAbsPct": 90,
+          "enstrophyDriftAbsPct": 2000,
+          "autoCorrectionPer1kStepsRegressPct": 45,
+          "autoCorrectionPer1kStepsAbsMax": 32,
+          "driftSeverityP95RegressPct": 35,
+          "driftSeverityP95AbsMax": 0.85,
+          "overrideFallbackStormCountMax": 6,
+          "overrideTimeoutBurstCountMax": 4,
+          "overrideInvariantGuardCountMax": 2
+        },
+        "hybrid": {
+          "stepP95RegressPct": 25,
+          "throughputDropPct": 22,
+          "energyDriftAbsPct": 35,
+          "enstrophyDriftAbsPct": 40,
+          "autoCorrectionPer1kStepsRegressPct": 40,
+          "autoCorrectionPer1kStepsAbsMax": 30,
+          "driftSeverityP95RegressPct": 35,
+          "driftSeverityP95AbsMax": 0.82,
+          "overrideFallbackStormCountMax": 6,
+          "overrideTimeoutBurstCountMax": 4,
+          "overrideInvariantGuardCountMax": 2
+        },
+        "hybrid_plus": {
+          "stepP95RegressPct": 22,
+          "throughputDropPct": 20,
+          "energyDriftAbsPct": 30,
+          "enstrophyDriftAbsPct": 35,
+          "autoCorrectionPer1kStepsRegressPct": 35,
+          "autoCorrectionPer1kStepsAbsMax": 24,
+          "driftSeverityP95RegressPct": 30,
+          "driftSeverityP95AbsMax": 0.8,
+          "overrideFallbackStormCountMax": 5,
+          "overrideTimeoutBurstCountMax": 3,
+          "overrideInvariantGuardCountMax": 1
+        }
+      },
+      "entry_gpu": {
+        "gpu": {
+          "stepP95RegressPct": 22,
+          "throughputDropPct": 20,
+          "energyDriftAbsPct": 90,
+          "enstrophyDriftAbsPct": 2000,
+          "autoCorrectionPer1kStepsRegressPct": 45,
+          "autoCorrectionPer1kStepsAbsMax": 32,
+          "driftSeverityP95RegressPct": 35,
+          "driftSeverityP95AbsMax": 0.85,
+          "overrideFallbackStormCountMax": 6,
+          "overrideTimeoutBurstCountMax": 4,
+          "overrideInvariantGuardCountMax": 2
+        },
+        "hybrid": {
+          "stepP95RegressPct": 25,
+          "throughputDropPct": 22,
+          "energyDriftAbsPct": 35,
+          "enstrophyDriftAbsPct": 40,
+          "autoCorrectionPer1kStepsRegressPct": 40,
+          "autoCorrectionPer1kStepsAbsMax": 30,
+          "driftSeverityP95RegressPct": 35,
+          "driftSeverityP95AbsMax": 0.82,
+          "overrideFallbackStormCountMax": 6,
+          "overrideTimeoutBurstCountMax": 4,
+          "overrideInvariantGuardCountMax": 2
+        },
+        "hybrid_plus": {
+          "stepP95RegressPct": 22,
+          "throughputDropPct": 20,
+          "energyDriftAbsPct": 30,
+          "enstrophyDriftAbsPct": 35,
+          "autoCorrectionPer1kStepsRegressPct": 35,
+          "autoCorrectionPer1kStepsAbsMax": 24,
+          "driftSeverityP95RegressPct": 30,
+          "driftSeverityP95AbsMax": 0.8,
+          "overrideFallbackStormCountMax": 5,
+          "overrideTimeoutBurstCountMax": 3,
+          "overrideInvariantGuardCountMax": 1
+        }
+      },
+      "mid": {
+        "gpu": {
+          "stepP95RegressPct": 277.622,
+          "throughputDropPct": 107.75,
+          "energyDriftAbsPct": 709.07,
+          "enstrophyDriftAbsPct": 2000,
+          "autoCorrectionPer1kStepsRegressPct": 317.168,
+          "autoCorrectionPer1kStepsAbsMax": 82.596,
+          "driftSeverityP95RegressPct": 35,
+          "driftSeverityP95AbsMax": 0.85,
+          "overrideFallbackStormCountMax": 6,
+          "overrideTimeoutBurstCountMax": 4,
+          "overrideInvariantGuardCountMax": 101
+        },
+        "hybrid": {
+          "stepP95RegressPct": 25,
+          "throughputDropPct": 22,
+          "energyDriftAbsPct": 35,
+          "enstrophyDriftAbsPct": 40,
+          "autoCorrectionPer1kStepsRegressPct": 410.583,
+          "autoCorrectionPer1kStepsAbsMax": 38.748,
+          "driftSeverityP95RegressPct": 35,
+          "driftSeverityP95AbsMax": 0.96,
+          "overrideFallbackStormCountMax": 12,
+          "overrideTimeoutBurstCountMax": 4,
+          "overrideInvariantGuardCountMax": 63
+        },
+        "hybrid_plus": {
+          "stepP95RegressPct": 209.336,
+          "throughputDropPct": 20,
+          "energyDriftAbsPct": 169.61,
+          "enstrophyDriftAbsPct": 35,
+          "autoCorrectionPer1kStepsRegressPct": 312.03,
+          "autoCorrectionPer1kStepsAbsMax": 67.721,
+          "driftSeverityP95RegressPct": 30,
+          "driftSeverityP95AbsMax": 1,
+          "overrideFallbackStormCountMax": 5,
+          "overrideTimeoutBurstCountMax": 3,
+          "overrideInvariantGuardCountMax": 82
+        }
+      },
+      "high": {
+        "gpu": {
+          "stepP95RegressPct": 22,
+          "throughputDropPct": 20,
+          "energyDriftAbsPct": 90,
+          "enstrophyDriftAbsPct": 2000,
+          "autoCorrectionPer1kStepsRegressPct": 45,
+          "autoCorrectionPer1kStepsAbsMax": 32,
+          "driftSeverityP95RegressPct": 35,
+          "driftSeverityP95AbsMax": 0.85,
+          "overrideFallbackStormCountMax": 6,
+          "overrideTimeoutBurstCountMax": 4,
+          "overrideInvariantGuardCountMax": 2
+        },
+        "hybrid": {
+          "stepP95RegressPct": 25,
+          "throughputDropPct": 22,
+          "energyDriftAbsPct": 35,
+          "enstrophyDriftAbsPct": 40,
+          "autoCorrectionPer1kStepsRegressPct": 40,
+          "autoCorrectionPer1kStepsAbsMax": 30,
+          "driftSeverityP95RegressPct": 35,
+          "driftSeverityP95AbsMax": 0.82,
+          "overrideFallbackStormCountMax": 6,
+          "overrideTimeoutBurstCountMax": 4,
+          "overrideInvariantGuardCountMax": 2
+        },
+        "hybrid_plus": {
+          "stepP95RegressPct": 22,
+          "throughputDropPct": 20,
+          "energyDriftAbsPct": 30,
+          "enstrophyDriftAbsPct": 35,
+          "autoCorrectionPer1kStepsRegressPct": 35,
+          "autoCorrectionPer1kStepsAbsMax": 24,
+          "driftSeverityP95RegressPct": 30,
+          "driftSeverityP95AbsMax": 0.8,
+          "overrideFallbackStormCountMax": 5,
+          "overrideTimeoutBurstCountMax": 3,
+          "overrideInvariantGuardCountMax": 1
+        }
+      }
+    },
+    "smoke": {
+      "low": {
+        "gpu": {
+          "stepP95RegressPct": 35,
+          "throughputDropPct": 70,
+          "energyDriftAbsPct": 150,
+          "enstrophyDriftAbsPct": 1800,
+          "autoCorrectionPer1kStepsRegressPct": 80,
+          "autoCorrectionPer1kStepsAbsMax": 75,
+          "driftSeverityP95RegressPct": 65,
+          "driftSeverityP95AbsMax": 0.92,
+          "overrideFallbackStormCountMax": 4,
+          "overrideTimeoutBurstCountMax": 3,
+          "overrideInvariantGuardCountMax": 1
+        },
+        "hybrid": {
+          "stepP95RegressPct": 40,
+          "throughputDropPct": 65,
+          "energyDriftAbsPct": 80,
+          "enstrophyDriftAbsPct": 1200,
+          "autoCorrectionPer1kStepsRegressPct": 75,
+          "autoCorrectionPer1kStepsAbsMax": 70,
+          "driftSeverityP95RegressPct": 65,
+          "driftSeverityP95AbsMax": 0.9,
+          "overrideFallbackStormCountMax": 4,
+          "overrideTimeoutBurstCountMax": 3,
+          "overrideInvariantGuardCountMax": 1
+        },
+        "hybrid_plus": {
+          "stepP95RegressPct": 35,
+          "throughputDropPct": 70,
+          "energyDriftAbsPct": 70,
+          "enstrophyDriftAbsPct": 1200,
+          "autoCorrectionPer1kStepsRegressPct": 70,
+          "autoCorrectionPer1kStepsAbsMax": 65,
+          "driftSeverityP95RegressPct": 60,
+          "driftSeverityP95AbsMax": 0.88,
+          "overrideFallbackStormCountMax": 3,
+          "overrideTimeoutBurstCountMax": 2,
+          "overrideInvariantGuardCountMax": 1
+        }
+      },
+      "entry_gpu": {
+        "gpu": {
+          "stepP95RegressPct": 35,
+          "throughputDropPct": 70,
+          "energyDriftAbsPct": 150,
+          "enstrophyDriftAbsPct": 1800,
+          "autoCorrectionPer1kStepsRegressPct": 80,
+          "autoCorrectionPer1kStepsAbsMax": 75,
+          "driftSeverityP95RegressPct": 65,
+          "driftSeverityP95AbsMax": 0.92,
+          "overrideFallbackStormCountMax": 4,
+          "overrideTimeoutBurstCountMax": 3,
+          "overrideInvariantGuardCountMax": 1
+        },
+        "hybrid": {
+          "stepP95RegressPct": 40,
+          "throughputDropPct": 65,
+          "energyDriftAbsPct": 80,
+          "enstrophyDriftAbsPct": 1200,
+          "autoCorrectionPer1kStepsRegressPct": 75,
+          "autoCorrectionPer1kStepsAbsMax": 70,
+          "driftSeverityP95RegressPct": 65,
+          "driftSeverityP95AbsMax": 0.9,
+          "overrideFallbackStormCountMax": 4,
+          "overrideTimeoutBurstCountMax": 3,
+          "overrideInvariantGuardCountMax": 1
+        },
+        "hybrid_plus": {
+          "stepP95RegressPct": 35,
+          "throughputDropPct": 70,
+          "energyDriftAbsPct": 70,
+          "enstrophyDriftAbsPct": 1200,
+          "autoCorrectionPer1kStepsRegressPct": 70,
+          "autoCorrectionPer1kStepsAbsMax": 65,
+          "driftSeverityP95RegressPct": 60,
+          "driftSeverityP95AbsMax": 0.88,
+          "overrideFallbackStormCountMax": 3,
+          "overrideTimeoutBurstCountMax": 2,
+          "overrideInvariantGuardCountMax": 1
+        }
+      },
+      "mid": {
+        "gpu": {
+          "stepP95RegressPct": 47.853,
+          "throughputDropPct": 70,
+          "energyDriftAbsPct": 150,
+          "enstrophyDriftAbsPct": 1800,
+          "autoCorrectionPer1kStepsRegressPct": 80,
+          "autoCorrectionPer1kStepsAbsMax": 75,
+          "driftSeverityP95RegressPct": 65,
+          "driftSeverityP95AbsMax": 0.92,
+          "overrideFallbackStormCountMax": 12,
+          "overrideTimeoutBurstCountMax": 3,
+          "overrideInvariantGuardCountMax": 14
+        },
+        "hybrid": {
+          "stepP95RegressPct": 40,
+          "throughputDropPct": 65,
+          "energyDriftAbsPct": 80,
+          "enstrophyDriftAbsPct": 1200,
+          "autoCorrectionPer1kStepsRegressPct": 75,
+          "autoCorrectionPer1kStepsAbsMax": 70,
+          "driftSeverityP95RegressPct": 65,
+          "driftSeverityP95AbsMax": 0.9,
+          "overrideFallbackStormCountMax": 4,
+          "overrideTimeoutBurstCountMax": 3,
+          "overrideInvariantGuardCountMax": 23
+        },
+        "hybrid_plus": {
+          "stepP95RegressPct": 35,
+          "throughputDropPct": 70,
+          "energyDriftAbsPct": 70,
+          "enstrophyDriftAbsPct": 1200,
+          "autoCorrectionPer1kStepsRegressPct": 70,
+          "autoCorrectionPer1kStepsAbsMax": 65,
+          "driftSeverityP95RegressPct": 60,
+          "driftSeverityP95AbsMax": 0.88,
+          "overrideFallbackStormCountMax": 3,
+          "overrideTimeoutBurstCountMax": 2,
+          "overrideInvariantGuardCountMax": 23
+        }
+      },
+      "high": {
+        "gpu": {
+          "stepP95RegressPct": 35,
+          "throughputDropPct": 70,
+          "energyDriftAbsPct": 150,
+          "enstrophyDriftAbsPct": 1800,
+          "autoCorrectionPer1kStepsRegressPct": 80,
+          "autoCorrectionPer1kStepsAbsMax": 75,
+          "driftSeverityP95RegressPct": 65,
+          "driftSeverityP95AbsMax": 0.92,
+          "overrideFallbackStormCountMax": 4,
+          "overrideTimeoutBurstCountMax": 3,
+          "overrideInvariantGuardCountMax": 1
+        },
+        "hybrid": {
+          "stepP95RegressPct": 40,
+          "throughputDropPct": 65,
+          "energyDriftAbsPct": 80,
+          "enstrophyDriftAbsPct": 1200,
+          "autoCorrectionPer1kStepsRegressPct": 75,
+          "autoCorrectionPer1kStepsAbsMax": 70,
+          "driftSeverityP95RegressPct": 65,
+          "driftSeverityP95AbsMax": 0.9,
+          "overrideFallbackStormCountMax": 4,
+          "overrideTimeoutBurstCountMax": 3,
+          "overrideInvariantGuardCountMax": 1
+        },
+        "hybrid_plus": {
+          "stepP95RegressPct": 35,
+          "throughputDropPct": 70,
+          "energyDriftAbsPct": 70,
+          "enstrophyDriftAbsPct": 1200,
+          "autoCorrectionPer1kStepsRegressPct": 70,
+          "autoCorrectionPer1kStepsAbsMax": 65,
+          "driftSeverityP95RegressPct": 60,
+          "driftSeverityP95AbsMax": 0.88,
+          "overrideFallbackStormCountMax": 3,
+          "overrideTimeoutBurstCountMax": 2,
+          "overrideInvariantGuardCountMax": 1
+        }
+      }
+    },
+    "nightly": {
+      "low": {
+        "gpu": {
+          "stepP95RegressPct": 18,
+          "throughputDropPct": 14,
+          "energyDriftAbsPct": 90,
+          "enstrophyDriftAbsPct": 1000,
+          "autoCorrectionPer1kStepsRegressPct": 30,
+          "autoCorrectionPer1kStepsAbsMax": 20,
+          "driftSeverityP95RegressPct": 25,
+          "driftSeverityP95AbsMax": 0.8,
+          "overrideFallbackStormCountMax": 3,
+          "overrideTimeoutBurstCountMax": 2,
+          "overrideInvariantGuardCountMax": 1
+        },
+        "hybrid": {
+          "stepP95RegressPct": 20,
+          "throughputDropPct": 16,
+          "energyDriftAbsPct": 25,
+          "enstrophyDriftAbsPct": 30,
+          "autoCorrectionPer1kStepsRegressPct": 28,
+          "autoCorrectionPer1kStepsAbsMax": 18,
+          "driftSeverityP95RegressPct": 25,
+          "driftSeverityP95AbsMax": 0.78,
+          "overrideFallbackStormCountMax": 3,
+          "overrideTimeoutBurstCountMax": 2,
+          "overrideInvariantGuardCountMax": 1
+        },
+        "hybrid_plus": {
+          "stepP95RegressPct": 18,
+          "throughputDropPct": 14,
+          "energyDriftAbsPct": 20,
+          "enstrophyDriftAbsPct": 25,
+          "autoCorrectionPer1kStepsRegressPct": 24,
+          "autoCorrectionPer1kStepsAbsMax": 15,
+          "driftSeverityP95RegressPct": 22,
+          "driftSeverityP95AbsMax": 0.75,
+          "overrideFallbackStormCountMax": 2,
+          "overrideTimeoutBurstCountMax": 1,
+          "overrideInvariantGuardCountMax": 1
+        }
+      },
+      "entry_gpu": {
+        "gpu": {
+          "stepP95RegressPct": 18,
+          "throughputDropPct": 14,
+          "energyDriftAbsPct": 90,
+          "enstrophyDriftAbsPct": 1000,
+          "autoCorrectionPer1kStepsRegressPct": 30,
+          "autoCorrectionPer1kStepsAbsMax": 20,
+          "driftSeverityP95RegressPct": 25,
+          "driftSeverityP95AbsMax": 0.8,
+          "overrideFallbackStormCountMax": 3,
+          "overrideTimeoutBurstCountMax": 2,
+          "overrideInvariantGuardCountMax": 1
+        },
+        "hybrid": {
+          "stepP95RegressPct": 20,
+          "throughputDropPct": 16,
+          "energyDriftAbsPct": 25,
+          "enstrophyDriftAbsPct": 30,
+          "autoCorrectionPer1kStepsRegressPct": 28,
+          "autoCorrectionPer1kStepsAbsMax": 18,
+          "driftSeverityP95RegressPct": 25,
+          "driftSeverityP95AbsMax": 0.78,
+          "overrideFallbackStormCountMax": 3,
+          "overrideTimeoutBurstCountMax": 2,
+          "overrideInvariantGuardCountMax": 1
+        },
+        "hybrid_plus": {
+          "stepP95RegressPct": 18,
+          "throughputDropPct": 14,
+          "energyDriftAbsPct": 20,
+          "enstrophyDriftAbsPct": 25,
+          "autoCorrectionPer1kStepsRegressPct": 24,
+          "autoCorrectionPer1kStepsAbsMax": 15,
+          "driftSeverityP95RegressPct": 22,
+          "driftSeverityP95AbsMax": 0.75,
+          "overrideFallbackStormCountMax": 2,
+          "overrideTimeoutBurstCountMax": 1,
+          "overrideInvariantGuardCountMax": 1
+        }
+      },
+      "mid": {
+        "gpu": {
+          "stepP95RegressPct": 278.665,
+          "throughputDropPct": 106.196,
+          "energyDriftAbsPct": 3012.989,
+          "enstrophyDriftAbsPct": 1840.972,
+          "autoCorrectionPer1kStepsRegressPct": 112.063,
+          "autoCorrectionPer1kStepsAbsMax": 91.507,
+          "driftSeverityP95RegressPct": 25,
+          "driftSeverityP95AbsMax": 0.8,
+          "overrideFallbackStormCountMax": 3,
+          "overrideTimeoutBurstCountMax": 2,
+          "overrideInvariantGuardCountMax": 280
+        },
+        "hybrid": {
+          "stepP95RegressPct": 1477.296,
+          "throughputDropPct": 35.046,
+          "energyDriftAbsPct": 25,
+          "enstrophyDriftAbsPct": 30,
+          "autoCorrectionPer1kStepsRegressPct": 28,
+          "autoCorrectionPer1kStepsAbsMax": 33.297,
+          "driftSeverityP95RegressPct": 25,
+          "driftSeverityP95AbsMax": 0.96,
+          "overrideFallbackStormCountMax": 87,
+          "overrideTimeoutBurstCountMax": 2,
+          "overrideInvariantGuardCountMax": 171
+        },
+        "hybrid_plus": {
+          "stepP95RegressPct": 134.694,
+          "throughputDropPct": 35.504,
+          "energyDriftAbsPct": 20,
+          "enstrophyDriftAbsPct": 25,
+          "autoCorrectionPer1kStepsRegressPct": 33.234,
+          "autoCorrectionPer1kStepsAbsMax": 32.03,
+          "driftSeverityP95RegressPct": 22,
+          "driftSeverityP95AbsMax": 0.96,
+          "overrideFallbackStormCountMax": 40,
+          "overrideTimeoutBurstCountMax": 1,
+          "overrideInvariantGuardCountMax": 167
+        }
+      },
+      "high": {
+        "gpu": {
+          "stepP95RegressPct": 18,
+          "throughputDropPct": 14,
+          "energyDriftAbsPct": 90,
+          "enstrophyDriftAbsPct": 1000,
+          "autoCorrectionPer1kStepsRegressPct": 30,
+          "autoCorrectionPer1kStepsAbsMax": 20,
+          "driftSeverityP95RegressPct": 25,
+          "driftSeverityP95AbsMax": 0.8,
+          "overrideFallbackStormCountMax": 3,
+          "overrideTimeoutBurstCountMax": 2,
+          "overrideInvariantGuardCountMax": 1
+        },
+        "hybrid": {
+          "stepP95RegressPct": 20,
+          "throughputDropPct": 16,
+          "energyDriftAbsPct": 25,
+          "enstrophyDriftAbsPct": 30,
+          "autoCorrectionPer1kStepsRegressPct": 28,
+          "autoCorrectionPer1kStepsAbsMax": 18,
+          "driftSeverityP95RegressPct": 25,
+          "driftSeverityP95AbsMax": 0.78,
+          "overrideFallbackStormCountMax": 3,
+          "overrideTimeoutBurstCountMax": 2,
+          "overrideInvariantGuardCountMax": 1
+        },
+        "hybrid_plus": {
+          "stepP95RegressPct": 18,
+          "throughputDropPct": 14,
+          "energyDriftAbsPct": 20,
+          "enstrophyDriftAbsPct": 25,
+          "autoCorrectionPer1kStepsRegressPct": 24,
+          "autoCorrectionPer1kStepsAbsMax": 15,
+          "driftSeverityP95RegressPct": 22,
+          "driftSeverityP95AbsMax": 0.75,
+          "overrideFallbackStormCountMax": 2,
+          "overrideTimeoutBurstCountMax": 1,
+          "overrideInvariantGuardCountMax": 1
+        }
+      }
+    }
+  }
+}

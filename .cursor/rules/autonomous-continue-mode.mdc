@@ -1,0 +1,12 @@
+---
+description: Autonomous execution mode for "продолжай"
+alwaysApply: true
+---
+
+# Autonomous Continue Mode
+
+- If the user says `продолжай` (or equivalent: "continue", "давай"), run tasks end-to-end without asking for interim confirmations.
+- Do not pause between subtasks; proceed until the current project task chain is fully completed.
+- Ask questions only at the very end, and only if missing information blocks full completion.
+- Stop immediately only when the user explicitly says `стоп`/`stop` or interrupts execution.
+- During autonomous flow, keep updates brief and progress-focused; avoid asking for permission to proceed.

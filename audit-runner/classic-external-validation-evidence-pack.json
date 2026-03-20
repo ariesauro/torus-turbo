@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "tt068.classic_external_validation_evidence_pack.v1",
+  "generatedAt": "2026-03-18T21:03:15.405Z",
+  "paths": {
+    "contractAudit": "/Users/auroboros/Code/Torus Turbo/audit-runner/distributed-validation-contract-audit.json",
+    "parityAudit": "/Users/auroboros/Code/Torus Turbo/audit-runner/distributed-parity-audit-report.json",
+    "validationPolicy": "/Users/auroboros/Code/Torus Turbo/docs/dashboard-external-validation-policy.v1.json",
+    "classicChecklist": "/Users/auroboros/Code/Torus Turbo/docs/CLASSIC_EXTERNAL_VALIDATION_CLOSURE_CHECKLIST.md"
+  },
+  "gate": {
+    "pass": true,
+    "checks": {
+      "contract_audit_present": true,
+      "contract_gate_pass": true,
+      "parity_audit_present": true,
+      "parity_gate_pass": true,
+      "parity_verdict_pass": true,
+      "network_envelope_eligible": true,
+      "natural_modifiers_inactive": true,
+      "validation_policy_present": true,
+      "classic_checklist_present": true
+    },
+    "failedChecks": []
+  },
+  "acceptanceTable": [
+    {
+      "criterion": "Contract gate",
+      "value": "PASS",
+      "verdict": "accepted"
+    },
+    {
+      "criterion": "Parity gate",
+      "value": "PASS",
+      "verdict": "accepted"
+    },
+    {
+      "criterion": "Parity verdict",
+      "value": "parity_pass",
+      "verdict": "accepted"
+    },
+    {
+      "criterion": "Network envelope",
+      "value": "eligible",
+      "verdict": "accepted"
+    },
+    {
+      "criterion": "Natural modifiers",
+      "value": "inactive",
+      "verdict": "accepted"
+    }
+  ],
+  "details": [
+    "PASS contract_audit_present: contract audit artifact is present",
+    "PASS contract_gate_pass: contract gate is PASS",
+    "PASS parity_audit_present: parity audit artifact is present",
+    "PASS parity_gate_pass: parity gate is PASS",
+    "PASS parity_verdict_pass: parity verdict is parity_pass",
+    "PASS network_envelope_eligible: network envelope class is eligible",
+    "PASS natural_modifiers_inactive: natural modifiers are inactive for evidence run",
+    "PASS validation_policy_present: external validation policy v1 is present",
+    "PASS classic_checklist_present: classic closure checklist is present"
+  ],
+  "observed": {
+    "parityVerdict": "parity_pass",
+    "envelopeClass": "eligible",
+    "naturalModifiersActive": false,
+    "policyVersion": "tt062.dashboard_external_validation_policy.v1"
+  }
+}

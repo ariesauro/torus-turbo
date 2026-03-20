@@ -1,0 +1,13 @@
+[package]
+name = "torus-gpu"
+description = "wgpu compute pipeline: hash grid, shader dispatch, GPU buffer management"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+torus-physics = { path = "../torus-physics" }
+bytemuck = { workspace = true }
+wgpu = { workspace = true, features = ["wgsl"] }
+pollster = "0.4"
+log = "0.4"

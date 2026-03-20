@@ -1,0 +1,46 @@
+{
+  "generatedAt": "2026-03-18T23:56:11.678Z",
+  "sourceArtifact": "/Users/auroboros/Code/Torus Turbo/audit-runner/distributed-validation-parity-audit.runtime.json",
+  "gate": {
+    "pass": true,
+    "checks": {
+      "artifact_schema_valid": true,
+      "triad_modes_complete": true,
+      "triad_runs_complete": true,
+      "parity_checks_complete": true,
+      "parity_checks_pass": true,
+      "parity_verdict_pass": true,
+      "network_envelope_eligible": true,
+      "natural_modifiers_inactive": true,
+      "network_metrics_within_eligible_thresholds": true
+    },
+    "failedChecks": []
+  },
+  "details": [
+    "PASS artifact_schema_valid: schema version matches tt067 parity audit v1",
+    "PASS triad_modes_complete: local/server/distributed triad is present",
+    "PASS triad_runs_complete: all triad runs are complete",
+    "PASS parity_checks_complete: all required parity checks are present",
+    "PASS parity_checks_pass: all required parity checks passed",
+    "PASS parity_verdict_pass: parity verdict is parity_pass",
+    "PASS network_envelope_eligible: network envelope class is eligible",
+    "PASS natural_modifiers_inactive: Natural modifiers are inactive",
+    "PASS network_metrics_within_eligible_thresholds: metrics are within eligible thresholds (rtt=16.5ms<=20, jitter=3.1ms<=5, loss=0.03%<=0.1%)"
+  ],
+  "observed": {
+    "triadModes": [
+      "local",
+      "server",
+      "distributed"
+    ],
+    "parityVerdict": "parity_pass",
+    "policyProfile": "standard",
+    "networkEnvelopeClass": "eligible",
+    "naturalModifiersActive": false,
+    "metrics": {
+      "rttMsP95": 16.5,
+      "jitterMsP95": 3.1,
+      "lossPct": 0.03
+    }
+  }
+}

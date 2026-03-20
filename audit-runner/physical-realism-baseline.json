@@ -1,0 +1,232 @@
+{
+  "generatedAt": "2026-03-17T05:27:40.010Z",
+  "baseUrl": "http://localhost:5173/",
+  "rows": [
+    {
+      "title": "order.canonical",
+      "integrationProfile": "canonical",
+      "physicalViscosityNu": 0.0003,
+      "physicalStretchingStrength": 1,
+      "energyDriftPct": 0,
+      "circulationDriftPct": 0,
+      "enstrophyEnd": 0.03736489806515971,
+      "stepP95Ms": 181.30000001192093,
+      "warningSet": [
+        "pse_uses_core_spreading_proxy",
+        "boundary_interaction_hook_noop_proxy",
+        "wake_forcing_hook_noop_proxy"
+      ],
+      "unexpectedWarnings": [],
+      "criticalRatio": 1,
+      "nonFiniteDetected": false
+    },
+    {
+      "title": "order.boundary_first",
+      "integrationProfile": "boundary_first",
+      "physicalViscosityNu": 0.0003,
+      "physicalStretchingStrength": 1,
+      "energyDriftPct": 0,
+      "circulationDriftPct": 0,
+      "enstrophyEnd": 0,
+      "stepP95Ms": 153.39999997615814,
+      "warningSet": [
+        "pse_uses_core_spreading_proxy",
+        "boundary_interaction_hook_noop_proxy",
+        "wake_forcing_hook_noop_proxy"
+      ],
+      "unexpectedWarnings": [],
+      "criticalRatio": 1,
+      "nonFiniteDetected": false
+    },
+    {
+      "title": "order.diffusion_first",
+      "integrationProfile": "diffusion_first",
+      "physicalViscosityNu": 0.0003,
+      "physicalStretchingStrength": 1,
+      "energyDriftPct": 0,
+      "circulationDriftPct": 0,
+      "enstrophyEnd": 0,
+      "stepP95Ms": 138.89999997615814,
+      "warningSet": [
+        "pse_uses_core_spreading_proxy",
+        "boundary_interaction_hook_noop_proxy",
+        "wake_forcing_hook_noop_proxy"
+      ],
+      "unexpectedWarnings": [],
+      "criticalRatio": 1,
+      "nonFiniteDetected": false
+    },
+    {
+      "title": "diffusion.nu_1e-4",
+      "integrationProfile": "canonical",
+      "physicalViscosityNu": 0.0001,
+      "physicalStretchingStrength": 1,
+      "energyDriftPct": 0,
+      "circulationDriftPct": 0,
+      "enstrophyEnd": 0,
+      "stepP95Ms": 136,
+      "warningSet": [
+        "pse_uses_core_spreading_proxy",
+        "boundary_interaction_hook_noop_proxy",
+        "wake_forcing_hook_noop_proxy"
+      ],
+      "unexpectedWarnings": [],
+      "criticalRatio": 1,
+      "nonFiniteDetected": false
+    },
+    {
+      "title": "diffusion.nu_5e-4",
+      "integrationProfile": "canonical",
+      "physicalViscosityNu": 0.0005,
+      "physicalStretchingStrength": 1,
+      "energyDriftPct": 0,
+      "circulationDriftPct": 0,
+      "enstrophyEnd": 0,
+      "stepP95Ms": 136.80000001192093,
+      "warningSet": [
+        "pse_uses_core_spreading_proxy",
+        "boundary_interaction_hook_noop_proxy",
+        "wake_forcing_hook_noop_proxy"
+      ],
+      "unexpectedWarnings": [],
+      "criticalRatio": 1,
+      "nonFiniteDetected": false
+    },
+    {
+      "title": "diffusion.nu_1e-3",
+      "integrationProfile": "canonical",
+      "physicalViscosityNu": 0.001,
+      "physicalStretchingStrength": 1,
+      "energyDriftPct": 0,
+      "circulationDriftPct": 0,
+      "enstrophyEnd": 0,
+      "stepP95Ms": 137,
+      "warningSet": [
+        "pse_uses_core_spreading_proxy",
+        "boundary_interaction_hook_noop_proxy",
+        "wake_forcing_hook_noop_proxy"
+      ],
+      "unexpectedWarnings": [],
+      "criticalRatio": 1,
+      "nonFiniteDetected": false
+    },
+    {
+      "title": "stretching.gain_0_5",
+      "integrationProfile": "canonical",
+      "physicalViscosityNu": 0.0003,
+      "physicalStretchingStrength": 0.5,
+      "energyDriftPct": 0,
+      "circulationDriftPct": 0,
+      "enstrophyEnd": 0,
+      "stepP95Ms": 141.4000000357628,
+      "warningSet": [
+        "pse_uses_core_spreading_proxy",
+        "boundary_interaction_hook_noop_proxy",
+        "wake_forcing_hook_noop_proxy"
+      ],
+      "unexpectedWarnings": [],
+      "criticalRatio": 1,
+      "nonFiniteDetected": false
+    },
+    {
+      "title": "stretching.gain_1_0",
+      "integrationProfile": "canonical",
+      "physicalViscosityNu": 0.0003,
+      "physicalStretchingStrength": 1,
+      "energyDriftPct": 0,
+      "circulationDriftPct": 0,
+      "enstrophyEnd": 0,
+      "stepP95Ms": 137.29999995231628,
+      "warningSet": [
+        "pse_uses_core_spreading_proxy",
+        "boundary_interaction_hook_noop_proxy",
+        "wake_forcing_hook_noop_proxy"
+      ],
+      "unexpectedWarnings": [],
+      "criticalRatio": 1,
+      "nonFiniteDetected": false
+    },
+    {
+      "title": "stretching.gain_1_5",
+      "integrationProfile": "canonical",
+      "physicalViscosityNu": 0.0003,
+      "physicalStretchingStrength": 1.5,
+      "energyDriftPct": 0,
+      "circulationDriftPct": 0,
+      "enstrophyEnd": 0,
+      "stepP95Ms": 137.60000002384186,
+      "warningSet": [
+        "pse_uses_core_spreading_proxy",
+        "boundary_interaction_hook_noop_proxy",
+        "wake_forcing_hook_noop_proxy"
+      ],
+      "unexpectedWarnings": [],
+      "criticalRatio": 1,
+      "nonFiniteDetected": false
+    }
+  ],
+  "orderSensitivity": {
+    "ok": true,
+    "checks": [
+      {
+        "id": "order_energy_pair_delta",
+        "ok": true,
+        "value": 0,
+        "threshold": 12
+      },
+      {
+        "id": "order_circulation_pair_delta",
+        "ok": true,
+        "value": 0,
+        "threshold": 6
+      },
+      {
+        "id": "order_unexpected_warnings",
+        "ok": true,
+        "value": 0,
+        "threshold": 0
+      }
+    ],
+    "failedChecks": []
+  },
+  "diffusionMonotonicity": {
+    "ok": true,
+    "checks": [
+      {
+        "id": "diffusion_enstrophy_monotonic",
+        "ok": true,
+        "value": "0 -> 0 -> 0",
+        "threshold": "non-increasing"
+      },
+      {
+        "id": "diffusion_finite_metrics",
+        "ok": true,
+        "value": 0,
+        "threshold": 0
+      }
+    ],
+    "failedChecks": []
+  },
+  "stretchingBoundedness": {
+    "ok": true,
+    "checks": [
+      {
+        "id": "stretching_step_p95_guard",
+        "ok": true,
+        "value": 141.4000000357628,
+        "threshold": 400
+      },
+      {
+        "id": "stretching_finite_metrics",
+        "ok": true,
+        "value": 0,
+        "threshold": 0
+      }
+    ],
+    "failedChecks": []
+  },
+  "gate": {
+    "pass": true,
+    "failedChecks": []
+  }
+}

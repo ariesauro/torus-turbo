@@ -1,0 +1,2981 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Torus Turbo Dashboard</title>
+    <style>
+      :root {
+        --bg: #0a0f16;
+        --panel: #111a25;
+        --panel-2: #162233;
+        --text: #e8f0ff;
+        --muted: #90a3c0;
+        --ok: #37d67a;
+        --wip: #f7b84b;
+        --todo: #5b7ea6;
+        --line: #2a3c55;
+        --accent: #6ad2ff;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: radial-gradient(circle at top, #14233a 0%, var(--bg) 55%);
+        color: var(--text);
+      }
+      .wrap {
+        max-width: 1240px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+      .title {
+        margin: 0;
+        font-size: 24px;
+      }
+      .sub {
+        color: var(--muted);
+        margin: 4px 0 0 0;
+        font-size: 13px;
+      }
+      .sub-meta {
+        color: #a8bddc;
+        margin: 3px 0 0 0;
+        font-size: 12px;
+      }
+      .sub-meta.warn {
+        color: #ffd78c;
+      }
+      .status-pill {
+        display: inline-block;
+        padding: 3px 10px;
+        border-radius: 999px;
+        border: 1px solid #335377;
+        background: #14253a;
+        color: #d8ebff;
+        font-weight: 700;
+        font-size: 12px;
+      }
+      .status-pill.warn {
+        border-color: rgba(247, 184, 75, 0.45);
+        background: rgba(247, 184, 75, 0.15);
+        color: #ffd78c;
+      }
+      .status-pill.ok {
+        border-color: rgba(55, 214, 122, 0.4);
+        background: rgba(55, 214, 122, 0.15);
+        color: #88ffb8;
+      }
+      .cap-why {
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 2px;
+      }
+      .compact-list li {
+        padding: 5px 0;
+      }
+      .lang {
+        background: var(--panel-2);
+        border: 1px solid var(--line);
+        color: var(--text);
+        border-radius: 8px;
+        padding: 8px 10px;
+        cursor: pointer;
+      }
+      .header-controls {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .card {
+        background: linear-gradient(180deg, var(--panel), #0f1722);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 12px;
+      }
+      .card h2 {
+        margin: 0 0 8px 0;
+        font-size: 16px;
+      }
+      .kpi {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+      .k {
+        background: var(--panel-2);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 8px;
+      }
+      .k .v {
+        font-weight: 700;
+        font-size: 20px;
+      }
+      .k .l {
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .bar {
+        height: 10px;
+        border-radius: 999px;
+        background: #1b2a3d;
+        overflow: hidden;
+        border: 1px solid var(--line);
+      }
+      .bar > span {
+        display: block;
+        height: 100%;
+        background: linear-gradient(90deg, #2bbcff, #64f8d2);
+      }
+      .progress-row {
+        margin: 8px 0;
+      }
+      .progress-row .top {
+        display: flex;
+        justify-content: space-between;
+        color: var(--muted);
+        font-size: 12px;
+        margin-bottom: 4px;
+      }
+      ul.clean {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      ul.clean li {
+        padding: 6px 0;
+        border-bottom: 1px dashed #22344b;
+      }
+      ul.clean li:last-child {
+        border-bottom: none;
+      }
+      ul.clean.subtasks {
+        margin-top: 6px;
+        margin-left: 14px;
+        border-left: 1px dashed #2a3c55;
+        padding-left: 10px;
+      }
+      ul.clean.subtasks li {
+        padding: 5px 0;
+      }
+      .filter-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin: 8px 0 10px 0;
+      }
+      .filter-btn {
+        border: 1px solid var(--line);
+        background: #122033;
+        color: #d7e7ff;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 600;
+        padding: 4px 10px;
+        cursor: pointer;
+      }
+      .filter-btn.active {
+        background: #1e4670;
+        border-color: #3f86c6;
+        color: #ffffff;
+      }
+      .badge {
+        display: inline-block;
+        min-width: 92px;
+        text-align: center;
+        border-radius: 999px;
+        padding: 2px 8px;
+        font-size: 11px;
+        font-weight: 700;
+        border: 1px solid transparent;
+      }
+      .done {
+        background: rgba(55, 214, 122, 0.15);
+        border-color: rgba(55, 214, 122, 0.4);
+        color: #88ffb8;
+      }
+      .in-progress {
+        background: rgba(247, 184, 75, 0.15);
+        border-color: rgba(247, 184, 75, 0.4);
+        color: #ffd78c;
+      }
+      .todo {
+        background: rgba(91, 126, 166, 0.18);
+        border-color: rgba(91, 126, 166, 0.35);
+        color: #b6c7db;
+      }
+      details {
+        margin: 6px 0;
+        background: #0f1b2a;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 6px 8px;
+      }
+      summary {
+        cursor: pointer;
+        font-weight: 600;
+      }
+      .muted {
+        color: var(--muted);
+        font-size: 12px;
+      }
+      svg {
+        width: 100%;
+        min-height: 300px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #0e1622;
+      }
+      .svg-scroll {
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding-bottom: 2px;
+      }
+      #depSvg {
+        min-width: 760px;
+      }
+      .node text {
+        fill: #dce9ff;
+        font-size: 11px;
+      }
+      .node rect {
+        fill: #1a2940;
+        stroke: #355177;
+        stroke-width: 1;
+        rx: 8;
+      }
+      @media (max-width: 980px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="header">
+        <div>
+          <h1 class="title" id="title">Torus Turbo — Project Dashboard</h1>
+          <p class="sub" id="subtitle">Roadmap, tasks, progress, dependencies</p>
+          <p class="sub-meta" id="progressMeta">Progress summary: n/a</p>
+          <p class="sub-meta" id="syncMeta">Sync telemetry: n/a</p>
+        </div>
+        <div class="header-controls">
+          <span id="dataModeBadge" class="status-pill">n/a</span>
+          <button id="langBtn" class="lang">EN</button>
+        </div>
+      </div>
+
+      <div class="grid">
+        <section class="card">
+          <h2 id="kpiTitle">Project KPIs</h2>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;">
+            <span class="muted" id="simStatusLabel">Local contour (classic/local compute)</span>
+            <span id="simStatusBadge" class="status-pill">n/a</span>
+          </div>
+          <div class="muted" id="simStatusHint" style="margin-bottom:8px;">n/a</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;">
+            <span class="muted" id="externalValidationLabel">External contour (validation)</span>
+            <span id="externalValidationBadge" class="status-pill">n/a</span>
+          </div>
+          <div class="muted" id="externalValidationHint" style="margin-bottom:8px;">n/a</div>
+          <div class="kpi">
+            <div class="k">
+              <div class="v" id="kDone">0</div>
+              <div class="l" id="kDoneLabel">Done</div>
+            </div>
+            <div class="k">
+              <div class="v" id="kInProgress">0</div>
+              <div class="l" id="kInProgressLabel">In progress</div>
+            </div>
+            <div class="k">
+              <div class="v" id="kTodo">0</div>
+              <div class="l" id="kTodoLabel">Todo</div>
+            </div>
+          </div>
+          <div class="progress-row">
+            <div class="top"><span id="overallLabel">Overall progress</span><span id="overallValue"></span></div>
+            <div class="bar"><span id="overallBar"></span></div>
+          </div>
+          <div id="branchProgress"></div>
+        </section>
+
+        <section class="card">
+          <h2 id="roadmapTitle">Roadmap</h2>
+          <ul class="clean" id="roadmapList"></ul>
+        </section>
+
+        <section class="card">
+          <h2>Physics Integrity (Audit v2)</h2>
+          <p class="muted" style="margin:0 0 10px">Emergence Score: <strong style="color:var(--ok);font-size:18px">8.7 / 10</strong> <span style="color:var(--muted);font-size:11px">(15/15 tests, 7 categories)</span></p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+            <div style="background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:10px">
+              <div style="color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.5px">Ring formation</div>
+              <div style="font-size:22px;font-weight:700;color:var(--ok)">8<span style="font-size:13px;color:var(--muted)">/10</span></div>
+              <div style="font-size:11px;color:var(--muted)">curl(u) + leapfrog PASS</div>
+            </div>
+            <div style="background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:10px">
+              <div style="color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.5px">Instability</div>
+              <div style="font-size:22px;font-weight:700;color:var(--ok)">7<span style="font-size:13px;color:var(--muted)">/10</span></div>
+              <div style="font-size:11px;color:var(--muted)">KH growth ×4.4 PASS</div>
+            </div>
+            <div style="background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:10px">
+              <div style="color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.5px">Turbulence</div>
+              <div style="font-size:22px;font-weight:700;color:var(--ok)">6<span style="font-size:13px;color:var(--muted)">/10</span></div>
+              <div style="font-size:11px;color:var(--muted)">Enstrophy dynamics verified</div>
+            </div>
+            <div style="background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:10px">
+              <div style="color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.5px">Cascade</div>
+              <div style="font-size:22px;font-weight:700;color:var(--ok)">6<span style="font-size:13px;color:var(--muted)">/10</span></div>
+              <div style="font-size:11px;color:var(--muted)">Physical + viscous reconnection</div>
+            </div>
+          </div>
+          <h3 style="font-size:14px;margin:14px 0 8px;color:var(--accent)">Problem Heatmap</h3>
+          <div style="display:flex;flex-direction:column;gap:4px;font-size:12px">
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:var(--ok);flex-shrink:0"></span>
+              <span style="flex:1">Diffusion — PSE inter-particle (CPU)</span>
+              <span style="color:var(--ok);font-weight:700">DONE</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:var(--ok);flex-shrink:0"></span>
+              <span style="flex:1">Energy — CFL adaptive dt + clamp tracking</span>
+              <span style="color:var(--ok);font-weight:700">DONE</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:var(--ok);flex-shrink:0"></span>
+              <span style="flex:1">KH Instability — perturbation growth ×4.4 PASS</span>
+              <span style="color:var(--ok);font-weight:700">DONE</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:var(--ok);flex-shrink:0"></span>
+              <span style="flex:1">Energy Cascade — physical mode (stretching+PSE)</span>
+              <span style="color:var(--ok);font-weight:700">DONE</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:var(--ok);flex-shrink:0"></span>
+              <span style="flex:1">Stretching — analytic (ω·∇)u (CPU)</span>
+              <span style="color:var(--ok);font-weight:700">DONE</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:var(--ok);flex-shrink:0"></span>
+              <span style="flex:1">Circulation — monitor mode, per-operator conservation</span>
+              <span style="color:var(--ok);font-weight:700">DONE</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:var(--ok);flex-shrink:0"></span>
+              <span style="flex:1">Formation — curl(u) emission, emergence test PASS</span>
+              <span style="color:var(--ok);font-weight:700">DONE</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:var(--ok);flex-shrink:0"></span>
+              <span style="flex:1">CPU/GPU parity — automated test PASS (|δx|/h=0.00038)</span>
+              <span style="color:var(--ok);font-weight:700">DONE</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:var(--ok);flex-shrink:0"></span>
+              <span style="flex:1">Filament Biot-Savart — correct segment-based</span>
+              <span style="color:var(--ok);font-weight:700">OK</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:var(--ok);flex-shrink:0"></span>
+              <span style="flex:1">Filament LIA — correct local induction</span>
+              <span style="color:var(--ok);font-weight:700">OK</span>
+            </div>
+          </div>
+          <h3 style="font-size:14px;margin:14px 0 8px;color:var(--accent)">Roadmap V2 Progress</h3>
+          <div style="font-size:12px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+              <span>Phase 1 — Fix physics</span>
+              <span class="status-pill ok">4 / 4</span>
+            </div>
+            <div class="bar" style="margin-bottom:8px"><span style="width:100%;background:var(--ok)"></span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+              <span>Phase 2 — Stabilize numerics</span>
+              <span class="status-pill ok">4 / 4</span>
+            </div>
+            <div class="bar" style="margin-bottom:8px"><span style="width:100%;background:var(--ok)"></span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+              <span>Phase 3 — GPU optimization</span>
+              <span class="status-pill warn">2 / 4</span>
+            </div>
+            <div class="bar" style="margin-bottom:8px"><span style="width:50%;background:var(--wip)"></span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+              <span>Phase 4 — Advanced turbulence</span>
+              <span class="status-pill ok">5 / 5</span>
+            </div>
+            <div class="bar" style="margin-bottom:8px"><span style="width:100%;background:var(--ok)"></span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+              <span>Phase 5 — Finish scaffolds</span>
+              <span class="status-pill ok">10 / 10</span>
+            </div>
+            <div class="bar" style="margin-bottom:8px"><span style="width:100%;background:var(--ok)"></span></div>
+          </div>
+          <h3 style="font-size:14px;margin:14px 0 8px;color:var(--done)">Scaffold Kill-list (Phase 5) — ALL DONE ✓</h3>
+          <div style="display:flex;flex-direction:column;gap:3px;font-size:11px">
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--done);flex-shrink:0"></span>
+              <span style="opacity:0.65">P5.1 Scale → full runtime</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--done);flex-shrink:0"></span>
+              <span style="opacity:0.65">P5.2 Adaptive → main runtime</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--done);flex-shrink:0"></span>
+              <span style="opacity:0.65">P5.3 Boundary physics (image vortex)</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--done);flex-shrink:0"></span>
+              <span style="opacity:0.65">P5.4 Wake forcing (uniform U∞)</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--done);flex-shrink:0"></span>
+              <span style="opacity:0.65">P5.5 Stability auto-correction (TT-030C)</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--done);flex-shrink:0"></span>
+              <span style="opacity:0.65">P5.6 Structure detection (full PCA + circulation closure)</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--done);flex-shrink:0"></span>
+              <span style="opacity:0.65">P5.7 Ring lifecycle (forming→stable→deforming→breakdown)</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--done);flex-shrink:0"></span>
+              <span style="opacity:0.65">P5.8 FMM quadrupole (p=2)</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--done);flex-shrink:0"></span>
+              <span style="opacity:0.65">P5.9 Scientific visualization (grid fields + RK4 streamlines + E(k))</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--done);flex-shrink:0"></span>
+              <span style="opacity:0.65">P5.10 LOD rendering (visual tier scaling)</span>
+            </div>
+          </div>
+          <p class="muted" style="margin:8px 0 0;font-size:11px">Phases 1–6: ALL DONE · Emergence: 8.7/10 (15 tests) · Ring: 4/4 · Turb: 4/4 · Perf: 4/4 · Conv: 8/8</p>
+
+          <div style="display:flex;justify-content:space-between;align-items:center;margin:16px 0 4px">
+            <span style="font-weight:600">Phase 6 — Runtime, Emergence & Research</span>
+            <span class="status-pill ok">6 / 6</span>
+          </div>
+          <div class="bar" style="margin-bottom:8px"><span style="width:100%;background:var(--ok)"></span></div>
+          <div style="display:flex;flex-direction:column;gap:3px;font-size:11px">
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--done);flex-shrink:0"></span>
+              <span style="opacity:0.65">P6.1 Runtime visual verification</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--ok);flex-shrink:0"></span>
+              <span>P6.2 Emergence score re-evaluation — 9.0/10 ✓</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--ok);flex-shrink:0"></span>
+              <span>P6.3 Scientific experiments — ring dynamics ✓</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--ok);flex-shrink:0"></span>
+              <span>P6.4 Scientific experiments — turbulence ✓</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--ok);flex-shrink:0"></span>
+              <span>P6.5 Performance profiling & optimization ✓</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--ok);flex-shrink:0"></span>
+              <span>P6.6 Advanced physics — LES Smagorinsky + Boussinesq buoyancy ✓</span>
+            </div>
+          </div>
+          <p class="muted" style="margin:8px 0 0;font-size:11px">Roadmap: <code>docs/ROADMAP_V2.md</code> · <code>npm run test:convergence</code> · <code>npm run test:gpu-parity</code></p>
+
+          <div style="display:flex;justify-content:space-between;align-items:center;margin:16px 0 4px">
+            <span style="font-weight:600">Phase 7 — Native Core (Rust + wgpu)</span>
+            <span class="status-pill ok">8 / 8</span>
+          </div>
+          <div class="bar" style="margin-bottom:8px"><span style="width:100%;background:var(--ok)"></span></div>
+          <div style="display:flex;flex-direction:column;gap:3px;font-size:11px">
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--ok);flex-shrink:0"></span>
+              <span>P7.1 Rust workspace + data structures (GpuParticle 96B, SimParams 176B, 16 tests) ✓</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--ok);flex-shrink:0"></span>
+              <span>P7.2 wgpu compute pipeline (13 shaders, GpuComputeManager, VelocityComputer trait) ✓</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--ok);flex-shrink:0"></span>
+              <span>P7.3 CPU physics Rust + rayon (7 operators, 35 tests, vortex ring propagates) ✓</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--ok);flex-shrink:0"></span>
+              <span>P7.4 FMM on Rust (octree, P2M/M2M/M2L, quadrupole, tree walk, 9 tests) ✓</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--ok);flex-shrink:0"></span>
+              <span>P7.5 Tauri bridge (6 commands, SimulationHandle, IPC) ✓</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--ok);flex-shrink:0"></span>
+              <span>P7.6 Native rendering (bridge adapter + wgpu render shader + param mapping) ✓</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--ok);flex-shrink:0"></span>
+              <span>P7.7 Dual-build (build:native / build:web / build:all + runtime detection) ✓</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--ok);flex-shrink:0"></span>
+              <span>P7.8 Cross-compilation (build scripts + CI workflow + 5 targets) ✓</span>
+            </div>
+          </div>
+          <p class="muted" style="margin:8px 0 0;font-size:11px">
+            <code>npm run core:test</code> 57 PASS · 13 WGSL shaders · VelocityComputer: CPU (rayon) / GPU (wgpu) auto-detect ·
+            <code>npm run build:all</code> → web HTML + macOS arm64 + macOS x64 + Linux x64 ·
+            Splash: Native CPU+GPU / WebGPU / CPU · Dual-codebase sync rule
+          </p>
+
+          <div style="display:flex;justify-content:space-between;align-items:center;margin:16px 0 4px">
+            <span style="font-weight:600">Phase 8 — Distributed Compute (Network)</span>
+            <span class="status-pill" style="opacity:0.5">0 / 6</span>
+          </div>
+          <div class="bar" style="margin-bottom:8px"><span style="width:0%;background:var(--todo)"></span></div>
+          <div style="display:flex;flex-direction:column;gap:3px;font-size:11px;opacity:0.5">
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--todo);flex-shrink:0"></span>
+              <span>P8.1 Network protocol + domain decomposition</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--todo);flex-shrink:0"></span>
+              <span>P8.2 Multi-GPU · P8.3 LAN distributed · P8.4 FMM distributed</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--todo);flex-shrink:0"></span>
+              <span>P8.5 Conservation validation · P8.6 Headless server mode</span>
+            </div>
+          </div>
+          <p class="muted" style="margin:8px 0 0;font-size:11px">Requires Phase 7 (native core) as foundation</p>
+        </section>
+
+        <section class="card">
+          <h2 id="taskTreeTitle">Task Tree (spoilers)</h2>
+          <div id="taskTree"></div>
+        </section>
+
+        <section class="card">
+          <h2 id="futureTitle">Future Tasks Lane</h2>
+          <div class="muted" id="futureMeta">n/a</div>
+          <ul class="clean compact-list" id="futureLane"></ul>
+        </section>
+
+        <section class="card">
+          <h2 id="depTitle">Dependency Graph</h2>
+          <div class="svg-scroll">
+            <svg id="depSvg" viewBox="0 0 780 300" preserveAspectRatio="xMidYMid meet"></svg>
+          </div>
+          <p class="muted" id="depHint">Graph shows milestone-level dependencies.</p>
+        </section>
+
+        <section class="card">
+          <h2 id="capabilitiesTitle">Scientific Capabilities</h2>
+          <div id="capabilitiesFilters" class="filter-row"></div>
+          <div id="capabilitiesTree"></div>
+        </section>
+
+        <section class="card">
+          <h2 id="integrityTitle">Data Integrity</h2>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
+            <div class="muted" id="syncDiagTitle">Sync diagnostics</div>
+            <button id="syncNowBtn" class="lang" type="button">Re-sync now</button>
+          </div>
+          <div class="muted" id="syncPolicyMeta">Stale policy: docs>45s -> stale, docs>180s or fallback/derived -> critical.</div>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0;">
+            <span class="muted" id="syncPolicyPresetLabel">Policy preset</span>
+            <select id="syncPolicyPreset"></select>
+            <button id="syncPolicyApplyBtn" class="lang" type="button">Apply preset</button>
+            <button id="syncClearEventsBtn" class="lang" type="button">Clear diagnostics</button>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0;">
+            <span class="muted" id="syncSourceActionsLabel">Source quick-actions</span>
+            <button id="syncRetryTasksBtn" class="lang" type="button">Re-sync TASKS</button>
+            <button id="syncRetryRoadmapBtn" class="lang" type="button">Re-sync ROADMAP</button>
+            <button id="syncRetryProgressBtn" class="lang" type="button">Re-sync PROGRESS</button>
+          </div>
+          <ul class="clean compact-list" id="syncDiagList"></ul>
+          <div class="muted" id="syncHintsTitle">Operator hints</div>
+          <ul class="clean compact-list" id="syncHintsList"></ul>
+          <div class="muted" id="syncEventsTitle">Recent sync events</div>
+          <ul class="clean compact-list" id="syncEventsList"></ul>
+          <ul class="clean compact-list" id="integrityList"></ul>
+        </section>
+
+        <section class="card">
+          <h2 id="ideasTitle">Possible Next Additions</h2>
+          <ul class="clean compact-list" id="ideasList"></ul>
+        </section>
+      </div>
+    </div>
+
+    <script>
+      const i18n = {
+        ru: {
+          title: "Torus Turbo — Панель проекта",
+          subtitle: "Roadmap, задачи, прогресс, зависимости",
+          kpiTitle: "KPI проекта",
+          done: "Done",
+          inProgress: "In progress",
+          todo: "Todo",
+          overall: "Общий прогресс",
+          roadmap: "Roadmap",
+          taskTree: "Иерархия задач (спойлеры)",
+          taskFilter: "Фильтр",
+          taskFilterAll: "Все",
+          taskFilterDone: "Done",
+          taskFilterInProgress: "In progress",
+          taskFilterTodo: "Todo",
+          taskFilterOpenSubtasksOnly: "Только родители с открытыми подзадачами",
+          dep: "Граф зависимостей",
+          depHint: "Граф показывает зависимости между ключевыми milestone.",
+          branchLabel: "Направление",
+          progressLabel: "Прогресс",
+          status: "Статус",
+          deps: "Зависимости",
+          subtasks: "Подзадачи",
+          completed: "Выполнено",
+          visible: "видимые",
+          simStatus: "Локальный контур (classic/local compute)",
+          simScientific: "Scientific readiness",
+          simSemiScientific: "Semi-scientific",
+          simEngineering: "Engineering prototype",
+          simExploratory: "Exploratory prototype",
+          simTaskBasedSuffix: "task-based",
+          externalValidationLabel: "Внешний контур (external validation)",
+          externalValidationPartial: "Partial validation",
+          externalValidationNone: "No external validation",
+          externalValidationFull: "Externally validated",
+          localContourProgress: "Локальный контур",
+          externalContourClosure: "закрытие",
+          capabilities: "Научные возможности",
+          capabilityWhy: "Зачем",
+          capFilterAll: "Все",
+          capFilterNot100: "Not 100%",
+          capFilterInProgress: "Only IN_PROGRESS",
+          capFilterTodo: "Only TODO",
+          capEmpty: "Нет элементов для текущего фильтра.",
+          integrity: "Целостность данных",
+          ideas: "Идеи для развития",
+          futureTitle: "Лента будущих задач",
+          futureEmpty: "Будущих задач нет.",
+          futureMetaLabel: "Backlog",
+          futureInvariantOk: "Future lane invariant: OK",
+          futureInvariantFail: "Future lane invariant: FAIL",
+          dataModeLive: "LIVE DOCS",
+          dataModeFallback: "FALLBACK",
+          syncTelemetryLabel: "Sync telemetry",
+          syncSourceTasks: "TASKS",
+          syncSourceRoadmap: "ROADMAP",
+          syncSourceProgress: "PROGRESS",
+          syncStateDocs: "docs",
+          syncStateFallback: "fallback",
+          syncStateDerived: "derived",
+          syncErrorLabel: "error",
+          syncDiagnosticsTitle: "Диагностика sync",
+          syncPolicyMeta: "Stale policy: docs>45s -> stale, docs>180s или fallback/derived -> critical.",
+          syncPolicyPresetLabel: "Policy preset",
+          syncPolicyPresetStrict: "strict",
+          syncPolicyPresetBalanced: "balanced",
+          syncPolicyPresetLenient: "lenient",
+          syncPolicyApply: "Применить preset",
+          syncClearEvents: "Очистить диагностику",
+          syncSourceActionsLabel: "Source quick-actions",
+          syncRetryTasks: "Синхр. TASKS",
+          syncRetryRoadmap: "Синхр. ROADMAP",
+          syncRetryProgress: "Синхр. PROGRESS",
+          syncNow: "Синхронизировать сейчас",
+          syncNowBusy: "Синхронизация...",
+          syncHintsTitle: "Подсказки оператору",
+          syncEventsTitle: "Последние sync-события",
+          syncNoEvents: "Событий нет.",
+          syncNoHints: "Подсказок нет.",
+          freshnessFresh: "fresh",
+          freshnessStale: "stale",
+          freshnessCritical: "critical",
+          severityHigh: "high",
+          severityMedium: "medium",
+          severityLow: "low",
+          syncEventOk: "SYNC_OK",
+          syncEventFail: "SYNC_FAIL",
+          syncEventFallback: "FALLBACK_INIT",
+          ok: "OK",
+          warning: "ВНИМАНИЕ"
+        },
+        en: {
+          title: "Torus Turbo — Project Dashboard",
+          subtitle: "Roadmap, tasks, progress, dependencies",
+          kpiTitle: "Project KPIs",
+          done: "Done",
+          inProgress: "In progress",
+          todo: "Todo",
+          overall: "Overall progress",
+          roadmap: "Roadmap",
+          taskTree: "Task Tree (spoilers)",
+          taskFilter: "Filter",
+          taskFilterAll: "All",
+          taskFilterDone: "Done",
+          taskFilterInProgress: "In progress",
+          taskFilterTodo: "Todo",
+          taskFilterOpenSubtasksOnly: "Only parents with open subtasks",
+          dep: "Dependency Graph",
+          depHint: "Graph shows milestone-level dependencies.",
+          branchLabel: "Branch",
+          progressLabel: "Progress",
+          status: "Status",
+          deps: "Dependencies",
+          subtasks: "Subtasks",
+          completed: "Completed",
+          visible: "visible",
+          simStatus: "Local contour (classic/local compute)",
+          simScientific: "Scientific readiness",
+          simSemiScientific: "Semi-scientific",
+          simEngineering: "Engineering prototype",
+          simExploratory: "Exploratory prototype",
+          simTaskBasedSuffix: "task-based",
+          externalValidationLabel: "External contour (external validation)",
+          externalValidationPartial: "Partial validation",
+          externalValidationNone: "No external validation",
+          externalValidationFull: "Externally validated",
+          localContourProgress: "Local contour",
+          externalContourClosure: "closure",
+          capabilities: "Scientific Capabilities",
+          capabilityWhy: "Why it matters",
+          capFilterAll: "All",
+          capFilterNot100: "Not 100%",
+          capFilterInProgress: "Only IN_PROGRESS",
+          capFilterTodo: "Only TODO",
+          capEmpty: "No capabilities match current filter.",
+          integrity: "Data Integrity",
+          ideas: "Possible Next Additions",
+          futureTitle: "Future Tasks Lane",
+          futureEmpty: "No future tasks.",
+          futureMetaLabel: "Backlog",
+          futureInvariantOk: "Future lane invariant: OK",
+          futureInvariantFail: "Future lane invariant: FAIL",
+          dataModeLive: "LIVE DOCS",
+          dataModeFallback: "FALLBACK",
+          syncTelemetryLabel: "Sync telemetry",
+          syncSourceTasks: "TASKS",
+          syncSourceRoadmap: "ROADMAP",
+          syncSourceProgress: "PROGRESS",
+          syncStateDocs: "docs",
+          syncStateFallback: "fallback",
+          syncStateDerived: "derived",
+          syncErrorLabel: "error",
+          syncDiagnosticsTitle: "Sync diagnostics",
+          syncPolicyMeta: "Stale policy: docs>45s -> stale, docs>180s or fallback/derived -> critical.",
+          syncPolicyPresetLabel: "Policy preset",
+          syncPolicyPresetStrict: "strict",
+          syncPolicyPresetBalanced: "balanced",
+          syncPolicyPresetLenient: "lenient",
+          syncPolicyApply: "Apply preset",
+          syncClearEvents: "Clear diagnostics",
+          syncSourceActionsLabel: "Source quick-actions",
+          syncRetryTasks: "Re-sync TASKS",
+          syncRetryRoadmap: "Re-sync ROADMAP",
+          syncRetryProgress: "Re-sync PROGRESS",
+          syncNow: "Re-sync now",
+          syncNowBusy: "Syncing...",
+          syncHintsTitle: "Operator hints",
+          syncEventsTitle: "Recent sync events",
+          syncNoEvents: "No events.",
+          syncNoHints: "No hints.",
+          freshnessFresh: "fresh",
+          freshnessStale: "stale",
+          freshnessCritical: "critical",
+          severityHigh: "high",
+          severityMedium: "medium",
+          severityLow: "low",
+          syncEventOk: "SYNC_OK",
+          syncEventFail: "SYNC_FAIL",
+          syncEventFallback: "FALLBACK_INIT",
+          ok: "OK",
+          warning: "WARNING"
+        }
+      };
+
+      let roadmap = [
+        {
+          name: "Physics Engine",
+          status: "DONE",
+          steps: [
+            { title: "Amer/Filament/Tube/Newtonium contracts", status: "DONE" },
+            { title: "Long-run circulation drift hardening", status: "DONE" },
+            { title: "Extended physics test matrix", status: "DONE" }
+          ]
+        },
+        {
+          name: "GPU Compute",
+          status: "DONE",
+          steps: [
+            { title: "GPU coupling query path + diagnostics", status: "DONE" },
+            { title: "Query-aware sync cadence", status: "DONE" },
+            { title: "Adaptive hash diagnostics", status: "DONE" }
+          ]
+        },
+        {
+          name: "Hybrid Solver",
+          status: "DONE",
+          steps: [
+            { title: "Filament->particle batching", status: "DONE" },
+            { title: "Hybrid+ runtime plumbing", status: "DONE" },
+            { title: "Hybrid+ operator expansion", status: "DONE" }
+          ]
+        },
+        {
+          name: "Vortex Structures",
+          status: "DONE",
+          steps: [
+            { title: "Detection MVP + adaptive calibration", status: "DONE" },
+            { title: "Newtonium classifier + temporal tracker", status: "DONE" },
+            { title: "Transition state machine + confidence/invariant/hysteresis gates (TT-022B)", status: "DONE" },
+            { title: "TT-025A sheet features (surface coherence + curvature anisotropy)", status: "DONE" },
+            { title: "TT-025B multiclass detector fusion contract (sheet/ring/tube/filament)", status: "DONE" },
+            { title: "Scientific overlays", status: "DONE" }
+          ]
+        },
+        {
+          name: "Turbulence Physics",
+          status: "DONE",
+          steps: [
+            { title: "Energy/enstrophy diagnostics", status: "DONE" },
+            { title: "Kelvin/breakdown calibration", status: "DONE" },
+            { title: "Controlled instability scenarios", status: "DONE" }
+          ]
+        },
+        {
+          name: "Numerical Stability",
+          status: "DONE",
+          steps: [
+            { title: "Long-run benchmark suite", status: "DONE" },
+            { title: "Baseline gates + CI fail mode", status: "DONE" },
+            { title: "Auto templates for profile thresholds", status: "DONE" },
+            { title: "Case timeout + mode filter safeguards", status: "DONE" },
+            { title: "Per-hardware threshold tuning", status: "DONE" }
+          ]
+        },
+        {
+          name: "Numerical Stability System",
+          status: "DONE",
+          steps: [
+            { title: "Adaptive timestep + guards architecture", status: "DONE" },
+            { title: "Stability monitor schema", status: "DONE" },
+            { title: "Auto-correction operators", status: "DONE" },
+            { title: "Stability Debug ergonomics: auto-correction pressure metric + scientific snapshot export signal", status: "DONE" },
+            { title: "Long-run bridge gate: auto-correction pressure (/1k steps) regress+abs checks in benchmark suite", status: "DONE" },
+            { title: "Saturation guard against auto-correction thrash (window /1k steps + cooldown hold)", status: "DONE" }
+          ]
+        },
+        {
+          name: "Visualization",
+          status: "DONE",
+          steps: [
+            { title: "Structure overlays (class-aware glyphs + confidence threshold + labels + anti-overlap policy)", status: "DONE" },
+            { title: "Scientific export for diagnostics", status: "DONE" },
+            { title: "Render policy refinement + TT-019 uncertainty coupling (sheet/filament/particle + detector/topology/render decomposition)", status: "DONE" }
+          ]
+        },
+        {
+          name: "Vortex Sheets",
+          status: "DONE",
+          steps: [
+            { title: "Sheet model + panel numerics contract", status: "DONE" },
+            { title: "Runtime sheet discretization scaffold (panel demand/budget + quadrature/desingularization diagnostics)", status: "DONE" },
+            { title: "Deterministic mesh-plan scaffold (seed/topology/patching/aspectP95 + quadrature profiles)", status: "DONE" },
+            { title: "Sheet mesh quality gates scaffold (aspect/coverage/demandCoverage/epsilonBand + pass/warn/fail verdict)", status: "DONE" },
+            { title: "Deterministic panel-layout contract (layout digest + min/max panels + imbalance metrics)", status: "DONE" },
+            { title: "Panel mesh builder contract v1 (valid/issues + area/cv/edge/curvature envelope)", status: "DONE" },
+            { title: "TT-021B production-ready numerics contract (profiles + gates + mesh-builder baseline verdict)", status: "DONE" },
+            { title: "Sheet transitions to filaments/particles", status: "DONE" },
+            { title: "Sheet stability guards", status: "DONE" },
+            { title: "TT-021C coupling contracts sheet<->amer / sheet<->filament (verdict + guard + policy penalty)", status: "DONE" }
+          ]
+        },
+        {
+          name: "Vortex Rings",
+          status: "DONE",
+          steps: [
+            { title: "Ring scientific model and reference formulas", status: "DONE" },
+            { title: "Ring validation thresholds", status: "DONE" },
+            { title: "Detector-ring confidence integration", status: "DONE" },
+            { title: "TT-023B runtime ring validation contract (gates/verdict/score + snapshot validation)", status: "DONE" }
+          ]
+        },
+        {
+          name: "Vortex Jets",
+          status: "DONE",
+          steps: [
+            { title: "Jet base scientific model", status: "DONE" },
+            { title: "Jet regime map (Re/St/L-D)", status: "DONE" },
+            { title: "Shear-layer to ring-train transitions", status: "DONE" },
+            { title: "Wake breakdown diagnostics", status: "DONE" }
+          ]
+        },
+        {
+          name: "FMM Solver",
+          status: "DONE",
+          steps: [
+            { title: "FMM architecture and error-control spec", status: "DONE" },
+            { title: "Runtime integration with adaptive switch", status: "DONE" },
+            { title: "Benchmark matrix (10k-500k)", status: "DONE" }
+          ]
+        },
+        {
+          name: "Vortex Topology",
+          status: "DONE",
+          steps: [
+            { title: "Topology event graph schema", status: "DONE" },
+            { title: "Lineage tracking runtime hooks", status: "DONE" },
+            { title: "Topology view + export", status: "DONE" }
+          ]
+        },
+        {
+          name: "Advanced Visualization",
+          status: "DONE",
+          steps: [
+            { title: "Scientific visualization architecture", status: "DONE" },
+            { title: "Visualization panel modes and overlays", status: "DONE" },
+            { title: "PNG/snapshot/sequence+ffmpeg-plan export pipeline", status: "DONE" },
+            { title: "Automated MP4 capture wiring (post-plan phase)", status: "DONE" }
+          ]
+        },
+        {
+          name: "Physical Realism",
+          status: "DONE",
+          steps: [
+            { title: "Physical models architecture (viscosity/stretching/boundary/wake)", status: "DONE" },
+            { title: "Runtime params + integration-order profiles wired to VPM operator order", status: "DONE" },
+            { title: "Validation scenarios and conservation gates", status: "DONE" }
+          ]
+        },
+        {
+          name: "UI",
+          status: "DONE",
+          steps: [
+            { title: "RU/EN diagnostics panels", status: "DONE" },
+            { title: "Hardware-aware performance profiles", status: "DONE" },
+            { title: "RU/EN audit for new profile UX", status: "DONE" },
+            { title: "Task hierarchy view with nested subtasks + local completion rollups", status: "DONE" },
+            { title: "Task Tree status filters (all/done/in-progress/todo)", status: "DONE" },
+            { title: "Open-subtasks-only parent filter", status: "DONE" }
+          ]
+        },
+        {
+          name: "Performance",
+          status: "DONE",
+          steps: [
+            { title: "Runtime test API (UI bypass)", status: "DONE" },
+            { title: "standard/smoke/nightly benchmark profiles", status: "DONE" },
+            { title: "Device-calibrated auto-profiling (first-run)", status: "DONE" },
+            { title: "Representation-performance policy contract + acceptance baseline (TT-027A)", status: "DONE" },
+            { title: "Runtime score publication + hardware-aware switching hooks (TT-027B)", status: "DONE" },
+            { title: "Override-reason triggers + diagnostics labels (TT-027B phase-1)", status: "DONE" },
+            { title: "Drift-trend severity signal in policy health + invariant-guard tightening (TT-027B phase-2)", status: "DONE" },
+            { title: "Long-run policy aggregates: override_count_by_reason + drift_severity_p95 (TT-027B phase-3)", status: "DONE" },
+            { title: "Policy metrics baseline gates: override-count caps + driftSeverityP95 regress/abs checks (TT-027B phase-4)", status: "DONE" },
+            { title: "Dedicated markdown Policy Gates section (TT-027B phase-5)", status: "DONE" },
+            { title: "Mode-level Policy Gate Verdict summary (TT-027B phase-6)", status: "DONE" },
+            { title: "Policy gate trend snapshots and history retention (TT-027B phase-7)", status: "DONE" },
+            { title: "Hardware-aware sheet budgets/cooldown profile hooks (TT-027B phase-8)", status: "DONE" },
+            { title: "Hardware-class-aware gate layer for long-run baseline thresholds (TT-017D phase)", status: "DONE" },
+            { title: "Auto hardware-class detect for long-run suite + env override", status: "DONE" },
+            { title: "Quality Explorer profile for low-FPS high-detail stress previews + one-click recommended-profile fallback", status: "DONE" },
+            { title: "Photo mode workflow: single-step capture + scientific supersample render scale for quality-first PNG", status: "DONE" },
+            { title: "Photo burst xN + best frame export for quality scouting on weak hardware", status: "DONE" },
+            { title: "TT-017D retuning hints: suggested mode/hardwareClass/mode+hardwareClass limits + baseline patch template in report artifacts", status: "DONE" },
+            { title: "Controlled-run browser channel reproducibility telemetry in benchmark artifacts (requested/resolved/fallback reason)", status: "DONE" },
+            { title: "Long-run PASS-run hang fix: case-timeout cleanup (clearTimeout + unref) in scenario runner", status: "DONE" },
+            { title: "Transient page-context recovery for long-run mode-cases (reload + single retry)", status: "DONE" },
+            { title: "Nightly controlled strict stabilized: gate/policy PASS + adaptive/hybridplus post-workflows PASS", status: "DONE" },
+            { title: "Standard controlled strict retuning (GPU step/throughput/energy + Hybrid+ stepP95)", status: "DONE" },
+            { title: "Remote-render streaming feasibility study with go/no-go and fallback envelope (verdict: NO-GO/defer)", status: "DONE" }
+          ]
+        },
+        {
+          name: "Research",
+          status: "DONE",
+          steps: [
+            { title: "Rings/jets/turbulence/Helmholtz/Kelvin/reconnection experiment matrix", status: "DONE" },
+            { title: "Helmholtz/Kelvin/reconnection instability study protocol", status: "DONE" },
+            { title: "Publishable metric mapping (runtime/audit -> publication metrics)", status: "DONE" },
+            { title: "Executable research runbook: preset pack v1 + deterministic artifact naming contract", status: "DONE" },
+            { title: "Mini acceptance audit for research preset pack (CLI + JSON/MD gate artifacts)", status: "DONE" },
+            { title: "Full-duration preset-pack baseline recheck (DURATION_SCALE=1) + verdict lock", status: "DONE" },
+            { title: "Aggregate smoke/full baseline report + reproducibility notes", status: "DONE" },
+            { title: "Rolling trend/history + per-preset regress flags (stepP95/sampleCount)", status: "DONE" }
+          ]
+        },
+        {
+          name: "Simulation Lab Mode",
+          status: "DONE",
+          steps: [
+            { title: "Experiment schema + config hash contract", status: "DONE" },
+            { title: "Budgeted batch runner + retry policy", status: "DONE" },
+            { title: "Lab Panel runtime integration (multi-preset + editable controls + JSON editor + local persistence/history + compare/preview)", status: "DONE" },
+            { title: "Artifact sink with reproducibility metadata", status: "DONE" }
+          ]
+        },
+        {
+          name: "Scale Physics Mode",
+          status: "DONE",
+          steps: [
+            { title: "Nondimensional scaling spec + applicability envelope", status: "DONE" },
+            { title: "Reference scales + Re/St/Ro converter scaffold", status: "DONE" },
+            { title: "Scale presets + applicability checks + runtime logging integration", status: "DONE" }
+          ]
+        },
+        {
+          name: "Adaptive Resolution System",
+          status: "DONE",
+          steps: [
+            { title: "Adaptive resolution controller contract", status: "DONE" },
+            { title: "Controller core (signals + hysteresis + bounded patches + Lab trace hooks + actuation guards)", status: "DONE" },
+            { title: "Resolution map diagnostics + lab coupling + baseline scenario hooks + transition matrix/report export", status: "DONE" },
+            { title: "Adaptive matrix workflow hooks (runbook + CI + trend snapshots)", status: "DONE" }
+          ]
+        }
+      ];
+
+      let tasks = [
+        { id: "TT-001", title: "Full architecture audit", status: "DONE", deps: [] },
+        { id: "TT-002", title: "Hierarchical vortex object model", status: "DONE", deps: ["TT-001"] },
+        { id: "TT-003", title: "Vortex structure detection architecture", status: "DONE", deps: ["TT-001", "TT-002"] },
+        { id: "TT-004", title: "Turbulence / energy cascade architecture", status: "DONE", deps: ["TT-001", "TT-002"] },
+        { id: "TT-005", title: "Roadmap baseline", status: "DONE", deps: ["TT-001"] },
+        { id: "TT-006", title: "Task registry with dependencies", status: "DONE", deps: ["TT-005"] },
+        { id: "TT-007", title: "Progress tracking document", status: "DONE", deps: ["TT-006"] },
+        { id: "TT-008", title: "Persistent project context", status: "DONE", deps: ["TT-005", "TT-006", "TT-007"] },
+        { id: "TT-009", title: "AI rules contract", status: "DONE", deps: ["TT-005", "TT-006", "TT-007"] },
+        { id: "TT-010", title: "Dashboard implementation", status: "DONE", deps: ["TT-006", "TT-007"] },
+        { id: "TT-011", title: "GPU coupling offload design", status: "DONE", deps: ["TT-001", "TT-002"] },
+        { id: "TT-011A", title: "RFC and data contract for GPU query path", status: "DONE", deps: ["TT-011"] },
+        { id: "TT-011B", title: "WebGPU manager API plumbing", status: "DONE", deps: ["TT-011A"] },
+        { id: "TT-011C", title: "WGSL query kernel MVP", status: "DONE", deps: ["TT-011B"] },
+        { id: "TT-011D", title: "Integrate in applyHybridCoupling with CPU fallback", status: "DONE", deps: ["TT-011C"] },
+        { id: "TT-011E", title: "Query diagnostics and runtime counters", status: "DONE", deps: ["TT-011D"] },
+        { id: "TT-011F", title: "Query-aware strict hybrid sync policy", status: "DONE", deps: ["TT-011E"] },
+        { id: "TT-012", title: "Partial readback / delta sync prototype", status: "DONE", deps: ["TT-001", "TT-011"] },
+        { id: "TT-012A", title: "Configurable query-aware readback interval", status: "DONE", deps: ["TT-012"] },
+        { id: "TT-012B", title: "Runtime coupling query sync counters", status: "DONE", deps: ["TT-012A"] },
+        { id: "TT-012C", title: "Delta-only sync policy prototype", status: "DONE", deps: ["TT-012B"] },
+        { id: "TT-013", title: "Filament->particle batching acceleration", status: "DONE", deps: ["TT-001", "TT-011"] },
+        { id: "TT-013A", title: "RFC and batch API contract", status: "DONE", deps: ["TT-013"] },
+        { id: "TT-013B", title: "CPU batch traversal on segment grid", status: "DONE", deps: ["TT-013A"] },
+        { id: "TT-013C", title: "Integrate batch sampling in applyHybridCoupling", status: "DONE", deps: ["TT-013B"] },
+        { id: "TT-013D", title: "Batch diagnostics and speedup counters", status: "DONE", deps: ["TT-013C"] },
+        { id: "TT-014", title: "Detection MVP implementation", status: "DONE", deps: ["TT-003"] },
+        { id: "TT-014A", title: "Detection module scaffold and feature toggles", status: "DONE", deps: ["TT-014"] },
+        { id: "TT-014B", title: "Runtime integration and metrics publication", status: "DONE", deps: ["TT-014A"] },
+        { id: "TT-014C", title: "Threshold calibration", status: "DONE", deps: ["TT-014B"] },
+        { id: "TT-015", title: "Newtonium classifier + temporal tracking", status: "DONE", deps: ["TT-003", "TT-014"] },
+        { id: "TT-015A", title: "Newtonium classifier module", status: "DONE", deps: ["TT-015"] },
+        { id: "TT-015B", title: "Temporal tracker state machine", status: "DONE", deps: ["TT-015A"] },
+        { id: "TT-015C", title: "Runtime publication of Newtonium metrics", status: "DONE", deps: ["TT-015B"] },
+        { id: "TT-016", title: "Energy spectrum diagnostics", status: "DONE", deps: ["TT-004"] },
+        { id: "TT-016A", title: "Energy/enstrophy diagnostics module", status: "DONE", deps: ["TT-016"] },
+        { id: "TT-016B", title: "Runtime publication of energy bins", status: "DONE", deps: ["TT-016A"] },
+        { id: "TT-016C", title: "Turbulence breakdown audit matrix + gate artifacts", status: "DONE", deps: ["TT-016A", "TT-017D"] },
+        { id: "TT-017", title: "Long-run stability benchmark matrix", status: "DONE", deps: ["TT-001", "TT-004"] },
+        { id: "TT-017A", title: "CLI benchmark suite scaffold", status: "DONE", deps: ["TT-017"] },
+        { id: "TT-017B", title: "Metric extraction (latency/throughput/drift/sync/transitions)", status: "DONE", deps: ["TT-017A", "TT-015", "TT-016"] },
+        { id: "TT-017C", title: "Export artifacts JSON+MD and runbook", status: "DONE", deps: ["TT-017B"] },
+        { id: "TT-017D", title: "Baseline runs + threshold tuning by mode/hardware class", status: "DONE", deps: ["TT-017C"] },
+        { id: "TT-017E", title: "Runtime API hardening + chrome fallback", status: "DONE", deps: ["TT-017A"] },
+        { id: "TT-017F", title: "First-run hardware auto-calibration + UI metrics", status: "DONE", deps: ["TT-017D", "TT-020"] },
+        { id: "TT-017G", title: "Auto-generate thresholds profiles templates", status: "DONE", deps: ["TT-017D"] },
+        { id: "TT-017H", title: "Per-case timeout + mode filter for suite", status: "DONE", deps: ["TT-017D"] },
+        { id: "TT-017I", title: "Extended physics matrix + long-run hook", status: "DONE", deps: ["TT-017D", "TT-032C"] },
+        { id: "TT-017J", title: "Hybrid+ scheduler audit + long-run hook", status: "DONE", deps: ["TT-017D", "TT-018C"] },
+        { id: "TT-017K", title: "Near-zero baseline guardrails for regress checks", status: "DONE", deps: ["TT-017D"] },
+        { id: "TT-017L", title: "Adaptive matrix envelope calibration + strict profile defaults", status: "DONE", deps: ["TT-017D"] },
+        { id: "TT-017M", title: "Controlled runner mode for strict standard/nightly", status: "DONE", deps: ["TT-017D"] },
+        { id: "TT-017N", title: "Controlled browser-channel reproducibility telemetry in long-run payload", status: "DONE", deps: ["TT-017M"] },
+        { id: "TT-017O", title: "Case-timeout timer cleanup to prevent PASS-run hangs", status: "DONE", deps: ["TT-017M"] },
+        { id: "TT-017P", title: "Transient page-context recovery for mode-case retries", status: "DONE", deps: ["TT-017M"] },
+        { id: "TT-018", title: "Hybrid+ operator expansion", status: "DONE", deps: ["TT-001", "TT-012"] },
+        { id: "TT-018A", title: "Adaptive assist scheduler + budget-aware cadence", status: "DONE", deps: ["TT-018"] },
+        { id: "TT-018B", title: "Topology/BH prioritization + anti-thrash policy", status: "DONE", deps: ["TT-018A"] },
+        { id: "TT-018C", title: "Hybrid+ operator benchmark protocol", status: "DONE", deps: ["TT-018B", "TT-017I"] },
+        { id: "TT-019", title: "Scientific structure overlays", status: "DONE", deps: ["TT-014", "TT-015"] },
+        { id: "TT-020", title: "RU/EN i18n audit for PM surfaces", status: "DONE", deps: ["TT-010"] },
+        { id: "TT-020A", title: "RU/EN messages for performance profile UX", status: "DONE", deps: ["TT-020"] },
+        { id: "TT-020B", title: "Hardware-aware profile selector in ControlPanel", status: "DONE", deps: ["TT-020A"] },
+        { id: "TT-020C", title: "Custom performance profile save/apply flow", status: "DONE", deps: ["TT-020B"] },
+        { id: "TT-021", title: "Vortex sheet architecture", status: "DONE", deps: ["TT-002", "TT-003", "TT-004"] },
+        { id: "TT-021A", title: "VORTEX_SHEET_MODEL document", status: "DONE", deps: ["TT-021"] },
+        { id: "TT-021B", title: "Sheet discretization: panel mesh + quadrature", status: "DONE", deps: ["TT-021A"] },
+        { id: "TT-021C", title: "Coupling contracts sheet<->amer / sheet<->filament", status: "DONE", deps: ["TT-021B", "TT-013"] },
+        { id: "TT-022", title: "Vortex transitions system", status: "DONE", deps: ["TT-021", "TT-014", "TT-015"] },
+        { id: "TT-022A", title: "Transitions table + invariants", status: "DONE", deps: ["TT-022"] },
+        { id: "TT-022B", title: "Runtime state machine with hysteresis/confidence gates", status: "DONE", deps: ["TT-022A", "TT-015"] },
+        { id: "TT-023", title: "Vortex ring scientific model", status: "DONE", deps: ["TT-021", "TT-022"] },
+        { id: "TT-023A", title: "VORTEX_RING_MODEL document", status: "DONE", deps: ["TT-023"] },
+        { id: "TT-023B", title: "Ring validation cases + thresholds", status: "DONE", deps: ["TT-023A", "TT-017"] },
+        { id: "TT-024", title: "Vortex jet scientific model", status: "DONE", deps: ["TT-021", "TT-022", "TT-023"] },
+        { id: "TT-024A", title: "VORTEX_JET_MODEL document", status: "DONE", deps: ["TT-024"] },
+        { id: "TT-024B", title: "Jet regime map (Re/St/LD) + transitions", status: "DONE", deps: ["TT-024A"] },
+        { id: "TT-025", title: "Detector extension for sheets/rings/tubes", status: "DONE", deps: ["TT-021", "TT-022", "TT-014"] },
+        { id: "TT-025A", title: "Detection features for sheets", status: "DONE", deps: ["TT-025"] },
+        { id: "TT-025B", title: "Multiclass detector fusion", status: "DONE", deps: ["TT-025A", "TT-014C"] },
+        { id: "TT-026", title: "Rendering architecture for sheets/filaments/particles", status: "DONE", deps: ["TT-021", "TT-023", "TT-024", "TT-025"] },
+        { id: "TT-026A", title: "Render policy: sheet LOD + filament/tube overlays", status: "DONE", deps: ["TT-026"] },
+        { id: "TT-026B", title: "Scientific diagnostics overlay (confidence + uncertainty)", status: "DONE", deps: ["TT-026A", "TT-019"] },
+        { id: "TT-027", title: "Representation-performance policy", status: "DONE", deps: ["TT-021", "TT-017", "TT-025"] },
+        { id: "TT-027A", title: "Cost model + switching policy contract", status: "DONE", deps: ["TT-027"] },
+        { id: "TT-027B", title: "Hardware-aware profile hooks for sheet-heavy scenarios", status: "DONE", deps: ["TT-027A", "TT-020"] },
+        { id: "TT-028", title: "Topological vortex tracking system", status: "DONE", deps: ["TT-022", "TT-025", "TT-015"] },
+        { id: "TT-028A", title: "VORTEX_TOPOLOGY document (event model + graph schema)", status: "DONE", deps: ["TT-028"] },
+        { id: "TT-028B", title: "Runtime object lineage events", status: "DONE", deps: ["TT-028A", "TT-015"] },
+        { id: "TT-028C", title: "Topology view + CSV/JSON export", status: "DONE", deps: ["TT-028B", "TT-026"] },
+        { id: "TT-029", title: "Fast multipole vortex solver", status: "DONE", deps: ["TT-017", "TT-030"] },
+        { id: "TT-029A", title: "FMM_VORTEX_SOLVER document", status: "DONE", deps: ["TT-029"] },
+        { id: "TT-029B", title: "FMM solver mode integration + adaptive switch", status: "DONE", deps: ["TT-029A", "TT-030"] },
+        { id: "TT-029C", title: "Benchmark matrix with accuracy/performance report", status: "DONE", deps: ["TT-029B", "TT-017D"] },
+        { id: "TT-030", title: "Numerical stability system", status: "DONE", deps: ["TT-004", "TT-013", "TT-016"] },
+        { id: "TT-030A", title: "NUMERICAL_STABILITY document", status: "DONE", deps: ["TT-030"] },
+        { id: "TT-030B", title: "Stability monitor schema + diagnostics hooks", status: "DONE", deps: ["TT-030A", "TT-016"] },
+        { id: "TT-030C", title: "Auto-correction operators + remesh hooks", status: "DONE", deps: ["TT-030B", "TT-013"] },
+        { id: "TT-031", title: "Advanced vortex visualization system", status: "DONE", deps: ["TT-025", "TT-028", "TT-030"] },
+        { id: "TT-031A", title: "VORTEX_VISUALIZATION document", status: "DONE", deps: ["TT-031"] },
+        { id: "TT-031B", title: "Visualization panel modes", status: "DONE", deps: ["TT-031A", "TT-020"] },
+        { id: "TT-031C", title: "Scientific overlays + export pipeline", status: "DONE", deps: ["TT-031B", "TT-028"] },
+        { id: "TT-032", title: "Physical realism modules", status: "DONE", deps: ["TT-030", "TT-021", "TT-013"] },
+        { id: "TT-032A", title: "PHYSICAL_MODELS document", status: "DONE", deps: ["TT-032"] },
+        { id: "TT-032B", title: "Runtime params + integration order hooks", status: "DONE", deps: ["TT-032A", "TT-030"] },
+        { id: "TT-032C", title: "Validation protocol for physical realism", status: "DONE", deps: ["TT-032B", "TT-017D"] },
+        { id: "TT-033", title: "Simulation Lab Mode", status: "DONE", deps: ["TT-017", "TT-030", "TT-032"] },
+        { id: "TT-033A", title: "Simulation Lab scientific specification", status: "DONE", deps: ["TT-033"] },
+        { id: "TT-033B", title: "Experiment schema + config hash contract", status: "DONE", deps: ["TT-033A", "TT-017"] },
+        { id: "TT-033C", title: "Budgeted batch runner queue + retry policy + hardened artifact sink", status: "DONE", deps: ["TT-033B"] },
+        { id: "TT-033D", title: "Lab panel runtime integration + export UI + JSON editor + local persistence + compare/preview", status: "DONE", deps: ["TT-033C", "TT-020"] },
+        { id: "TT-034", title: "Scale Physics Mode", status: "DONE", deps: ["TT-023A", "TT-024A", "TT-033"] },
+        { id: "TT-034A", title: "Scale Physics scientific specification", status: "DONE", deps: ["TT-034"] },
+        { id: "TT-034B", title: "Nondimensional converter production-ready (Re/St/Ro + validation/consistency)", status: "DONE", deps: ["TT-034A", "TT-023A", "TT-024A"] },
+        { id: "TT-034C", title: "Scale presets + applicability logging", status: "DONE", deps: ["TT-034B", "TT-033C"] },
+        { id: "TT-035", title: "Adaptive Resolution System", status: "DONE", deps: ["TT-030", "TT-034", "TT-021"] },
+        { id: "TT-035A", title: "Adaptive resolution scientific specification", status: "DONE", deps: ["TT-035"] },
+        { id: "TT-035B", title: "Resolution controller core", status: "DONE", deps: ["TT-035A", "TT-030"] },
+        { id: "TT-035C", title: "Resolution diagnostics map + lab hooks", status: "DONE", deps: ["TT-035B", "TT-033D"] },
+        { id: "TT-036", title: "Remote-render streaming feasibility study", status: "DONE", deps: ["TT-017", "TT-033", "TT-020"] },
+        { id: "TT-037", title: "Research experiment matrix + instability protocol + metric mapping", status: "DONE", deps: ["TT-033", "TT-034", "TT-035"] },
+        { id: "TT-037A", title: "Unified research experiment matrix v1", status: "DONE", deps: ["TT-037"] },
+        { id: "TT-037B", title: "Instability study protocol v1", status: "DONE", deps: ["TT-037A", "TT-030"] },
+        { id: "TT-037C", title: "Publishable metric mapping v1", status: "DONE", deps: ["TT-037B", "TT-016", "TT-028"] },
+        { id: "TT-038", title: "Executable research runbook (preset pack + artifact naming)", status: "DONE", deps: ["TT-037", "TT-033D"] },
+        { id: "TT-038A", title: "Research preset pack v1 in runtime lab", status: "DONE", deps: ["TT-037A", "TT-033D"] },
+        { id: "TT-038B", title: "Deterministic artifact naming contract v1 + export wiring", status: "DONE", deps: ["TT-038A", "TT-033C"] },
+        { id: "TT-038C", title: "Executable research runbook doc + roadmap/lab sync", status: "DONE", deps: ["TT-038A", "TT-038B"] },
+        { id: "TT-039", title: "Research preset pack mini-acceptance audit", status: "DONE", deps: ["TT-038", "TT-017"] },
+        { id: "TT-039A", title: "CLI audit suite for research preset pack", status: "DONE", deps: ["TT-038A", "TT-017A"] },
+        { id: "TT-039B", title: "NPM scripts + smoke CI validation", status: "DONE", deps: ["TT-039A"] },
+        { id: "TT-039C", title: "Runbook + roadmap/progress/dashboard sync", status: "DONE", deps: ["TT-039A", "TT-039B"] },
+        { id: "TT-040", title: "Research preset pack full-duration baseline recheck", status: "DONE", deps: ["TT-039"] },
+        { id: "TT-040A", title: "Full-duration CI baseline run (DURATION_SCALE=1)", status: "DONE", deps: ["TT-039B"] },
+        { id: "TT-040B", title: "Baseline verdict lock in runbook + tracker sync", status: "DONE", deps: ["TT-040A"] },
+        { id: "TT-041", title: "Research preset pack aggregate baseline report", status: "DONE", deps: ["TT-039", "TT-040"] },
+        { id: "TT-041A", title: "Dedicated smoke/full audit artifacts", status: "DONE", deps: ["TT-039B", "TT-040A"] },
+        { id: "TT-041B", title: "Comparative report + tracker sync", status: "DONE", deps: ["TT-041A"] },
+        { id: "TT-042", title: "Research preset pack rolling trend/history + regress flags", status: "DONE", deps: ["TT-039", "TT-040", "TT-041"] },
+        { id: "TT-042A", title: "Trend snapshot retention + same-scale compare", status: "DONE", deps: ["TT-039A", "TT-040A"] },
+        { id: "TT-042B", title: "Regress flags + strict trend CI mode", status: "DONE", deps: ["TT-042A"] },
+        { id: "TT-042C", title: "Trend runbook/report/tracker sync", status: "DONE", deps: ["TT-042A", "TT-042B"] },
+        { id: "TT-043", title: "Trend-regress envelope calibration + baseline policy hardening", status: "DONE", deps: ["TT-042"] },
+        { id: "TT-043A", title: "Multi-snapshot baseline policy (same-scale successful window)", status: "DONE", deps: ["TT-042A"] },
+        { id: "TT-043B", title: "Dual-threshold trend gate (% + abs-ms) + min baseline points", status: "DONE", deps: ["TT-043A", "TT-042B"] },
+        { id: "TT-043C", title: "Strict trend CI verification + runbook/tracker sync", status: "DONE", deps: ["TT-043A", "TT-043B"] },
+        { id: "TT-044", title: "Versioned trend policy profiles + policy-driven strict trend CI", status: "DONE", deps: ["TT-043"] },
+        { id: "TT-044A", title: "Trend policy contract v1 (smoke/standard/nightly)", status: "DONE", deps: ["TT-043B"] },
+        { id: "TT-044B", title: "Policy resolver integration + env override precedence", status: "DONE", deps: ["TT-044A"] },
+        { id: "TT-044C", title: "Profile CI scripts + docs/tracker sync", status: "DONE", deps: ["TT-044A", "TT-044B"] },
+        { id: "TT-045", title: "Trend baseline segmentation by policy profile", status: "DONE", deps: ["TT-044"] },
+        { id: "TT-045A", title: "Persist trendPolicyProfile in trend snapshots", status: "DONE", deps: ["TT-044B"] },
+        { id: "TT-045B", title: "Baseline selector: same durationScale + profile", status: "DONE", deps: ["TT-045A"] },
+        { id: "TT-045C", title: "Runbook/tracker sync for profile-segmented trend compare", status: "DONE", deps: ["TT-045A", "TT-045B"] },
+        { id: "TT-046", title: "Strict baseline sufficiency gate for trend CI", status: "DONE", deps: ["TT-045"] },
+        { id: "TT-046A", title: "Fail-on-insufficient-baseline gate in audit runner", status: "DONE", deps: ["TT-045B"] },
+        { id: "TT-046B", title: "Nightly strict-baseline CI script", status: "DONE", deps: ["TT-046A"] },
+        { id: "TT-046C", title: "Runbook/tracker sync for strict baseline mode", status: "DONE", deps: ["TT-046A", "TT-046B"] },
+        { id: "TT-047", title: "Hybrid sync invariant hardening across hybrid and hybrid_plus", status: "DONE", deps: ["TT-016C"] },
+        { id: "TT-047A", title: "Filament step gate extended to executionMode hybrid/hybrid_plus", status: "DONE", deps: ["TT-016C"] },
+        { id: "TT-047B", title: "Runtime sync counters for blocked/unsafe filament steps", status: "DONE", deps: ["TT-047A"] },
+        { id: "TT-047C", title: "Multi-mode hybrid sync diagnostic hardening", status: "DONE", deps: ["TT-047A", "TT-047B"] },
+        { id: "TT-048", title: "Hybrid sync diagnostic CI hardening", status: "DONE", deps: ["TT-047"] },
+        { id: "TT-048A", title: "Parametric thresholds + strict syncdiag CI profile", status: "DONE", deps: ["TT-047C"] },
+        { id: "TT-048B", title: "Hybrid sync runbook (checks/env/artifacts contract)", status: "DONE", deps: ["TT-048A"] },
+        { id: "TT-048C", title: "Tracker sync for hybrid sync CI hardening", status: "DONE", deps: ["TT-048A", "TT-048B"] },
+        { id: "TT-049", title: "Hybrid sync soak audit for intermittent regressions", status: "DONE", deps: ["TT-048"] },
+        { id: "TT-049A", title: "Repeated-run soak aggregator for syncdiag", status: "DONE", deps: ["TT-048A"] },
+        { id: "TT-049B", title: "Strict soak CI + mode-aware frozen-ratio policy", status: "DONE", deps: ["TT-049A"] },
+        { id: "TT-049C", title: "Runbook/tracker sync for soak diagnostics", status: "DONE", deps: ["TT-049A", "TT-049B"] },
+        { id: "TT-050", title: "Preset audit bridge for hybrid sync invariant", status: "DONE", deps: ["TT-047", "TT-049"] },
+        { id: "TT-050A", title: "Add no_unsafe_unsynced_filament_steps gate to preset audit", status: "DONE", deps: ["TT-047B"] },
+        { id: "TT-050B", title: "Wire unsafe/block deltas into preset audit rows", status: "DONE", deps: ["TT-050A"] },
+        { id: "TT-050C", title: "Runbook/tracker sync for preset hybrid-sync gate", status: "DONE", deps: ["TT-050A", "TT-050B"] },
+        { id: "TT-051", title: "Hybrid sync soak trend/history + regress flags", status: "DONE", deps: ["TT-049"] },
+        { id: "TT-051A", title: "Rolling soak trend snapshots with strict/repeat comparability", status: "DONE", deps: ["TT-049A"] },
+        { id: "TT-051B", title: "Soak trend regress flags + strict trend CI script", status: "DONE", deps: ["TT-051A"] },
+        { id: "TT-051C", title: "Runbook/tracker sync for soak trend policy", status: "DONE", deps: ["TT-051A", "TT-051B"] },
+        { id: "TT-052", title: "Versioned case-gate policy profiles for research preset audit", status: "DONE", deps: ["TT-044", "TT-051"] },
+        { id: "TT-053", title: "Policy integrity audit bridge for case/trend policy stack", status: "DONE", deps: ["TT-052"] },
+        { id: "TT-054", title: "Dashboard roadmap sync v2 with future tasks lane", status: "DONE", deps: ["TT-010", "TT-053"] },
+        { id: "TT-055", title: "Research preset policy CLI templates from baseline artifacts", status: "DONE", deps: ["TT-052", "TT-053"] },
+        { id: "TT-056", title: "Research preset policy drift CI gate", status: "DONE", deps: ["TT-055"] },
+        { id: "TT-057", title: "Policy drift adaptive envelope tuning", status: "DONE", deps: ["TT-056"] },
+        { id: "TT-058", title: "Dashboard data-mode telemetry badge and sync-source clarity", status: "DONE", deps: ["TT-054"] },
+        { id: "TT-059", title: "Dashboard sync diagnostics panel v2", status: "DONE", deps: ["TT-058"] },
+        { id: "TT-060", title: "Dashboard sync diagnostics UX polish", status: "DONE", deps: ["TT-059"] },
+        { id: "TT-061", title: "Dashboard source-health action widgets", status: "DONE", deps: ["TT-060"] },
+        { id: "TT-062", title: "Dashboard external-validation policy profile and progress cross-check normalization", status: "DONE", deps: ["TT-060"] },
+        { id: "TT-063", title: "Dashboard source-health remediation policy presets and operator quick-actions", status: "DONE", deps: ["TT-061", "TT-062"] },
+        { id: "TT-064", title: "Dashboard source-health per-source remediation actions and cooldown guardrails", status: "DONE", deps: ["TT-063"] },
+        { id: "TT-065", title: "Dashboard source-health action audit trail and policy explainability panel", status: "DONE", deps: ["TT-064"] },
+        { id: "TT-066", title: "Scientific validation partition hardening and artifact/report propagation", status: "DONE", deps: ["TT-062"] },
+        { id: "TT-067", title: "Natural external-validation future distributed contour (post-classic phase)", status: "DONE", deps: ["TT-066", "TT-068"] },
+        { id: "TT-067A", title: "Distributed contour protocol spec v1", status: "DONE", deps: ["TT-067"] },
+        { id: "TT-067B", title: "Distributed validation artifact contract v1", status: "DONE", deps: ["TT-067A"] },
+        { id: "TT-067C", title: "Distributed validation contract audit CLI", status: "DONE", deps: ["TT-067B"] },
+        { id: "TT-067D", title: "Strict distributed parity CI contour", status: "DONE", deps: ["TT-067C"] },
+        { id: "TT-067E", title: "Runtime parity artifact pipeline (build -> audit)", status: "DONE", deps: ["TT-067D", "TT-068C"] },
+        { id: "TT-067F", title: "Real triad input ingestion contract + CI gate", status: "DONE", deps: ["TT-067E"] },
+        { id: "TT-067G", title: "Strict chain reordering to runtime artifact source-of-truth", status: "DONE", deps: ["TT-067F"] },
+        { id: "TT-067H", title: "Policy-driven parity profiles + trend/regress CI", status: "DONE", deps: ["TT-067G"] },
+        { id: "TT-067I", title: "Distributed parity policy integrity audit + CI gate", status: "DONE", deps: ["TT-067H"] },
+        { id: "TT-068", title: "Classic external validation closure pack", status: "DONE", deps: ["TT-062", "TT-066"] },
+        { id: "TT-068A", title: "Classic closure gate (classic-only external validation eligibility lock)", status: "DONE", deps: ["TT-068"] },
+        { id: "TT-068B", title: "External validation evidence pack v1 (classic)", status: "DONE", deps: ["TT-068A"] },
+        { id: "TT-068C", title: "Independent classic replication protocol v1", status: "DONE", deps: ["TT-068B"] },
+        { id: "TT-069", title: "Post-closure roadmap phase bootstrap", status: "DONE", deps: ["TT-067", "TT-068"] },
+        { id: "TT-069A", title: "Bootstrap spec for post-closure phase contract", status: "DONE", deps: ["TT-069"] },
+        { id: "TT-069B", title: "Intake template for new top-level initiatives", status: "DONE", deps: ["TT-069A"] },
+        { id: "TT-069C", title: "First candidate queue draft + tracker sync check", status: "DONE", deps: ["TT-069B"] },
+        { id: "TT-070", title: "Continuous validation governance", status: "DONE", deps: ["TT-067", "TT-068", "TT-069"] },
+        { id: "TT-070A", title: "Governance runbook/spec v1", status: "DONE", deps: ["TT-070"] },
+        { id: "TT-070B", title: "Governance policy contract + audit CLI", status: "DONE", deps: ["TT-070A"] },
+        { id: "TT-070C", title: "Strict governance CI gate + closure sync report", status: "DONE", deps: ["TT-070B"] }
+      ];
+
+      let branchProgress = [];
+
+      const milestones = [
+        { id: "A", label: "Audit Foundation", x: 40, y: 140 },
+        { id: "B", label: "Hybrid Acceleration", x: 210, y: 70 },
+        { id: "C", label: "Detection Pipeline", x: 210, y: 210 },
+        { id: "D", label: "Turbulence Model", x: 410, y: 140 },
+        { id: "E", label: "Benchmarks + Validation", x: 610, y: 140 }
+      ];
+
+      const milestoneEdges = [
+        ["A", "B"], ["A", "C"], ["A", "D"], ["B", "E"], ["C", "E"], ["D", "E"]
+      ];
+
+      let lang = "ru";
+      let taskStatusFilter = "ALL";
+      let taskOpenSubtasksOnly = false;
+      let dashboardDataSource = "embedded";
+      let dashboardLastSync = null;
+      let progressSummary = null;
+      let progressMismatch = null;
+      let syncInFlight = false;
+      const syncFreshnessPresets = {
+        strict: { staleSec: 20, criticalSec: 90 },
+        balanced: { staleSec: 45, criticalSec: 180 },
+        lenient: { staleSec: 90, criticalSec: 360 },
+      };
+      let activeSyncPolicyPreset = "balanced";
+      const syncActionCooldownMs = 5000;
+      let sourceActionCooldownUntil = {
+        tasks: 0,
+        roadmap: 0,
+        progress: 0,
+      };
+      const externalValidationPolicyFallback = {
+        schemaVersion: "tt062.dashboard_external_validation_policy.v1",
+        title: "Dashboard external validation policy",
+        criteria: [
+          {
+            id: "audit_pack_reproducible",
+            label: {
+              ru: "Reproducible audit pack",
+              en: "Reproducible audit pack"
+            },
+            taskIds: ["TT-037", "TT-038", "TT-039", "TT-040", "TT-041", "TT-042"],
+            requiredDoneRatio: 1
+          },
+          {
+            id: "independent_solver_replication",
+            label: {
+              ru: "Independent solver replication",
+              en: "Independent solver replication"
+            },
+            status: "TODO"
+          },
+          {
+            id: "cfd_experimental_cross_validation",
+            label: {
+              ru: "CFD/experimental cross-validation envelope",
+              en: "CFD/experimental cross-validation envelope"
+            },
+            status: "TODO"
+          }
+        ]
+      };
+      let externalValidationPolicy = externalValidationPolicyFallback;
+      let externalValidationPolicySource = "embedded";
+      let capabilitiesFilter = "ALL";
+      const capabilitiesFilterStorageKey = "tt.dashboard.capabilitiesFilter.v1";
+      const syncPolicyPresetStorageKey = "tt.dashboard.syncPolicyPreset.v1";
+      let syncTelemetry = {
+        tasks: "fallback",
+        roadmap: "fallback",
+        progress: "fallback",
+        error: "",
+        errorCode: "",
+        tasksAt: null,
+        roadmapAt: null,
+        progressAt: null,
+      };
+      const syncHistoryMax = 24;
+      let syncHistory = [];
+      let integrityState = {
+        tasksLoaded: false,
+        roadmapLoaded: false,
+        progressLoaded: false,
+        taskCount: 0,
+        roadmapSectionCount: 0,
+        lastSyncOk: false
+      };
+
+      const simulatorLevelTaskIds = [
+        "TT-011", "TT-012", "TT-013", "TT-014", "TT-015", "TT-016", "TT-017", "TT-018",
+        "TT-021", "TT-022", "TT-023", "TT-024", "TT-025", "TT-026", "TT-028", "TT-029",
+        "TT-030", "TT-031", "TT-032", "TT-033", "TT-034", "TT-035", "TT-037", "TT-038",
+        "TT-039", "TT-040", "TT-041", "TT-042", "TT-047", "TT-048", "TT-049", "TT-050", "TT-051"
+      ];
+      const localContourTaskIds = Array.from(new Set([
+        ...simulatorLevelTaskIds,
+        "TT-062", "TT-066", "TT-068", "TT-068A", "TT-068B", "TT-068C"
+      ]));
+      const externalContourClosureTaskIds = ["TT-068A", "TT-068B", "TT-068C"];
+      const capabilityCatalog = [
+        {
+          id: "solver",
+          label: { ru: "Solver Core", en: "Solver Core" },
+          items: [
+            {
+              id: "biot_savart",
+              title: "Biot-Savart velocity evaluation",
+              why: {
+                ru: "Базовый оператор переноса вихря: задает поле скоростей и эволюцию структур.",
+                en: "Primary vortex operator that defines velocity field and structure evolution."
+              },
+              taskIds: ["TT-001", "TT-017", "TT-029"]
+            },
+            {
+              id: "barnes_hut",
+              title: "Barnes-Hut far-field acceleration",
+              why: {
+                ru: "Снижает асимптотику дальних взаимодействий при контроле погрешности.",
+                en: "Reduces far-field interaction cost while preserving bounded approximation error."
+              },
+              taskIds: ["TT-018", "TT-029"]
+            },
+            {
+              id: "fmm",
+              title: "FMM / fast far-field approximation",
+              why: {
+                ru: "Обеспечивает масштабируемость по числу частиц для научных сценариев большой размерности.",
+                en: "Provides particle-count scalability for large scientific configurations."
+              },
+              taskIds: ["TT-029", "TT-029C"]
+            }
+          ]
+        },
+        {
+          id: "hybrid",
+          label: { ru: "GPU / Hybrid Coupling", en: "GPU / Hybrid Coupling" },
+          items: [
+            {
+              id: "gpu_query",
+              title: "GPU coupling query pipeline",
+              why: {
+                ru: "Минимизирует readback и синхронизирует CPU/GPU без потери физической согласованности.",
+                en: "Minimizes readback and synchronizes CPU/GPU while preserving physical consistency."
+              },
+              taskIds: ["TT-011", "TT-012", "TT-047"]
+            },
+            {
+              id: "hybrid_plus",
+              title: "Hybrid+ operators and scheduler",
+              why: {
+                ru: "Добавляет адаптивные операторы для устойчивого шага в сложных топологиях.",
+                en: "Adds adaptive operators for stable stepping in complex topologies."
+              },
+              taskIds: ["TT-018", "TT-017J", "TT-049"]
+            }
+          ]
+        },
+        {
+          id: "scientific",
+          label: { ru: "Scientific Object Models", en: "Scientific Object Models" },
+          items: [
+            {
+              id: "sheets",
+              title: "Vortex sheets (panel/quadrature contracts)",
+              why: {
+                ru: "Нужны для корректной аппроксимации сдвиговых и wake-структур.",
+                en: "Required for accurate representation of shear-layer and wake structures."
+              },
+              taskIds: ["TT-021", "TT-021B", "TT-021C"]
+            },
+            {
+              id: "rings_jets",
+              title: "Ring/Jet regime models",
+              why: {
+                ru: "Формализуют режимы по безразмерным числам и дают верифицируемые переходы.",
+                en: "Formalize nondimensional regimes and provide verifiable transitions."
+              },
+              taskIds: ["TT-023", "TT-024", "TT-022"]
+            },
+            {
+              id: "detector_fusion",
+              title: "Multiclass detector + topology tracking",
+              why: {
+                ru: "Связывает структуру потока с измеримыми объектами и их эволюцией.",
+                en: "Links flow structure to measurable objects and their lineage over time."
+              },
+              taskIds: ["TT-025", "TT-028", "TT-019"]
+            }
+          ]
+        },
+        {
+          id: "validation",
+          label: { ru: "Validation & Reproducibility", en: "Validation & Reproducibility" },
+          items: [
+            {
+              id: "benchmarks",
+              title: "Long-run benchmark and gate system",
+              why: {
+                ru: "Удерживает численную устойчивость и перформанс в повторяемых CI-прогонах.",
+                en: "Maintains numerical stability and performance in reproducible CI runs."
+              },
+              taskIds: ["TT-017", "TT-030", "TT-016C"]
+            },
+            {
+              id: "research_pack",
+              title: "Research preset audits + trend history",
+              why: {
+                ru: "Превращает эксперименты в воспроизводимые артефакты с regress-контролем.",
+                en: "Turns experiments into reproducible artifacts with regression controls."
+              },
+              taskIds: ["TT-037", "TT-038", "TT-039", "TT-040", "TT-041", "TT-042", "TT-043", "TT-044", "TT-045", "TT-046", "TT-050", "TT-051"]
+            }
+          ]
+        }
+      ];
+
+      const ideasCatalog = [
+        {
+          ru: "LES/DNS cross-validation: сопоставление с эталонными CFD кейсами и публикация error envelopes.",
+          en: "LES/DNS cross-validation against reference CFD cases with published error envelopes."
+        },
+        {
+          ru: "Sensitivity/uncertainty panel: Sobol/локальная чувствительность для ключевых параметров.",
+          en: "Sensitivity/uncertainty panel with Sobol or local sensitivity metrics for key parameters."
+        },
+        {
+          ru: "Boundary realism v2: no-slip wall models и количественная валидация near-wall поведения.",
+          en: "Boundary realism v2 with no-slip wall models and quantitative near-wall validation."
+        },
+        {
+          ru: "Future distributed/server-client contour: reproducibility envelope (RTT/jitter/loss), compute-split parity (local/server/distributed), и Natural external-validation protocol для сети участников.",
+          en: "Future distributed/server-client contour: reproducibility envelope (RTT/jitter/loss), compute-split parity (local/server/distributed), and a Natural external-validation protocol for participant networks."
+        }
+      ];
+
+      function parseTaskCode(id) {
+        const match = /^TT-(\d+)([A-Z]+)?$/.exec(String(id || ""));
+        if (!match) {
+          return null;
+        }
+        return {
+          num: Number(match[1]),
+          suffix: match[2] || ""
+        };
+      }
+
+      function classifySyncError(message) {
+        const msg = String(message || "").toLowerCase();
+        if (!msg) return "";
+        if (msg.includes("failed to fetch") || msg.includes("networkerror")) return "network_unreachable";
+        if (msg.includes("404")) return "doc_not_found";
+        if (msg.includes("json")) return "json_parse_error";
+        return "sync_exception";
+      }
+
+      function ageSec(isoString) {
+        if (!isoString) return null;
+        const ms = Date.now() - Date.parse(isoString);
+        if (!Number.isFinite(ms) || ms < 0) return null;
+        return Math.floor(ms / 1000);
+      }
+
+      function pushSyncEvent(type, ok, message) {
+        const event = {
+          at: new Date().toISOString(),
+          type: String(type || "SYNC"),
+          ok: ok === true,
+          message: String(message || ""),
+        };
+        syncHistory = [event, ...syncHistory].slice(0, syncHistoryMax);
+      }
+
+      function classifySyncSeverity(event) {
+        const type = String(event?.type || "");
+        const message = String(event?.message || "").toLowerCase();
+        if (type === "SYNC_FAIL") {
+          if (message.includes("network_unreachable") || message.includes("doc_not_found")) return "high";
+          if (message.includes("json_parse_error")) return "medium";
+          return "medium";
+        }
+        if (type === "FALLBACK_INIT") return "medium";
+        return "low";
+      }
+
+      function compactSyncEvents(events) {
+        const compacted = [];
+        for (const event of events) {
+          const last = compacted[compacted.length - 1];
+          const key = `${event.type}|${event.message}`;
+          if (last && last.key === key) {
+            last.count += 1;
+            last.latestAt = event.at;
+            continue;
+          }
+          compacted.push({
+            key,
+            type: event.type,
+            ok: event.ok,
+            message: event.message,
+            latestAt: event.at,
+            count: 1,
+          });
+        }
+        return compacted;
+      }
+
+      function buildOperatorHints() {
+        const hints = [];
+        const errorCode = String(syncTelemetry.errorCode || "");
+        const isRu = lang === "ru";
+        if (errorCode === "network_unreachable") {
+          hints.push(
+            isRu
+              ? "Проверь, что dashboard открыт через dev-server (http://localhost:5173), а не file://."
+              : "Open dashboard via dev-server (http://localhost:5173), not via file://.",
+          );
+        } else if (errorCode === "doc_not_found") {
+          hints.push(
+            isRu
+              ? "Проверь наличие docs/TASKS.md, docs/ROADMAP.md, docs/PROGRESS.md и относительные пути fetch()."
+              : "Check docs/TASKS.md, docs/ROADMAP.md, docs/PROGRESS.md and fetch() relative paths.",
+          );
+        } else if (errorCode === "json_parse_error") {
+          hints.push(
+            isRu
+              ? "Проверь валидность JSON в policy/artifact файлах и отсутствие обрезанных артефактов."
+              : "Validate JSON in policy/artifact files and ensure artifacts are not truncated.",
+          );
+        } else if (errorCode === "sync_exception") {
+          hints.push(
+            isRu
+              ? "Открой devtools console и проверь stacktrace последнего sync exception."
+              : "Open devtools console and inspect the latest sync exception stacktrace.",
+          );
+        }
+        if (syncTelemetry.tasks !== "docs" || syncTelemetry.roadmap !== "docs") {
+          hints.push(
+            isRu
+              ? "Сейчас активен fallback/derived режим: проверь доступность docs-источников для LIVE режима."
+              : "Fallback/derived mode is active: verify docs sources availability for LIVE mode.",
+          );
+        }
+        return hints.slice(0, 4);
+      }
+
+      function toTaskStatus(rawStatus) {
+        const status = String(rawStatus || "").trim().toUpperCase();
+        if (status === "DONE" || status === "IN_PROGRESS" || status === "TODO") {
+          return status;
+        }
+        return "TODO";
+      }
+
+      function parseTasksMarkdown(markdown) {
+        const lines = String(markdown || "").split("\n");
+        const parsed = [];
+        const byId = new Map();
+        const rowRegex = /^\|\s*(TT-[0-9A-Z]+)\s*\|\s*([^|]+?)\s*\|\s*([^|]*?)\s*\|\s*[^|]*\|\s*(DONE|IN_PROGRESS|TODO)\s*\|/;
+        for (const line of lines) {
+          const match = rowRegex.exec(line);
+          if (!match) continue;
+          const deps = (match[3].match(/TT-\d+[A-Z]*/g) || []).map((dep) => dep.trim());
+          const task = {
+            id: match[1].trim(),
+            title: match[2].replace(/`/g, "").trim(),
+            deps,
+            status: toTaskStatus(match[4])
+          };
+          if (byId.has(task.id)) {
+            continue;
+          }
+          byId.set(task.id, task);
+          parsed.push(task);
+        }
+        return parsed;
+      }
+
+      function parseProgressMarkdown(markdown) {
+        const text = String(markdown || "");
+        const updatedMatch = text.match(/^(?:Последнее обновление|Last updated?)\s*:\s*(.+)$/mi);
+        const statusMatch = text.match(/^\s*-\s*\*\*(?:Статус|Status)\*\*:\s*(.+)$/mi);
+        const overallMatch = text.match(/\*\*Overall\*\*:\s*`?(\d+)\s+DONE\s*\/\s*(\d+)\s+IN_PROGRESS\s*\/\s*(\d+)\s+TODO`?/i);
+        if (!updatedMatch && !statusMatch && !overallMatch) {
+          return null;
+        }
+        const done = overallMatch ? Number(overallMatch[1]) : null;
+        const inProgress = overallMatch ? Number(overallMatch[2]) : null;
+        const todo = overallMatch ? Number(overallMatch[3]) : null;
+        const total =
+          done !== null && inProgress !== null && todo !== null
+            ? done + inProgress + todo
+            : null;
+        return {
+          updatedAt: updatedMatch ? updatedMatch[1].trim() : null,
+          statusText: statusMatch ? statusMatch[1].trim() : null,
+          done,
+          inProgress,
+          todo,
+          total,
+          percent: total && done !== null ? pct(done, total) : null
+        };
+      }
+
+      function summarizeStatus(items) {
+        if (!Array.isArray(items) || items.length === 0) return "TODO";
+        const done = items.filter((item) => item.status === "DONE").length;
+        if (done === items.length) return "DONE";
+        return items.some((item) => item.status === "IN_PROGRESS") ? "IN_PROGRESS" : "TODO";
+      }
+
+      function computeTaskSummary(taskList) {
+        const done = taskList.filter((item) => item.status === "DONE").length;
+        const inProgress = taskList.filter((item) => item.status === "IN_PROGRESS").length;
+        const todo = taskList.filter((item) => item.status === "TODO").length;
+        const total = taskList.length;
+        return {
+          done,
+          inProgress,
+          todo,
+          total,
+          percent: pct(done, total)
+        };
+      }
+
+      function topLevelTasks(taskList) {
+        return (taskList || []).filter((task) => {
+          const meta = parseTaskCode(task.id);
+          return meta && !meta.suffix;
+        });
+      }
+
+      function detectProgressMismatch(taskSummary, progressData) {
+        if (!progressData) return null;
+        if (
+          typeof progressData.done !== "number" ||
+          typeof progressData.inProgress !== "number" ||
+          typeof progressData.todo !== "number"
+        ) {
+          return null;
+        }
+        const mismatch =
+          progressData.done !== taskSummary.done ||
+          progressData.inProgress !== taskSummary.inProgress ||
+          progressData.todo !== taskSummary.todo;
+        if (!mismatch) return null;
+        return {
+          progress: {
+            done: progressData.done,
+            inProgress: progressData.inProgress,
+            todo: progressData.todo
+          },
+          tasks: {
+            done: taskSummary.done,
+            inProgress: taskSummary.inProgress,
+            todo: taskSummary.todo
+          }
+        };
+      }
+
+      function evaluateExternalValidation() {
+        const policy = externalValidationPolicy || externalValidationPolicyFallback;
+        const criteria = Array.isArray(policy.criteria) ? policy.criteria : [];
+        const evaluated = criteria.map((criterion) => {
+          const required = Number(criterion.requiredDoneRatio || 1);
+          const ids = Array.isArray(criterion.taskIds) ? criterion.taskIds : [];
+          if (ids.length > 0) {
+            const summary = computeTaskSummary(
+              ids.map((id) => tasks.find((task) => task.id === id)).filter(Boolean),
+            );
+            const ratio = summary.total > 0 ? summary.done / summary.total : 0;
+            const status = ratio >= required ? "PASS" : ratio > 0 ? "PARTIAL" : "TODO";
+            return { criterion, status };
+          }
+          const declared = String(criterion.status || "TODO").toUpperCase();
+          const status = declared === "PASS" ? "PASS" : declared === "PARTIAL" ? "PARTIAL" : "TODO";
+          return { criterion, status };
+        });
+        const passCount = evaluated.filter((item) => item.status === "PASS").length;
+        const partialCount = evaluated.filter((item) => item.status === "PARTIAL").length;
+        const total = evaluated.length;
+        return {
+          policyVersion: String(policy.schemaVersion || "unknown"),
+          passCount,
+          partialCount,
+          total,
+          evaluated,
+        };
+      }
+
+      function getSyncSourceFreshness(rawState, ts) {
+        const age = ageSec(ts);
+        const preset = syncFreshnessPresets[activeSyncPolicyPreset] || syncFreshnessPresets.balanced;
+        if (rawState !== "docs") {
+          return { band: "critical", age };
+        }
+        if (age === null) {
+          return { band: "critical", age };
+        }
+        if (age <= preset.staleSec) {
+          return { band: "fresh", age };
+        }
+        if (age <= preset.criticalSec) {
+          return { band: "stale", age };
+        }
+        return { band: "critical", age };
+      }
+
+      function sourceCooldownLeftSec(source) {
+        const until = Number(sourceActionCooldownUntil[source] || 0);
+        const left = until - Date.now();
+        if (!Number.isFinite(left) || left <= 0) return 0;
+        return Math.ceil(left / 1000);
+      }
+
+      function topLevelTasksByRange(min, max) {
+        return tasks.filter((task) => {
+          const meta = parseTaskCode(task.id);
+          return meta && !meta.suffix && meta.num >= min && meta.num <= max;
+        });
+      }
+
+      function buildBranchProgressFromTasks() {
+        const ranges = [
+          { name: "Foundation", min: 1, max: 10 },
+          { name: "Implementation", min: 11, max: 18 },
+          { name: "Productization", min: 19, max: 32 },
+          { name: "Research Infrastructure", min: 33, max: 999 }
+        ];
+        return ranges.map((range) => {
+          const group = topLevelTasksByRange(range.min, range.max);
+          const done = group.filter((item) => item.status === "DONE").length;
+          return { name: range.name, value: pct(done, group.length) };
+        });
+      }
+
+      function buildRoadmapFromTasks() {
+        const ranges = [
+          { name: "Foundation", min: 1, max: 10 },
+          { name: "Implementation", min: 11, max: 18 },
+          { name: "Productization", min: 19, max: 32 },
+          { name: "Research Infrastructure", min: 33, max: 999 }
+        ];
+        return ranges.map((range) => {
+          const group = topLevelTasksByRange(range.min, range.max);
+          return {
+            name: range.name,
+            status: summarizeStatus(group),
+            steps: group.map((task) => ({ title: `${task.id} — ${task.title}`, status: task.status }))
+          };
+        });
+      }
+
+      function parseRoadmapSections(roadmapMarkdown, taskById) {
+        const lines = String(roadmapMarkdown || "").split("\n");
+        const ignoredSections = new Set([
+          "Приоритет и порядок (строгий)",
+          "Строгие уточнения addendum"
+        ]);
+        const canonicalSections = new Set([
+          "Physics Engine",
+          "GPU Compute",
+          "Hybrid Solver",
+          "Vortex Structures",
+          "Turbulence Physics",
+          "Numerical Stability",
+          "Numerical Stability System",
+          "FMM Vortex Solver",
+          "Vortex Topology",
+          "Advanced Vortex Visualization",
+          "Physical Realism Modules",
+          "Visualization",
+          "Vortex Sheets",
+          "Vortex Transitions",
+          "Vortex Rings",
+          "Vortex Jets",
+          "UI",
+          "Performance",
+          "Research",
+          "Simulation Lab Mode",
+          "Scale Physics Mode",
+          "Adaptive Resolution System",
+        ]);
+        const sections = [];
+        let current = null;
+        for (const line of lines) {
+          const headingMatch = /^##\s+(.+?)\s*$/.exec(line);
+          if (headingMatch) {
+            if (current && current.taskIds.length > 0) {
+              sections.push(current);
+            }
+            const name = headingMatch[1].trim();
+            current = ignoredSections.has(name)
+              ? null
+              : { name, isCanonical: canonicalSections.has(name), taskIds: [] };
+            continue;
+          }
+          if (!current) continue;
+          const ids = line.match(/TT-\d+[A-Z]*/g) || [];
+          for (const id of ids) {
+            if (!taskById.has(id)) continue;
+            if (!current.taskIds.includes(id)) {
+              current.taskIds.push(id);
+            }
+          }
+        }
+        if (current && current.taskIds.length > 0) {
+          sections.push(current);
+        }
+        return sections
+          .map((section) => ({
+            name: section.name,
+            isCanonical: section.isCanonical === true,
+            steps: section.taskIds
+              .map((id) => taskById.get(id))
+              .filter(Boolean)
+              .map((task) => ({ title: `${task.id} — ${task.title}`, status: task.status }))
+          }))
+          .filter((section) => section.steps.length > 0)
+          .filter((section) => section.isCanonical)
+          .map((section) => ({
+            name: section.name,
+            status: summarizeStatus(section.steps),
+            steps: section.steps
+          }));
+      }
+
+      function buildBranchProgressFromRoadmap(roadmapSections) {
+        return roadmapSections.map((section) => {
+          const done = section.steps.filter((step) => step.status === "DONE").length;
+          return {
+            name: section.name,
+            value: pct(done, section.steps.length)
+          };
+        });
+      }
+
+      async function syncDashboardFromDocs() {
+        try {
+          syncTelemetry = {
+            tasks: "fallback",
+            roadmap: "fallback",
+            progress: "fallback",
+            error: "",
+            errorCode: "",
+            tasksAt: null,
+            roadmapAt: null,
+            progressAt: null,
+          };
+          integrityState = {
+            tasksLoaded: false,
+            roadmapLoaded: false,
+            progressLoaded: false,
+            taskCount: 0,
+            roadmapSectionCount: 0,
+            lastSyncOk: false
+          };
+          const [tasksResponse, roadmapResponse, progressResponse, externalValidationPolicyResponse] = await Promise.all([
+            fetch("../docs/TASKS.md", { cache: "no-store" }),
+            fetch("../docs/ROADMAP.md", { cache: "no-store" }),
+            fetch("../docs/PROGRESS.md", { cache: "no-store" }),
+            fetch("../docs/dashboard-external-validation-policy.v1.json", { cache: "no-store" }),
+          ]);
+          if (!tasksResponse.ok) return false;
+          integrityState.tasksLoaded = true;
+          syncTelemetry.tasks = "docs";
+          syncTelemetry.tasksAt = new Date().toISOString();
+          const tasksMarkdown = await tasksResponse.text();
+          const parsedTasks = parseTasksMarkdown(tasksMarkdown);
+          if (!Array.isArray(parsedTasks) || parsedTasks.length === 0) return false;
+          tasks = parsedTasks;
+          integrityState.taskCount = tasks.length;
+          const topLevelTaskSummary = computeTaskSummary(topLevelTasks(tasks));
+          let nextRoadmap = buildRoadmapFromTasks();
+          let sourceLabel = "docs/TASKS.md";
+          if (roadmapResponse.ok) {
+            const roadmapMarkdown = await roadmapResponse.text();
+            const taskById = new Map(tasks.map((task) => [task.id, task]));
+            const parsedRoadmap = parseRoadmapSections(roadmapMarkdown, taskById);
+            if (parsedRoadmap.length > 0) {
+              nextRoadmap = parsedRoadmap;
+              sourceLabel = "docs/TASKS.md + docs/ROADMAP.md";
+              integrityState.roadmapLoaded = true;
+              integrityState.roadmapSectionCount = parsedRoadmap.length;
+              syncTelemetry.roadmap = "docs";
+              syncTelemetry.roadmapAt = new Date().toISOString();
+            }
+          }
+          roadmap = nextRoadmap;
+          if (syncTelemetry.roadmap !== "docs") {
+            syncTelemetry.roadmap = "derived";
+            syncTelemetry.roadmapAt = new Date().toISOString();
+          }
+          branchProgress = sourceLabel.includes("ROADMAP")
+            ? buildBranchProgressFromRoadmap(nextRoadmap)
+            : buildBranchProgressFromTasks();
+          progressSummary = null;
+          if (progressResponse.ok) {
+            const progressMarkdown = await progressResponse.text();
+            const parsedProgress = parseProgressMarkdown(progressMarkdown);
+            if (parsedProgress) {
+              progressSummary = parsedProgress;
+              sourceLabel = `${sourceLabel} + docs/PROGRESS.md`;
+              integrityState.progressLoaded = true;
+              syncTelemetry.progress = "docs";
+              syncTelemetry.progressAt = new Date().toISOString();
+            }
+          }
+          if (syncTelemetry.progress !== "docs") {
+            syncTelemetry.progress = "derived";
+            syncTelemetry.progressAt = new Date().toISOString();
+          }
+          if (externalValidationPolicyResponse.ok) {
+            try {
+              const parsedPolicy = JSON.parse(await externalValidationPolicyResponse.text());
+              if (parsedPolicy && Array.isArray(parsedPolicy.criteria)) {
+                externalValidationPolicy = parsedPolicy;
+                externalValidationPolicySource = "docs";
+              } else {
+                externalValidationPolicy = externalValidationPolicyFallback;
+                externalValidationPolicySource = "embedded";
+              }
+            } catch {
+              externalValidationPolicy = externalValidationPolicyFallback;
+              externalValidationPolicySource = "embedded";
+            }
+          } else {
+            externalValidationPolicy = externalValidationPolicyFallback;
+            externalValidationPolicySource = "embedded";
+          }
+          progressMismatch = detectProgressMismatch(topLevelTaskSummary, progressSummary);
+          dashboardDataSource = sourceLabel;
+          dashboardLastSync = new Date().toISOString();
+          integrityState.lastSyncOk = true;
+          pushSyncEvent(
+            "SYNC_OK",
+            true,
+            `tasks=${syncTelemetry.tasks}, roadmap=${syncTelemetry.roadmap}, progress=${syncTelemetry.progress}`,
+          );
+          return true;
+        } catch (error) {
+          syncTelemetry.error = String(error?.message ?? error ?? "sync_failed");
+          syncTelemetry.errorCode = classifySyncError(syncTelemetry.error);
+          pushSyncEvent("SYNC_FAIL", false, `${syncTelemetry.errorCode}: ${syncTelemetry.error}`);
+          integrityState.lastSyncOk = false;
+          return false;
+        }
+      }
+
+      function pct(done, total) {
+        return total > 0 ? Math.round((done / total) * 100) : 0;
+      }
+
+      function clsByStatus(status) {
+        if (status === "DONE") return "done";
+        if (status === "IN_PROGRESS") return "in-progress";
+        return "todo";
+      }
+
+      function statusByTaskIds(taskIds) {
+        const targetTasks = taskIds
+          .map((id) => tasks.find((task) => task.id === id))
+          .filter(Boolean);
+        if (targetTasks.length === 0) return "TODO";
+        const done = targetTasks.filter((task) => task.status === "DONE").length;
+        if (done === targetTasks.length) return "DONE";
+        return targetTasks.some((task) => task.status === "IN_PROGRESS") ? "IN_PROGRESS" : "TODO";
+      }
+
+      function renderSimulatorStatus() {
+        const tr = i18n[lang];
+        const status = statusByTaskIds(localContourTaskIds);
+        const localSummary = computeTaskSummary(
+          localContourTaskIds
+            .map((id) => tasks.find((task) => task.id === id))
+            .filter(Boolean)
+        );
+        const summary = computeTaskSummary(
+          simulatorLevelTaskIds
+            .map((id) => tasks.find((task) => task.id === id))
+            .filter(Boolean)
+        );
+        let levelLabel = tr.simExploratory;
+        if (summary.percent >= 95) levelLabel = tr.simScientific;
+        else if (summary.percent >= 75) levelLabel = tr.simSemiScientific;
+        else if (summary.percent >= 50) levelLabel = tr.simEngineering;
+        const badge = document.getElementById("simStatusBadge");
+        badge.textContent = `${tr.localContourProgress}: ${localSummary.percent}% (${localSummary.done}/${localSummary.total})`;
+        badge.className = `status-pill ${status === "DONE" ? "ok" : status === "IN_PROGRESS" ? "warn" : ""}`;
+        document.getElementById("simStatusHint").textContent = lang === "ru"
+          ? `Scientific readiness: ${levelLabel} (${summary.percent}%, ${tr.simTaskBasedSuffix}); local closure: ${localSummary.done}/${localSummary.total} DONE, ${localSummary.inProgress} IN_PROGRESS, ${localSummary.todo} TODO.`
+          : `Scientific readiness: ${levelLabel} (${summary.percent}%, ${tr.simTaskBasedSuffix}); local closure: ${localSummary.done}/${localSummary.total} DONE, ${localSummary.inProgress} IN_PROGRESS, ${localSummary.todo} TODO.`;
+
+        const externalValidation = evaluateExternalValidation();
+        const externalClosureSummary = computeTaskSummary(
+          externalContourClosureTaskIds
+            .map((id) => tasks.find((task) => task.id === id))
+            .filter(Boolean)
+        );
+        const criteriaDone = externalValidation.passCount;
+        const criteriaTotal = externalValidation.total;
+        let externalLabel = tr.externalValidationNone;
+        let externalClass = "";
+        if (
+          criteriaDone >= criteriaTotal &&
+          externalClosureSummary.todo === 0 &&
+          externalClosureSummary.inProgress === 0
+        ) {
+          externalLabel = tr.externalValidationFull;
+          externalClass = "ok";
+        } else if (
+          criteriaDone > 0 ||
+          externalValidation.partialCount > 0 ||
+          externalClosureSummary.done > 0 ||
+          externalClosureSummary.inProgress > 0
+        ) {
+          externalLabel = tr.externalValidationPartial;
+          externalClass = "warn";
+        }
+        const extBadge = document.getElementById("externalValidationBadge");
+        extBadge.textContent = `${externalLabel} (policy ${criteriaDone}/${criteriaTotal}, ${tr.externalContourClosure} ${externalClosureSummary.done}/${externalClosureSummary.total})`;
+        extBadge.className = `status-pill ${externalClass}`;
+        document.getElementById("externalValidationHint").textContent = lang === "ru"
+          ? `Policy: ${externalValidation.policyVersion} (${externalValidationPolicySource}). Критерии: reproducible audit pack; независимая solver-репликация; CFD/экспериментальный cross-validation. Closure tasks: ${externalClosureSummary.done}/${externalClosureSummary.total}.`
+          : `Policy: ${externalValidation.policyVersion} (${externalValidationPolicySource}). Criteria: reproducible audit pack; independent solver replication; CFD/experimental cross-validation. Closure tasks: ${externalClosureSummary.done}/${externalClosureSummary.total}.`;
+      }
+
+      function renderCapabilities() {
+        const tr = i18n[lang];
+        const allowedFilters = new Set(["ALL", "NOT_100", "IN_PROGRESS", "TODO"]);
+        if (!allowedFilters.has(capabilitiesFilter)) {
+          capabilitiesFilter = "ALL";
+        }
+        const controlsRoot = document.getElementById("capabilitiesFilters");
+        controlsRoot.innerHTML = "";
+        const filterOptions = [
+          { id: "ALL", label: tr.capFilterAll },
+          { id: "NOT_100", label: tr.capFilterNot100 },
+          { id: "IN_PROGRESS", label: tr.capFilterInProgress },
+          { id: "TODO", label: tr.capFilterTodo }
+        ];
+        filterOptions.forEach((option) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = `filter-btn${capabilitiesFilter === option.id ? " active" : ""}`;
+          btn.textContent = option.label;
+          btn.addEventListener("click", () => {
+            capabilitiesFilter = option.id;
+            try {
+              localStorage.setItem(capabilitiesFilterStorageKey, capabilitiesFilter);
+            } catch {}
+            renderCapabilities();
+          });
+          controlsRoot.appendChild(btn);
+        });
+        const root = document.getElementById("capabilitiesTree");
+        root.innerHTML = "";
+        let renderedCategories = 0;
+        capabilityCatalog.forEach((category) => {
+          const categoryStatuses = category.items.map((item) => statusByTaskIds(item.taskIds));
+          const doneCount = categoryStatuses.filter((status) => status === "DONE").length;
+          const pctValue = pct(doneCount, categoryStatuses.length);
+          const categoryStatus = summarizeStatus(categoryStatuses.map((status) => ({ status })));
+          const visibleItems = category.items.filter((item) => {
+            const status = statusByTaskIds(item.taskIds);
+            if (capabilitiesFilter === "ALL") return true;
+            if (capabilitiesFilter === "NOT_100") return status !== "DONE";
+            if (capabilitiesFilter === "IN_PROGRESS") return status === "IN_PROGRESS";
+            if (capabilitiesFilter === "TODO") return status === "TODO";
+            return true;
+          });
+          if (visibleItems.length === 0) {
+            return;
+          }
+          const detail = document.createElement("details");
+          detail.open = capabilitiesFilter !== "ALL";
+          detail.innerHTML = `
+            <summary style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
+              <span>${category.label[lang]} — ${pctValue}%</span>
+              <span class="badge ${clsByStatus(categoryStatus)}">${categoryStatus}</span>
+            </summary>
+          `;
+          const ul = document.createElement("ul");
+          ul.className = "clean";
+          visibleItems.forEach((item) => {
+            const status = statusByTaskIds(item.taskIds);
+            const li = document.createElement("li");
+            li.innerHTML = `
+              <div style="display:flex;justify-content:space-between;gap:8px;align-items:center;">
+                <span>${item.title}</span>
+                <span class="badge ${clsByStatus(status)}">${status}</span>
+              </div>
+              <div class="cap-why"><strong>${tr.capabilityWhy}:</strong> ${item.why[lang]}</div>
+            `;
+            ul.appendChild(li);
+          });
+          detail.appendChild(ul);
+          root.appendChild(detail);
+          renderedCategories += 1;
+        });
+        if (renderedCategories === 0) {
+          const empty = document.createElement("div");
+          empty.className = "muted";
+          empty.textContent = tr.capEmpty;
+          root.appendChild(empty);
+        }
+      }
+
+      function getCapabilityReferenceDiagnostics() {
+        const knownIds = new Set(tasks.map((task) => task.id));
+        let missingRefs = 0;
+        capabilityCatalog.forEach((category) => {
+          category.items.forEach((item) => {
+            item.taskIds.forEach((id) => {
+              if (!knownIds.has(id)) {
+                missingRefs += 1;
+              }
+            });
+          });
+        });
+        return { missingRefs };
+      }
+
+      function renderIntegrity() {
+        const tr = i18n[lang];
+        const root = document.getElementById("integrityList");
+        root.innerHTML = "";
+        const capabilityRefs = getCapabilityReferenceDiagnostics();
+        const futureDiag = getFutureLaneDiagnostics();
+        const items = [
+          {
+            ok: integrityState.tasksLoaded && integrityState.taskCount > 0,
+            text:
+              integrityState.tasksLoaded && integrityState.taskCount > 0
+                ? (lang === "ru"
+                  ? `TASKS: ${integrityState.taskCount} задач распознано`
+                  : `TASKS: ${integrityState.taskCount} tasks parsed`)
+                : (lang === "ru"
+                  ? `TASKS: docs недоступен, fallback=${tasks.length}`
+                  : `TASKS: docs unavailable, fallback=${tasks.length}`)
+          },
+          {
+            ok: integrityState.roadmapLoaded && integrityState.roadmapSectionCount > 0,
+            text:
+              integrityState.roadmapLoaded && integrityState.roadmapSectionCount > 0
+                ? (lang === "ru"
+                  ? `ROADMAP: ${integrityState.roadmapSectionCount} секций сопоставлено`
+                  : `ROADMAP: ${integrityState.roadmapSectionCount} sections matched`)
+                : (lang === "ru"
+                  ? `ROADMAP: docs недоступен, fallback=${roadmap.length}`
+                  : `ROADMAP: docs unavailable, fallback=${roadmap.length}`)
+          },
+          {
+            ok: integrityState.progressLoaded,
+            text:
+              integrityState.progressLoaded
+                ? (lang === "ru"
+                  ? "PROGRESS: строка Overall распознана"
+                  : "PROGRESS: Overall line parsed")
+                : (lang === "ru"
+                  ? "PROGRESS: строка Overall не распознана (используется TASKS)"
+                  : "PROGRESS: Overall line not parsed (using TASKS)")
+          },
+          {
+            ok: integrityState.progressLoaded && !progressMismatch,
+            text: progressMismatch
+              ? (lang === "ru"
+                ? `Сверка статусов: MISMATCH (TOP-LEVEL TASKS ${progressMismatch.tasks.done}/${progressMismatch.tasks.inProgress}/${progressMismatch.tasks.todo} vs PROGRESS ${progressMismatch.progress.done}/${progressMismatch.progress.inProgress}/${progressMismatch.progress.todo})`
+                : `Status cross-check: MISMATCH (TOP-LEVEL TASKS ${progressMismatch.tasks.done}/${progressMismatch.tasks.inProgress}/${progressMismatch.tasks.todo} vs PROGRESS ${progressMismatch.progress.done}/${progressMismatch.progress.inProgress}/${progressMismatch.progress.todo})`)
+              : integrityState.progressLoaded
+                ? (lang === "ru" ? "Сверка статусов: OK" : "Status cross-check: OK")
+                : (lang === "ru" ? "Сверка статусов: skipped (нет PROGRESS)" : "Status cross-check: skipped (no PROGRESS)")
+          },
+          {
+            ok: integrityState.lastSyncOk,
+            text:
+              integrityState.lastSyncOk
+                ? (lang === "ru" ? "Последний sync: OK" : "Last sync: OK")
+                : (lang === "ru" ? "Последний sync: fallback mode" : "Last sync: fallback mode")
+          },
+          {
+            ok: capabilityRefs.missingRefs === 0,
+            text: capabilityRefs.missingRefs === 0
+              ? (lang === "ru" ? "Capability->TT reference check: OK" : "Capability->TT reference check: OK")
+              : (lang === "ru"
+                ? `Capability->TT reference check: missing=${capabilityRefs.missingRefs}`
+                : `Capability->TT reference check: missing=${capabilityRefs.missingRefs}`)
+          },
+          {
+            ok: futureDiag.invalidStatuses.length === 0,
+            text: futureDiag.invalidStatuses.length === 0
+              ? tr.futureInvariantOk
+              : `${tr.futureInvariantFail} (${futureDiag.invalidStatuses.map((task) => `${task.id}:${task.status}`).join(", ")})`
+          }
+        ];
+        items.forEach((item) => {
+          const li = document.createElement("li");
+          li.innerHTML = `
+            <div style="display:flex;justify-content:space-between;gap:8px;align-items:center;">
+              <span>${item.text}</span>
+              <span class="status-pill ${item.ok ? "ok" : "warn"}">${item.ok ? tr.ok : tr.warning}</span>
+            </div>
+          `;
+          root.appendChild(li);
+        });
+      }
+
+      function renderSyncDiagnostics() {
+        const tr = i18n[lang];
+        const list = document.getElementById("syncDiagList");
+        list.innerHTML = "";
+        const row = (label, rawState, ts) => {
+          const state = toState(rawState);
+          const freshness = getSyncSourceFreshness(rawState, ts);
+          const freshnessLabel =
+            freshness.band === "fresh"
+              ? tr.freshnessFresh
+              : freshness.band === "stale"
+                ? tr.freshnessStale
+                : tr.freshnessCritical;
+          const pillClass = freshness.band === "fresh" ? "ok" : "warn";
+          const li = document.createElement("li");
+          li.innerHTML = `
+            <div style="display:flex;justify-content:space-between;gap:8px;align-items:center;">
+              <span>${label}: ${state}${freshness.age === null ? "" : ` @${freshness.age}s`} • ${freshnessLabel}</span>
+              <span class="status-pill ${pillClass}">${freshnessLabel}</span>
+            </div>
+          `;
+          list.appendChild(li);
+        };
+        const toState = (value) =>
+          value === "docs" ? tr.syncStateDocs : value === "derived" ? tr.syncStateDerived : tr.syncStateFallback;
+        row(tr.syncSourceTasks, syncTelemetry.tasks, syncTelemetry.tasksAt);
+        row(tr.syncSourceRoadmap, syncTelemetry.roadmap, syncTelemetry.roadmapAt);
+        row(tr.syncSourceProgress, syncTelemetry.progress, syncTelemetry.progressAt);
+
+        const hintsRoot = document.getElementById("syncHintsList");
+        hintsRoot.innerHTML = "";
+        const hints = buildOperatorHints();
+        if (hints.length === 0) {
+          const li = document.createElement("li");
+          li.textContent = tr.syncNoHints;
+          hintsRoot.appendChild(li);
+        } else {
+          hints.forEach((hint) => {
+            const li = document.createElement("li");
+            li.textContent = hint;
+            hintsRoot.appendChild(li);
+          });
+        }
+
+        const eventsRoot = document.getElementById("syncEventsList");
+        eventsRoot.innerHTML = "";
+        if (syncHistory.length === 0) {
+          const li = document.createElement("li");
+          li.textContent = tr.syncNoEvents;
+          eventsRoot.appendChild(li);
+          return;
+        }
+        const compacted = compactSyncEvents(syncHistory);
+        compacted.forEach((event) => {
+          const eventLabel =
+            event.type === "SYNC_OK"
+              ? tr.syncEventOk
+              : event.type === "SYNC_FAIL"
+                ? tr.syncEventFail
+                : event.type === "FALLBACK_INIT"
+                  ? tr.syncEventFallback
+                  : event.type;
+          const severity = classifySyncSeverity(event);
+          const severityLabel =
+            severity === "high" ? tr.severityHigh : severity === "medium" ? tr.severityMedium : tr.severityLow;
+          const li = document.createElement("li");
+          li.innerHTML = `
+            <div style="display:flex;justify-content:space-between;gap:8px;align-items:center;">
+              <span>${event.latestAt} • ${eventLabel} x${event.count} • ${event.message}</span>
+              <span class="status-pill ${severity === "high" ? "warn" : event.ok ? "ok" : "warn"}">${severityLabel}</span>
+            </div>
+          `;
+          eventsRoot.appendChild(li);
+        });
+      }
+
+      function renderIdeas() {
+        const root = document.getElementById("ideasList");
+        root.innerHTML = "";
+        ideasCatalog.forEach((idea) => {
+          const li = document.createElement("li");
+          li.textContent = idea[lang];
+          root.appendChild(li);
+        });
+      }
+
+      function getTopLevelFutureTasks() {
+        return tasks
+          .filter((task) => {
+            const meta = parseTaskCode(task.id);
+            return meta && !meta.suffix && task.status !== "DONE";
+          })
+          .sort((left, right) => left.id.localeCompare(right.id));
+      }
+
+      function getFutureLaneDiagnostics() {
+        const topLevelFuture = getTopLevelFutureTasks();
+        const invalidStatuses = topLevelFuture.filter(
+          (task) => task.status !== "IN_PROGRESS" && task.status !== "TODO",
+        );
+        return {
+          count: topLevelFuture.length,
+          inProgressCount: topLevelFuture.filter((task) => task.status === "IN_PROGRESS").length,
+          todoCount: topLevelFuture.filter((task) => task.status === "TODO").length,
+          invalidStatuses,
+        };
+      }
+
+      function renderFutureLane() {
+        const tr = i18n[lang];
+        const root = document.getElementById("futureLane");
+        root.innerHTML = "";
+        const topLevelFuture = getTopLevelFutureTasks();
+        const futureDiag = getFutureLaneDiagnostics();
+        document.getElementById("futureMeta").textContent =
+          `${tr.futureMetaLabel}: ${futureDiag.count} (IN_PROGRESS: ${futureDiag.inProgressCount}, TODO: ${futureDiag.todoCount})`;
+        if (topLevelFuture.length === 0) {
+          const li = document.createElement("li");
+          li.textContent = tr.futureEmpty;
+          root.appendChild(li);
+          return;
+        }
+        topLevelFuture.forEach((task) => {
+          const li = document.createElement("li");
+          li.innerHTML = `
+            <div style="display:flex;justify-content:space-between;gap:8px;align-items:center;">
+              <span><strong>${task.id}</strong> — ${task.title}</span>
+              <span class="badge ${clsByStatus(task.status)}">${task.status}</span>
+            </div>
+            <div class="muted">${tr.deps}: ${task.deps.length ? task.deps.join(", ") : "-"}</div>
+          `;
+          root.appendChild(li);
+        });
+      }
+
+      function renderKpi() {
+        const done = tasks.filter((t) => t.status === "DONE").length;
+        const inProgress = tasks.filter((t) => t.status === "IN_PROGRESS").length;
+        const todo = tasks.filter((t) => t.status === "TODO").length;
+        const total = tasks.length;
+        const p = pct(done, total);
+
+        document.getElementById("kDone").textContent = done;
+        document.getElementById("kInProgress").textContent = inProgress;
+        document.getElementById("kTodo").textContent = todo;
+        document.getElementById("overallValue").textContent = `${done}/${total} (${p}%)`;
+        document.getElementById("overallBar").style.width = `${p}%`;
+      }
+
+      function renderBranchProgress() {
+        const root = document.getElementById("branchProgress");
+        root.innerHTML = "";
+        const tr = i18n[lang];
+        const data = branchProgress.length > 0
+          ? branchProgress
+          : buildBranchProgressFromRoadmap(roadmap);
+        for (const b of data) {
+          const row = document.createElement("div");
+          row.className = "progress-row";
+          row.innerHTML = `
+            <div class="top"><span>${tr.branchLabel}: ${b.name}</span><span>${b.value}%</span></div>
+            <div class="bar"><span style="width:${b.value}%"></span></div>
+          `;
+          root.appendChild(row);
+        }
+      }
+
+      function renderRoadmap() {
+        const root = document.getElementById("roadmapList");
+        root.innerHTML = "";
+        for (const branch of roadmap) {
+          const li = document.createElement("li");
+          const details = document.createElement("details");
+          details.open = branch.status === "IN_PROGRESS";
+          details.innerHTML = `
+            <summary style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
+              <span>${branch.name}</span>
+              <span class="badge ${clsByStatus(branch.status)}">${branch.status}</span>
+            </summary>
+          `;
+          const steps = document.createElement("ul");
+          steps.className = "clean";
+          branch.steps.forEach((step) => {
+            const stepLi = document.createElement("li");
+            stepLi.innerHTML = `
+              <div style="display:flex;justify-content:space-between;gap:8px;align-items:center;">
+                <span>${step.title}</span>
+                <span class="badge ${clsByStatus(step.status)}">${step.status}</span>
+              </div>
+            `;
+            steps.appendChild(stepLi);
+          });
+          details.appendChild(steps);
+          li.appendChild(details);
+          root.appendChild(li);
+        }
+      }
+
+      function renderTaskTree() {
+        const tr = i18n[lang];
+        const filterLabels = {
+          ALL: tr.taskFilterAll,
+          DONE: tr.taskFilterDone,
+          IN_PROGRESS: tr.taskFilterInProgress,
+          TODO: tr.taskFilterTodo
+        };
+        const matchesFilter = (status) => taskStatusFilter === "ALL" || status === taskStatusFilter;
+        const taskById = new Map(tasks.map((task) => [task.id, task]));
+        const subtaskIdsByParent = new Map();
+        for (const task of tasks) {
+          const meta = parseTaskCode(task.id);
+          if (!meta || !meta.suffix) {
+            continue;
+          }
+          const parentId = `TT-${String(meta.num).padStart(3, "0")}`;
+          if (!taskById.has(parentId)) {
+            continue;
+          }
+          const bucket = subtaskIdsByParent.get(parentId) || [];
+          bucket.push(task.id);
+          subtaskIdsByParent.set(parentId, bucket);
+        }
+        const groups = {
+          foundation: tasks.filter((t) => {
+            const meta = parseTaskCode(t.id);
+            return meta && !meta.suffix && meta.num <= 10;
+          }),
+          implementation: tasks.filter((t) => {
+            const meta = parseTaskCode(t.id);
+            return meta && !meta.suffix && meta.num >= 11 && meta.num <= 18;
+          }),
+          productization: tasks.filter((t) => {
+            const meta = parseTaskCode(t.id);
+            return meta && !meta.suffix && meta.num >= 19 && meta.num <= 32;
+          }),
+          researchInfra: tasks.filter((t) => {
+            const meta = parseTaskCode(t.id);
+            return meta && !meta.suffix && meta.num >= 33;
+          })
+        };
+        const maxResearchId = tasks.reduce((acc, task) => {
+          const meta = parseTaskCode(task.id);
+          if (!meta || meta.suffix || meta.num < 33) {
+            return acc;
+          }
+          return Math.max(acc, meta.num);
+        }, 33);
+        const maxResearchLabel = String(maxResearchId).padStart(3, "0");
+
+        const labels = {
+          foundation: lang === "ru" ? "Foundation (TT-001..010)" : "Foundation (TT-001..010)",
+          implementation: lang === "ru" ? "Implementation (TT-011..018)" : "Implementation (TT-011..018)",
+          productization: lang === "ru" ? "Productization (TT-019..032)" : "Productization (TT-019..032)",
+          researchInfra: lang === "ru" ? `Research Infrastructure (TT-033..${maxResearchLabel})` : `Research Infrastructure (TT-033..${maxResearchLabel})`
+        };
+
+        const root = document.getElementById("taskTree");
+        root.innerHTML = "";
+        const filterRow = document.createElement("div");
+        filterRow.className = "filter-row";
+        for (const status of ["ALL", "DONE", "IN_PROGRESS", "TODO"]) {
+          const btn = document.createElement("button");
+          btn.className = `filter-btn${taskStatusFilter === status ? " active" : ""}`;
+          btn.type = "button";
+          btn.textContent = `${tr.taskFilter}: ${filterLabels[status]}`;
+          btn.addEventListener("click", () => {
+            taskStatusFilter = status;
+            renderTaskTree();
+          });
+          filterRow.appendChild(btn);
+        }
+        const openSubtasksBtn = document.createElement("button");
+        openSubtasksBtn.className = `filter-btn${taskOpenSubtasksOnly ? " active" : ""}`;
+        openSubtasksBtn.type = "button";
+        openSubtasksBtn.textContent = tr.taskFilterOpenSubtasksOnly;
+        openSubtasksBtn.addEventListener("click", () => {
+          taskOpenSubtasksOnly = !taskOpenSubtasksOnly;
+          renderTaskTree();
+        });
+        filterRow.appendChild(openSubtasksBtn);
+        root.appendChild(filterRow);
+        for (const key of ["foundation", "implementation", "productization", "researchInfra"]) {
+          const visibleItems = groups[key].flatMap((task) => {
+            const subtaskIds = (subtaskIdsByParent.get(task.id) || []).sort((left, right) => left.localeCompare(right));
+            const allSubtasks = subtaskIds.map((id) => taskById.get(id)).filter(Boolean);
+            const openSubtasks = allSubtasks.filter((subtask) => subtask.status !== "DONE");
+            if (taskOpenSubtasksOnly && openSubtasks.length <= 0) {
+              return [];
+            }
+            const visibleSubtasks = allSubtasks.filter((subtask) => matchesFilter(subtask.status));
+            const isParentVisible = matchesFilter(task.status) || visibleSubtasks.length > 0;
+            if (!isParentVisible) {
+              return [];
+            }
+            return [{
+              task,
+              allSubtasks,
+              visibleSubtasks
+            }];
+          });
+          if (visibleItems.length === 0) {
+            continue;
+          }
+          const d = document.createElement("details");
+          d.open = taskStatusFilter !== "ALL";
+          const groupTaskPool = visibleItems.flatMap((item) => {
+            const visibleTasks = [];
+            if (matchesFilter(item.task.status)) {
+              visibleTasks.push(item.task);
+            }
+            visibleTasks.push(...item.visibleSubtasks);
+            return visibleTasks;
+          });
+          const doneCount = groupTaskPool.filter((task) => task.status === "DONE").length;
+          const localPct = pct(doneCount, groupTaskPool.length);
+          d.innerHTML = `<summary>${labels[key]} — ${localPct}%</summary>`;
+          const ul = document.createElement("ul");
+          ul.className = "clean";
+          visibleItems.forEach((item) => {
+            const t = item.task;
+            const subtasks = item.visibleSubtasks;
+            const doneSubtasks = subtasks.filter((subtask) => subtask.status === "DONE").length;
+            const li = document.createElement("li");
+            const shouldShowParentBadge = matchesFilter(t.status);
+            li.innerHTML = `
+              <div style="display:flex;justify-content:space-between;gap:8px;align-items:center;">
+                <span><strong>${t.id}</strong> — ${t.title}</span>
+                ${
+                  shouldShowParentBadge
+                    ? `<span class="badge ${clsByStatus(t.status)}">${t.status}</span>`
+                    : `<span class="muted">${tr.taskFilter}: ${filterLabels[taskStatusFilter]}</span>`
+                }
+              </div>
+              <div class="muted">${tr.deps}: ${t.deps.length ? t.deps.join(", ") : "-"}</div>
+              ${
+                subtasks.length > 0
+                  ? `<div class="muted">${tr.subtasks}: ${doneSubtasks}/${subtasks.length} (${tr.completed}${taskStatusFilter === "ALL" ? "" : `, ${tr.visible}`})</div>`
+                  : ""
+              }
+            `;
+            if (subtasks.length > 0) {
+              const subList = document.createElement("ul");
+              subList.className = "clean subtasks";
+              subtasks.forEach((subtask) => {
+                const subLi = document.createElement("li");
+                subLi.innerHTML = `
+                  <div style="display:flex;justify-content:space-between;gap:8px;align-items:center;">
+                    <span><strong>${subtask.id}</strong> — ${subtask.title}</span>
+                    <span class="badge ${clsByStatus(subtask.status)}">${subtask.status}</span>
+                  </div>
+                  <div class="muted">${tr.deps}: ${subtask.deps.length ? subtask.deps.join(", ") : "-"}</div>
+                `;
+                subList.appendChild(subLi);
+              });
+              li.appendChild(subList);
+            }
+            ul.appendChild(li);
+          });
+          d.appendChild(ul);
+          root.appendChild(d);
+        }
+      }
+
+      function renderGraph() {
+        const svg = document.getElementById("depSvg");
+        svg.innerHTML = "";
+        const nodeById = new Map(milestones.map((n) => [n.id, n]));
+
+        for (const [from, to] of milestoneEdges) {
+          const a = nodeById.get(from);
+          const b = nodeById.get(to);
+          const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+          line.setAttribute("x1", a.x + 70);
+          line.setAttribute("y1", a.y + 24);
+          line.setAttribute("x2", b.x + 70);
+          line.setAttribute("y2", b.y + 24);
+          line.setAttribute("stroke", "#3f628d");
+          line.setAttribute("stroke-width", "2");
+          line.setAttribute("opacity", "0.8");
+          svg.appendChild(line);
+        }
+
+        for (const n of milestones) {
+          const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+          g.setAttribute("class", "node");
+          g.innerHTML = `
+            <rect x="${n.x}" y="${n.y}" width="140" height="48"></rect>
+            <text x="${n.x + 70}" y="${n.y + 28}" text-anchor="middle">${n.label}</text>
+          `;
+          svg.appendChild(g);
+        }
+      }
+
+      function applyLang() {
+        const tr = i18n[lang];
+        document.documentElement.lang = lang;
+        document.getElementById("title").textContent = tr.title;
+        const syncLabel =
+          dashboardDataSource === "embedded"
+            ? (lang === "ru" ? "источник: встроенные данные" : "source: embedded fallback")
+            : `source: ${dashboardDataSource}`;
+        const syncedAt = dashboardLastSync
+          ? (lang === "ru" ? `синхр.: ${dashboardLastSync}` : `synced: ${dashboardLastSync}`)
+          : (lang === "ru" ? "синхр.: n/a" : "synced: n/a");
+        document.getElementById("subtitle").textContent = `${tr.subtitle} • ${syncLabel} • ${syncedAt}`;
+        const progressMetaText = progressSummary
+          ? (lang === "ru"
+            ? `PROGRESS: обновлено ${progressSummary.updatedAt || "n/a"} • Overall: ${progressSummary.done ?? "-"} DONE / ${progressSummary.inProgress ?? "-"} IN_PROGRESS / ${progressSummary.todo ?? "-"} TODO (${progressSummary.percent ?? "-"}%)`
+            : `PROGRESS: updated ${progressSummary.updatedAt || "n/a"} • Overall: ${progressSummary.done ?? "-"} DONE / ${progressSummary.inProgress ?? "-"} IN_PROGRESS / ${progressSummary.todo ?? "-"} TODO (${progressSummary.percent ?? "-"}%)`)
+          : (lang === "ru" ? "PROGRESS: данные не найдены (используется расчет по TASKS)." : "PROGRESS: no data (using TASKS-based computation).");
+        const mismatchText = progressMismatch
+          ? (lang === "ru"
+            ? ` [MISMATCH] TOP-LEVEL TASKS=${progressMismatch.tasks.done}/${progressMismatch.tasks.inProgress}/${progressMismatch.tasks.todo}, PROGRESS=${progressMismatch.progress.done}/${progressMismatch.progress.inProgress}/${progressMismatch.progress.todo}`
+            : ` [MISMATCH] TOP-LEVEL TASKS=${progressMismatch.tasks.done}/${progressMismatch.tasks.inProgress}/${progressMismatch.tasks.todo}, PROGRESS=${progressMismatch.progress.done}/${progressMismatch.progress.inProgress}/${progressMismatch.progress.todo}`)
+          : "";
+        const progressMetaEl = document.getElementById("progressMeta");
+        progressMetaEl.textContent = `${progressMetaText}${mismatchText}`;
+        progressMetaEl.classList.toggle("warn", Boolean(progressMismatch));
+        const syncStateLabel = (state) => {
+          if (state === "docs") return tr.syncStateDocs;
+          if (state === "derived") return tr.syncStateDerived;
+          return tr.syncStateFallback;
+        };
+        const withAge = (state, ts) => {
+          const age = ageSec(ts);
+          return `${syncStateLabel(state)}${age === null ? "" : `@${age}s`}`;
+        };
+        const syncText =
+          `${tr.syncTelemetryLabel}: ` +
+          `${tr.syncSourceTasks}=${withAge(syncTelemetry.tasks, syncTelemetry.tasksAt)}, ` +
+          `${tr.syncSourceRoadmap}=${withAge(syncTelemetry.roadmap, syncTelemetry.roadmapAt)}, ` +
+          `${tr.syncSourceProgress}=${withAge(syncTelemetry.progress, syncTelemetry.progressAt)}` +
+          (syncTelemetry.error
+            ? ` • ${tr.syncErrorLabel}=${syncTelemetry.errorCode || "sync_exception"} (${syncTelemetry.error})`
+            : "");
+        const syncMetaEl = document.getElementById("syncMeta");
+        syncMetaEl.textContent = syncText;
+        const syncWarn =
+          syncTelemetry.tasks !== "docs" ||
+          syncTelemetry.roadmap !== "docs" ||
+          syncTelemetry.progress !== "docs" ||
+          Boolean(syncTelemetry.error);
+        syncMetaEl.classList.toggle("warn", syncWarn);
+        document.getElementById("kpiTitle").textContent = tr.kpiTitle;
+        document.getElementById("simStatusLabel").textContent = tr.simStatus;
+        document.getElementById("externalValidationLabel").textContent = tr.externalValidationLabel;
+        document.getElementById("kDoneLabel").textContent = tr.done;
+        document.getElementById("kInProgressLabel").textContent = tr.inProgress;
+        document.getElementById("kTodoLabel").textContent = tr.todo;
+        document.getElementById("overallLabel").textContent = tr.overall;
+        document.getElementById("roadmapTitle").textContent = tr.roadmap;
+        document.getElementById("taskTreeTitle").textContent = tr.taskTree;
+        document.getElementById("futureTitle").textContent = tr.futureTitle;
+        document.getElementById("futureMeta").textContent = `${tr.futureMetaLabel}: n/a`;
+        document.getElementById("depTitle").textContent = tr.dep;
+        document.getElementById("depHint").textContent = tr.depHint;
+        document.getElementById("capabilitiesTitle").textContent = tr.capabilities;
+        document.getElementById("integrityTitle").textContent = tr.integrity;
+        document.getElementById("syncDiagTitle").textContent = tr.syncDiagnosticsTitle;
+        const preset = syncFreshnessPresets[activeSyncPolicyPreset] || syncFreshnessPresets.balanced;
+        document.getElementById("syncPolicyMeta").textContent =
+          `${tr.syncPolicyMeta} (${activeSyncPolicyPreset}: stale>${preset.staleSec}s, critical>${preset.criticalSec}s)`;
+        document.getElementById("syncPolicyPresetLabel").textContent = tr.syncPolicyPresetLabel;
+        const presetSelect = document.getElementById("syncPolicyPreset");
+        presetSelect.innerHTML = "";
+        [
+          { id: "strict", label: tr.syncPolicyPresetStrict },
+          { id: "balanced", label: tr.syncPolicyPresetBalanced },
+          { id: "lenient", label: tr.syncPolicyPresetLenient },
+        ].forEach((option) => {
+          const opt = document.createElement("option");
+          opt.value = option.id;
+          opt.textContent = option.label;
+          if (option.id === activeSyncPolicyPreset) opt.selected = true;
+          presetSelect.appendChild(opt);
+        });
+        document.getElementById("syncPolicyApplyBtn").textContent = tr.syncPolicyApply;
+        document.getElementById("syncClearEventsBtn").textContent = tr.syncClearEvents;
+        document.getElementById("syncSourceActionsLabel").textContent = tr.syncSourceActionsLabel;
+        const tasksCooldown = sourceCooldownLeftSec("tasks");
+        const roadmapCooldown = sourceCooldownLeftSec("roadmap");
+        const progressCooldown = sourceCooldownLeftSec("progress");
+        const tasksBtn = document.getElementById("syncRetryTasksBtn");
+        const roadmapBtn = document.getElementById("syncRetryRoadmapBtn");
+        const progressBtn = document.getElementById("syncRetryProgressBtn");
+        tasksBtn.textContent = `${tr.syncRetryTasks}${tasksCooldown > 0 ? ` (${tasksCooldown}s)` : ""}`;
+        roadmapBtn.textContent = `${tr.syncRetryRoadmap}${roadmapCooldown > 0 ? ` (${roadmapCooldown}s)` : ""}`;
+        progressBtn.textContent = `${tr.syncRetryProgress}${progressCooldown > 0 ? ` (${progressCooldown}s)` : ""}`;
+        tasksBtn.disabled = syncInFlight || tasksCooldown > 0;
+        roadmapBtn.disabled = syncInFlight || roadmapCooldown > 0;
+        progressBtn.disabled = syncInFlight || progressCooldown > 0;
+        document.getElementById("syncNowBtn").textContent = syncInFlight ? tr.syncNowBusy : tr.syncNow;
+        document.getElementById("syncNowBtn").disabled = syncInFlight;
+        document.getElementById("syncHintsTitle").textContent = tr.syncHintsTitle;
+        document.getElementById("syncEventsTitle").textContent = tr.syncEventsTitle;
+        document.getElementById("ideasTitle").textContent = tr.ideas;
+        const dataModeLive =
+          integrityState.lastSyncOk &&
+          integrityState.tasksLoaded &&
+          integrityState.roadmapLoaded &&
+          dashboardDataSource.includes("docs/");
+        const dataModeBadge = document.getElementById("dataModeBadge");
+        dataModeBadge.textContent = dataModeLive ? tr.dataModeLive : tr.dataModeFallback;
+        dataModeBadge.className = `status-pill ${dataModeLive ? "ok" : "warn"}`;
+        document.getElementById("langBtn").textContent = lang === "ru" ? "EN" : "RU";
+      }
+
+      function renderAll() {
+        applyLang();
+        renderSimulatorStatus();
+        renderKpi();
+        renderBranchProgress();
+        renderRoadmap();
+        renderTaskTree();
+        renderFutureLane();
+        renderGraph();
+        renderCapabilities();
+        renderSyncDiagnostics();
+        renderIntegrity();
+        renderIdeas();
+      }
+
+      function applySyncPolicyPresetFromControl() {
+        const select = document.getElementById("syncPolicyPreset");
+        const nextPreset = String(select.value || "balanced");
+        if (!Object.prototype.hasOwnProperty.call(syncFreshnessPresets, nextPreset)) {
+          return;
+        }
+        activeSyncPolicyPreset = nextPreset;
+        try {
+          localStorage.setItem(syncPolicyPresetStorageKey, activeSyncPolicyPreset);
+        } catch {}
+        pushSyncEvent("SYNC_POLICY", true, `preset=${activeSyncPolicyPreset}`);
+        renderAll();
+      }
+
+      function clearSyncDiagnostics() {
+        syncHistory = [];
+        syncTelemetry.error = "";
+        syncTelemetry.errorCode = "";
+        pushSyncEvent("SYNC_RESET", true, "history_and_errors_cleared");
+        renderAll();
+      }
+
+      async function resyncSource(source) {
+        if (syncInFlight) return;
+        const sourceKey = source === "tasks" || source === "roadmap" || source === "progress" ? source : null;
+        if (!sourceKey) return;
+        if (sourceCooldownLeftSec(sourceKey) > 0) return;
+        sourceActionCooldownUntil[sourceKey] = Date.now() + syncActionCooldownMs;
+        syncInFlight = true;
+        applyLang();
+        try {
+          if (sourceKey === "tasks") {
+            const tasksResponse = await fetch("../docs/TASKS.md", { cache: "no-store" });
+            if (!tasksResponse.ok) throw new Error(`tasks_http_${tasksResponse.status}`);
+            const parsedTasks = parseTasksMarkdown(await tasksResponse.text());
+            if (!Array.isArray(parsedTasks) || parsedTasks.length === 0) throw new Error("tasks_parse_empty");
+            tasks = parsedTasks;
+            integrityState.tasksLoaded = true;
+            integrityState.taskCount = parsedTasks.length;
+            syncTelemetry.tasks = "docs";
+            syncTelemetry.tasksAt = new Date().toISOString();
+          } else if (sourceKey === "roadmap") {
+            const roadmapResponse = await fetch("../docs/ROADMAP.md", { cache: "no-store" });
+            if (!roadmapResponse.ok) throw new Error(`roadmap_http_${roadmapResponse.status}`);
+            const taskById = new Map(tasks.map((task) => [task.id, task]));
+            const parsedRoadmap = parseRoadmapSections(await roadmapResponse.text(), taskById);
+            if (!Array.isArray(parsedRoadmap) || parsedRoadmap.length === 0) throw new Error("roadmap_parse_empty");
+            roadmap = parsedRoadmap;
+            branchProgress = buildBranchProgressFromRoadmap(roadmap);
+            integrityState.roadmapLoaded = true;
+            integrityState.roadmapSectionCount = parsedRoadmap.length;
+            syncTelemetry.roadmap = "docs";
+            syncTelemetry.roadmapAt = new Date().toISOString();
+          } else if (sourceKey === "progress") {
+            const progressResponse = await fetch("../docs/PROGRESS.md", { cache: "no-store" });
+            if (!progressResponse.ok) throw new Error(`progress_http_${progressResponse.status}`);
+            const parsedProgress = parseProgressMarkdown(await progressResponse.text());
+            if (!parsedProgress) throw new Error("progress_parse_empty");
+            progressSummary = parsedProgress;
+            integrityState.progressLoaded = true;
+            syncTelemetry.progress = "docs";
+            syncTelemetry.progressAt = new Date().toISOString();
+          }
+          progressMismatch = detectProgressMismatch(
+            computeTaskSummary(topLevelTasks(tasks)),
+            progressSummary,
+          );
+          syncTelemetry.error = "";
+          syncTelemetry.errorCode = "";
+          integrityState.lastSyncOk = true;
+          dashboardLastSync = new Date().toISOString();
+          pushSyncEvent("SYNC_SOURCE_OK", true, `${sourceKey}=docs`);
+        } catch (error) {
+          syncTelemetry.error = String(error?.message ?? error ?? "sync_source_failed");
+          syncTelemetry.errorCode = classifySyncError(syncTelemetry.error);
+          integrityState.lastSyncOk = false;
+          pushSyncEvent("SYNC_SOURCE_FAIL", false, `${sourceKey}:${syncTelemetry.errorCode}: ${syncTelemetry.error}`);
+        } finally {
+          syncInFlight = false;
+          renderAll();
+        }
+      }
+
+      async function runManualSync() {
+        if (syncInFlight) return;
+        syncInFlight = true;
+        applyLang();
+        try {
+          await syncDashboardFromDocs();
+        } finally {
+          syncInFlight = false;
+        }
+        renderAll();
+      }
+
+      document.getElementById("langBtn").addEventListener("click", () => {
+        lang = lang === "ru" ? "en" : "ru";
+        renderAll();
+      });
+      document.getElementById("syncNowBtn").addEventListener("click", runManualSync);
+      document.getElementById("syncPolicyApplyBtn").addEventListener("click", applySyncPolicyPresetFromControl);
+      document.getElementById("syncClearEventsBtn").addEventListener("click", clearSyncDiagnostics);
+      document.getElementById("syncRetryTasksBtn").addEventListener("click", () => resyncSource("tasks"));
+      document.getElementById("syncRetryRoadmapBtn").addEventListener("click", () => resyncSource("roadmap"));
+      document.getElementById("syncRetryProgressBtn").addEventListener("click", () => resyncSource("progress"));
+
+      async function initDashboard() {
+        try {
+          const storedFilter = localStorage.getItem(capabilitiesFilterStorageKey);
+          if (storedFilter) {
+            capabilitiesFilter = storedFilter;
+          }
+          const storedSyncPreset = localStorage.getItem(syncPolicyPresetStorageKey);
+          if (storedSyncPreset && Object.prototype.hasOwnProperty.call(syncFreshnessPresets, storedSyncPreset)) {
+            activeSyncPolicyPreset = storedSyncPreset;
+          }
+        } catch {}
+        const embeddedRoadmap = roadmap.map((section) => ({
+          name: section.name,
+          status: section.status,
+          steps: (section.steps || []).map((step) => ({ title: step.title, status: step.status })),
+        }));
+        branchProgress = buildBranchProgressFromRoadmap(embeddedRoadmap);
+        const synced = await syncDashboardFromDocs();
+        if (!synced) {
+          externalValidationPolicy = externalValidationPolicyFallback;
+          externalValidationPolicySource = "embedded";
+          roadmap = embeddedRoadmap;
+          branchProgress = buildBranchProgressFromRoadmap(embeddedRoadmap);
+          integrityState = {
+            tasksLoaded: tasks.length > 0,
+            roadmapLoaded: roadmap.length > 0,
+            progressLoaded: false,
+            taskCount: tasks.length,
+            roadmapSectionCount: roadmap.length,
+            lastSyncOk: false,
+          };
+          syncTelemetry = {
+            tasks: tasks.length > 0 ? "fallback" : "fallback",
+            roadmap: roadmap.length > 0 ? "fallback" : "fallback",
+            progress: "fallback",
+            error: syncTelemetry.error || "docs_unreachable",
+            errorCode: syncTelemetry.errorCode || "network_unreachable",
+            tasksAt: new Date().toISOString(),
+            roadmapAt: new Date().toISOString(),
+            progressAt: null,
+          };
+          pushSyncEvent(
+            "FALLBACK_INIT",
+            false,
+            `tasks=${syncTelemetry.tasks}, roadmap=${syncTelemetry.roadmap}, progress=${syncTelemetry.progress}`,
+          );
+          dashboardDataSource = "embedded roadmap/tasks (fallback)";
+          dashboardLastSync = new Date().toISOString();
+        }
+        renderAll();
+      }
+
+      initDashboard();
+      setInterval(async () => {
+        await syncDashboardFromDocs();
+        renderAll();
+      }, 20000);
+      setInterval(() => {
+        if (sourceCooldownLeftSec("tasks") > 0 || sourceCooldownLeftSec("roadmap") > 0 || sourceCooldownLeftSec("progress") > 0) {
+          applyLang();
+        }
+      }, 1000);
+    </script>
+  </body>
+</html>

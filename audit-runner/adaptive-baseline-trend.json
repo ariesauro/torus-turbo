@@ -1,0 +1,741 @@
+{
+  "updatedAt": "2026-03-17T23:24:24.242Z",
+  "snapshots": [
+    {
+      "generatedAt": "2026-03-17T05:08:12.330Z",
+      "inputPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/long-run-benchmark-results.json",
+      "scenarios": {
+        "adaptive.low": {
+          "total": 3,
+          "passed": 3
+        },
+        "adaptive.mid": {
+          "total": 3,
+          "passed": 1
+        },
+        "adaptive.high": {
+          "total": 3,
+          "passed": 0
+        }
+      },
+      "scenarioRatios": {
+        "adaptive.low": 1,
+        "adaptive.mid": 0.3333333333333333,
+        "adaptive.high": 0
+      }
+    },
+    {
+      "generatedAt": "2026-03-17T14:56:49.746Z",
+      "inputPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/long-run-benchmark-results.json",
+      "scenarios": {
+        "adaptive.low": {
+          "total": 3,
+          "passed": 0
+        },
+        "adaptive.mid": {
+          "total": 3,
+          "passed": 0
+        },
+        "adaptive.high": {
+          "total": 3,
+          "passed": 0
+        }
+      },
+      "scenarioRatios": {
+        "adaptive.low": 0,
+        "adaptive.mid": 0,
+        "adaptive.high": 0
+      }
+    },
+    {
+      "generatedAt": "2026-03-17T15:01:01.136Z",
+      "inputPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/long-run-benchmark-results.json",
+      "scenarios": {
+        "adaptive.low": {
+          "total": 3,
+          "passed": 0
+        },
+        "adaptive.mid": {
+          "total": 3,
+          "passed": 0
+        },
+        "adaptive.high": {
+          "total": 3,
+          "passed": 0
+        }
+      },
+      "scenarioRatios": {
+        "adaptive.low": 0,
+        "adaptive.mid": 0,
+        "adaptive.high": 0
+      }
+    },
+    {
+      "generatedAt": "2026-03-17T15:04:29.094Z",
+      "inputPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/long-run-benchmark-results.json",
+      "scenarios": {
+        "adaptive.low": {
+          "total": 3,
+          "passed": 0
+        },
+        "adaptive.mid": {
+          "total": 3,
+          "passed": 0
+        },
+        "adaptive.high": {
+          "total": 3,
+          "passed": 0
+        }
+      },
+      "scenarioRatios": {
+        "adaptive.low": 0,
+        "adaptive.mid": 0,
+        "adaptive.high": 0
+      }
+    },
+    {
+      "generatedAt": "2026-03-17T15:07:54.526Z",
+      "inputPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/long-run-benchmark-results.json",
+      "scenarios": {
+        "adaptive.low": {
+          "total": 3,
+          "passed": 0
+        },
+        "adaptive.mid": {
+          "total": 3,
+          "passed": 0
+        },
+        "adaptive.high": {
+          "total": 3,
+          "passed": 0
+        }
+      },
+      "scenarioRatios": {
+        "adaptive.low": 0,
+        "adaptive.mid": 0,
+        "adaptive.high": 0
+      }
+    },
+    {
+      "generatedAt": "2026-03-17T15:11:39.283Z",
+      "inputPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/long-run-benchmark-results.json",
+      "scenarios": {
+        "adaptive.low": {
+          "total": 3,
+          "passed": 0
+        },
+        "adaptive.mid": {
+          "total": 3,
+          "passed": 0
+        },
+        "adaptive.high": {
+          "total": 3,
+          "passed": 0
+        }
+      },
+      "scenarioRatios": {
+        "adaptive.low": 0,
+        "adaptive.mid": 0,
+        "adaptive.high": 0
+      }
+    },
+    {
+      "generatedAt": "2026-03-17T15:15:44.283Z",
+      "inputPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/long-run-benchmark-results.json",
+      "scenarios": {
+        "adaptive.low": {
+          "total": 3,
+          "passed": 0
+        },
+        "adaptive.mid": {
+          "total": 3,
+          "passed": 0
+        },
+        "adaptive.high": {
+          "total": 3,
+          "passed": 0
+        }
+      },
+      "scenarioRatios": {
+        "adaptive.low": 0,
+        "adaptive.mid": 0,
+        "adaptive.high": 0
+      }
+    },
+    {
+      "generatedAt": "2026-03-17T15:22:17.440Z",
+      "inputPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/long-run-benchmark-results.json",
+      "scenarios": {
+        "adaptive.low": {
+          "total": 3,
+          "passed": 0
+        },
+        "adaptive.mid": {
+          "total": 3,
+          "passed": 0
+        },
+        "adaptive.high": {
+          "total": 3,
+          "passed": 0
+        }
+      },
+      "scenarioRatios": {
+        "adaptive.low": 0,
+        "adaptive.mid": 0,
+        "adaptive.high": 0
+      }
+    },
+    {
+      "generatedAt": "2026-03-17T15:24:46.191Z",
+      "inputPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/long-run-benchmark-results.json",
+      "scenarios": {
+        "adaptive.low": {
+          "total": 1,
+          "passed": 0
+        },
+        "adaptive.mid": {
+          "total": 1,
+          "passed": 0
+        },
+        "adaptive.high": {
+          "total": 1,
+          "passed": 0
+        }
+      },
+      "scenarioRatios": {
+        "adaptive.low": 0,
+        "adaptive.mid": 0,
+        "adaptive.high": 0
+      }
+    },
+    {
+      "generatedAt": "2026-03-17T15:40:02.851Z",
+      "inputPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/long-run-benchmark-results.json",
+      "scenarios": {
+        "adaptive.low": {
+          "total": 3,
+          "passed": 0
+        },
+        "adaptive.mid": {
+          "total": 3,
+          "passed": 0
+        },
+        "adaptive.high": {
+          "total": 3,
+          "passed": 0
+        }
+      },
+      "scenarioRatios": {
+        "adaptive.low": 0,
+        "adaptive.mid": 0,
+        "adaptive.high": 0
+      }
+    },
+    {
+      "generatedAt": "2026-03-17T15:45:17.405Z",
+      "inputPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/long-run-benchmark-results.json",
+      "scenarios": {
+        "adaptive.low": {
+          "total": 3,
+          "passed": 3
+        },
+        "adaptive.mid": {
+          "total": 3,
+          "passed": 2
+        },
+        "adaptive.high": {
+          "total": 3,
+          "passed": 2
+        }
+      },
+      "scenarioRatios": {
+        "adaptive.low": 1,
+        "adaptive.mid": 0.6666666666666666,
+        "adaptive.high": 0.6666666666666666
+      }
+    },
+    {
+      "generatedAt": "2026-03-17T15:49:21.079Z",
+      "inputPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/long-run-benchmark-results.json",
+      "scenarios": {
+        "adaptive.low": {
+          "total": 3,
+          "passed": 3
+        },
+        "adaptive.mid": {
+          "total": 3,
+          "passed": 3
+        },
+        "adaptive.high": {
+          "total": 3,
+          "passed": 3
+        }
+      },
+      "scenarioRatios": {
+        "adaptive.low": 1,
+        "adaptive.mid": 1,
+        "adaptive.high": 1
+      }
+    },
+    {
+      "generatedAt": "2026-03-17T18:22:45.812Z",
+      "inputPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/long-run-benchmark-results.json",
+      "scenarios": {
+        "adaptive.low": {
+          "total": 3,
+          "passed": 3
+        },
+        "adaptive.mid": {
+          "total": 3,
+          "passed": 3
+        },
+        "adaptive.high": {
+          "total": 3,
+          "passed": 2
+        }
+      },
+      "scenarioRatios": {
+        "adaptive.low": 1,
+        "adaptive.mid": 1,
+        "adaptive.high": 0.6666666666666666
+      }
+    },
+    {
+      "generatedAt": "2026-03-17T18:34:47.839Z",
+      "inputPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/long-run-benchmark-results.json",
+      "scenarios": {
+        "adaptive.low": {
+          "total": 1,
+          "passed": 0
+        },
+        "adaptive.mid": {
+          "total": 1,
+          "passed": 0
+        },
+        "adaptive.high": {
+          "total": 1,
+          "passed": 0
+        }
+      },
+      "scenarioRatios": {
+        "adaptive.low": 0,
+        "adaptive.mid": 0,
+        "adaptive.high": 0
+      }
+    },
+    {
+      "generatedAt": "2026-03-17T18:55:34.768Z",
+      "inputPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/long-run-benchmark-results.json",
+      "scenarios": {
+        "adaptive.low": {
+          "total": 3,
+          "passed": 2
+        },
+        "adaptive.mid": {
+          "total": 3,
+          "passed": 2
+        },
+        "adaptive.high": {
+          "total": 3,
+          "passed": 2
+        }
+      },
+      "scenarioRatios": {
+        "adaptive.low": 0.6666666666666666,
+        "adaptive.mid": 0.6666666666666666,
+        "adaptive.high": 0.6666666666666666
+      }
+    },
+    {
+      "generatedAt": "2026-03-17T19:26:20.436Z",
+      "inputPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/long-run-benchmark-results.json",
+      "scenarios": {
+        "adaptive.low": {
+          "total": 1,
+          "passed": 1
+        },
+        "adaptive.mid": {
+          "total": 1,
+          "passed": 1
+        },
+        "adaptive.high": {
+          "total": 1,
+          "passed": 0
+        }
+      },
+      "scenarioRatios": {
+        "adaptive.low": 1,
+        "adaptive.mid": 1,
+        "adaptive.high": 0
+      }
+    },
+    {
+      "generatedAt": "2026-03-17T19:42:54.246Z",
+      "inputPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/long-run-benchmark-results.json",
+      "scenarios": {
+        "adaptive.low": {
+          "total": 3,
+          "passed": 2
+        },
+        "adaptive.mid": {
+          "total": 3,
+          "passed": 2
+        },
+        "adaptive.high": {
+          "total": 3,
+          "passed": 2
+        }
+      },
+      "scenarioRatios": {
+        "adaptive.low": 0.6666666666666666,
+        "adaptive.mid": 0.6666666666666666,
+        "adaptive.high": 0.6666666666666666
+      }
+    },
+    {
+      "generatedAt": "2026-03-17T19:54:22.014Z",
+      "inputPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/long-run-benchmark-results.json",
+      "scenarios": {
+        "adaptive.low": {
+          "total": 3,
+          "passed": 3
+        },
+        "adaptive.mid": {
+          "total": 3,
+          "passed": 3
+        },
+        "adaptive.high": {
+          "total": 3,
+          "passed": 3
+        }
+      },
+      "scenarioRatios": {
+        "adaptive.low": 1,
+        "adaptive.mid": 1,
+        "adaptive.high": 1
+      }
+    },
+    {
+      "generatedAt": "2026-03-17T20:09:20.114Z",
+      "inputPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/long-run-benchmark-results.json",
+      "scenarios": {
+        "adaptive.low": {
+          "total": 3,
+          "passed": 3
+        },
+        "adaptive.mid": {
+          "total": 3,
+          "passed": 3
+        },
+        "adaptive.high": {
+          "total": 3,
+          "passed": 3
+        }
+      },
+      "scenarioRatios": {
+        "adaptive.low": 1,
+        "adaptive.mid": 1,
+        "adaptive.high": 1
+      }
+    },
+    {
+      "generatedAt": "2026-03-17T20:21:04.855Z",
+      "inputPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/long-run-benchmark-results.json",
+      "scenarios": {
+        "adaptive.low": {
+          "total": 3,
+          "passed": 3
+        },
+        "adaptive.mid": {
+          "total": 3,
+          "passed": 3
+        },
+        "adaptive.high": {
+          "total": 3,
+          "passed": 3
+        }
+      },
+      "scenarioRatios": {
+        "adaptive.low": 1,
+        "adaptive.mid": 1,
+        "adaptive.high": 1
+      }
+    },
+    {
+      "generatedAt": "2026-03-17T20:36:40.882Z",
+      "inputPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/long-run-benchmark-results.json",
+      "scenarios": {
+        "adaptive.low": {
+          "total": 3,
+          "passed": 3
+        },
+        "adaptive.mid": {
+          "total": 3,
+          "passed": 3
+        },
+        "adaptive.high": {
+          "total": 3,
+          "passed": 3
+        }
+      },
+      "scenarioRatios": {
+        "adaptive.low": 1,
+        "adaptive.mid": 1,
+        "adaptive.high": 1
+      }
+    },
+    {
+      "generatedAt": "2026-03-17T20:50:05.741Z",
+      "inputPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/long-run-benchmark-results.json",
+      "scenarios": {
+        "adaptive.low": {
+          "total": 3,
+          "passed": 3
+        },
+        "adaptive.mid": {
+          "total": 3,
+          "passed": 3
+        },
+        "adaptive.high": {
+          "total": 3,
+          "passed": 3
+        }
+      },
+      "scenarioRatios": {
+        "adaptive.low": 1,
+        "adaptive.mid": 1,
+        "adaptive.high": 1
+      }
+    },
+    {
+      "generatedAt": "2026-03-17T20:57:02.437Z",
+      "inputPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/long-run-benchmark-results.json",
+      "scenarios": {
+        "adaptive.low": {
+          "total": 1,
+          "passed": 1
+        },
+        "adaptive.mid": {
+          "total": 1,
+          "passed": 1
+        },
+        "adaptive.high": {
+          "total": 1,
+          "passed": 0
+        }
+      },
+      "scenarioRatios": {
+        "adaptive.low": 1,
+        "adaptive.mid": 1,
+        "adaptive.high": 0
+      }
+    },
+    {
+      "generatedAt": "2026-03-17T21:04:19.742Z",
+      "inputPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/long-run-benchmark-results.json",
+      "scenarios": {
+        "adaptive.low": {
+          "total": 3,
+          "passed": 2
+        },
+        "adaptive.mid": {
+          "total": 3,
+          "passed": 2
+        },
+        "adaptive.high": {
+          "total": 3,
+          "passed": 2
+        }
+      },
+      "scenarioRatios": {
+        "adaptive.low": 0.6666666666666666,
+        "adaptive.mid": 0.6666666666666666,
+        "adaptive.high": 0.6666666666666666
+      }
+    },
+    {
+      "generatedAt": "2026-03-17T21:10:31.595Z",
+      "inputPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/long-run-benchmark-results.json",
+      "scenarios": {
+        "adaptive.low": {
+          "total": 3,
+          "passed": 2
+        },
+        "adaptive.mid": {
+          "total": 3,
+          "passed": 2
+        },
+        "adaptive.high": {
+          "total": 3,
+          "passed": 2
+        }
+      },
+      "scenarioRatios": {
+        "adaptive.low": 0.6666666666666666,
+        "adaptive.mid": 0.6666666666666666,
+        "adaptive.high": 0.6666666666666666
+      }
+    },
+    {
+      "generatedAt": "2026-03-17T21:21:09.004Z",
+      "inputPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/long-run-benchmark-results.json",
+      "scenarios": {
+        "adaptive.low": {
+          "total": 3,
+          "passed": 2
+        },
+        "adaptive.mid": {
+          "total": 3,
+          "passed": 1
+        },
+        "adaptive.high": {
+          "total": 3,
+          "passed": 1
+        }
+      },
+      "scenarioRatios": {
+        "adaptive.low": 0.6666666666666666,
+        "adaptive.mid": 0.3333333333333333,
+        "adaptive.high": 0.3333333333333333
+      }
+    },
+    {
+      "generatedAt": "2026-03-17T21:53:07.614Z",
+      "inputPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/long-run-benchmark-results.json",
+      "scenarios": {
+        "adaptive.low": {
+          "total": 1,
+          "passed": 1
+        },
+        "adaptive.mid": {
+          "total": 1,
+          "passed": 0
+        },
+        "adaptive.high": {
+          "total": 1,
+          "passed": 0
+        }
+      },
+      "scenarioRatios": {
+        "adaptive.low": 1,
+        "adaptive.mid": 0,
+        "adaptive.high": 0
+      }
+    },
+    {
+      "generatedAt": "2026-03-17T22:54:27.224Z",
+      "inputPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/long-run-benchmark-results.json",
+      "scenarios": {
+        "adaptive.low": {
+          "total": 3,
+          "passed": 3
+        },
+        "adaptive.mid": {
+          "total": 3,
+          "passed": 3
+        },
+        "adaptive.high": {
+          "total": 3,
+          "passed": 3
+        }
+      },
+      "scenarioRatios": {
+        "adaptive.low": 1,
+        "adaptive.mid": 1,
+        "adaptive.high": 1
+      }
+    },
+    {
+      "generatedAt": "2026-03-17T23:03:09.258Z",
+      "inputPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/long-run-benchmark-results.json",
+      "scenarios": {
+        "adaptive.low": {
+          "total": 3,
+          "passed": 3
+        },
+        "adaptive.mid": {
+          "total": 3,
+          "passed": 3
+        },
+        "adaptive.high": {
+          "total": 3,
+          "passed": 3
+        }
+      },
+      "scenarioRatios": {
+        "adaptive.low": 1,
+        "adaptive.mid": 1,
+        "adaptive.high": 1
+      }
+    },
+    {
+      "generatedAt": "2026-03-17T23:11:05.990Z",
+      "inputPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/long-run-benchmark-results.json",
+      "scenarios": {
+        "adaptive.low": {
+          "total": 3,
+          "passed": 2
+        },
+        "adaptive.mid": {
+          "total": 3,
+          "passed": 2
+        },
+        "adaptive.high": {
+          "total": 3,
+          "passed": 2
+        }
+      },
+      "scenarioRatios": {
+        "adaptive.low": 0.6666666666666666,
+        "adaptive.mid": 0.6666666666666666,
+        "adaptive.high": 0.6666666666666666
+      }
+    },
+    {
+      "generatedAt": "2026-03-17T23:17:34.414Z",
+      "inputPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/long-run-benchmark-results.json",
+      "scenarios": {
+        "adaptive.low": {
+          "total": 3,
+          "passed": 3
+        },
+        "adaptive.mid": {
+          "total": 3,
+          "passed": 3
+        },
+        "adaptive.high": {
+          "total": 3,
+          "passed": 3
+        }
+      },
+      "scenarioRatios": {
+        "adaptive.low": 1,
+        "adaptive.mid": 1,
+        "adaptive.high": 1
+      }
+    },
+    {
+      "generatedAt": "2026-03-17T23:24:24.242Z",
+      "inputPath": "/Users/auroboros/Code/Torus Turbo/audit-runner/long-run-benchmark-results.json",
+      "scenarios": {
+        "adaptive.low": {
+          "total": 3,
+          "passed": 3
+        },
+        "adaptive.mid": {
+          "total": 3,
+          "passed": 3
+        },
+        "adaptive.high": {
+          "total": 3,
+          "passed": 2
+        }
+      },
+      "scenarioRatios": {
+        "adaptive.low": 1,
+        "adaptive.mid": 1,
+        "adaptive.high": 0.6666666666666666
+      }
+    }
+  ]
+}

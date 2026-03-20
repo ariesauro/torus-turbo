@@ -1,0 +1,128 @@
+{
+  "generatedAt": "2026-03-18T18:41:51.913Z",
+  "paths": {
+    "casePolicy": "/Users/auroboros/Code/Torus Turbo/audit-runner/research-preset-pack-case-policy.v1.json",
+    "template": "/Users/auroboros/Code/Torus Turbo/audit-runner/research-preset-policy-template.suggested.v1.json",
+    "envelopePolicy": "/Users/auroboros/Code/Torus Turbo/audit-runner/research-preset-policy-drift-envelope.v1.json"
+  },
+  "thresholds": {
+    "circulationDeltaAbsMaxPct": 15,
+    "stepDeltaAbsMaxMs": 25
+  },
+  "envelope": {
+    "profile": "smoke",
+    "stage": "default",
+    "source": "policy_file_stage",
+    "path": "/Users/auroboros/Code/Torus Turbo/audit-runner/research-preset-policy-drift-envelope.v1.json",
+    "availableProfiles": [
+      "smoke",
+      "standard",
+      "nightly"
+    ],
+    "availableStages": [
+      "lenient",
+      "default",
+      "strict"
+    ]
+  },
+  "gate": {
+    "pass": true,
+    "checks": {
+      "case_policy_exists": true,
+      "template_exists": true,
+      "envelope_policy_exists_or_default": true,
+      "envelope_profile_known": true,
+      "envelope_stage_known": true,
+      "profile_sets_match": true,
+      "all_rows_within_envelope": true
+    },
+    "failedChecks": []
+  },
+  "rows": [
+    {
+      "profile": "smoke",
+      "presetId": "vortex_ring_collision",
+      "circulationDeltaAbsPct": 0,
+      "stepDeltaAbsMs": 0,
+      "thresholds": {
+        "circulationDeltaAbsMaxPct": 15,
+        "stepDeltaAbsMaxMs": 25
+      },
+      "pass": true,
+      "failedChecks": []
+    },
+    {
+      "profile": "smoke",
+      "presetId": "vortex_leapfrogging",
+      "circulationDeltaAbsPct": 0,
+      "stepDeltaAbsMs": 0,
+      "thresholds": {
+        "circulationDeltaAbsMaxPct": 15,
+        "stepDeltaAbsMaxMs": 25
+      },
+      "pass": true,
+      "failedChecks": []
+    },
+    {
+      "profile": "smoke",
+      "presetId": "jet_instability",
+      "circulationDeltaAbsPct": 0,
+      "stepDeltaAbsMs": 0,
+      "thresholds": {
+        "circulationDeltaAbsMaxPct": 15,
+        "stepDeltaAbsMaxMs": 25
+      },
+      "pass": true,
+      "failedChecks": []
+    },
+    {
+      "profile": "smoke",
+      "presetId": "turbulence_cascade",
+      "circulationDeltaAbsPct": 0,
+      "stepDeltaAbsMs": 20,
+      "thresholds": {
+        "circulationDeltaAbsMaxPct": 15,
+        "stepDeltaAbsMaxMs": 25
+      },
+      "pass": true,
+      "failedChecks": []
+    },
+    {
+      "profile": "smoke",
+      "presetId": "helmholtz_shear",
+      "circulationDeltaAbsPct": 0,
+      "stepDeltaAbsMs": 0,
+      "thresholds": {
+        "circulationDeltaAbsMaxPct": 15,
+        "stepDeltaAbsMaxMs": 25
+      },
+      "pass": true,
+      "failedChecks": []
+    },
+    {
+      "profile": "smoke",
+      "presetId": "kelvin_wave_train",
+      "circulationDeltaAbsPct": 0,
+      "stepDeltaAbsMs": 0,
+      "thresholds": {
+        "circulationDeltaAbsMaxPct": 15,
+        "stepDeltaAbsMaxMs": 25
+      },
+      "pass": true,
+      "failedChecks": []
+    },
+    {
+      "profile": "smoke",
+      "presetId": "reconnection_pair",
+      "circulationDeltaAbsPct": 0,
+      "stepDeltaAbsMs": 0,
+      "thresholds": {
+        "circulationDeltaAbsMaxPct": 15,
+        "stepDeltaAbsMaxMs": 25
+      },
+      "pass": true,
+      "failedChecks": []
+    }
+  ],
+  "failedRows": []
+}

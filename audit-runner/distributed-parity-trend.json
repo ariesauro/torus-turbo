@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "tt067.distributed_parity_trend.v1",
+  "generatedAt": "2026-03-18T23:56:11.945Z",
+  "profile": "standard",
+  "profileThresholds": {
+    "invariantDriftDeltaMaxPct": 2,
+    "timingStepP95DeltaMaxPct": 10
+  },
+  "regressPolicy": {
+    "maxInvariantDriftDeltaIncreasePct": 0.5,
+    "maxTimingParityDrop": 0.05,
+    "failOnCheckStatusDrop": true
+  },
+  "current": {
+    "generatedAt": "2026-03-18T23:56:11.911Z",
+    "profile": "standard",
+    "parityVerdict": "parity_pass",
+    "invariantDriftDeltaPct": 0.8500000000000001,
+    "timingParityValue": 0.9067882472137792,
+    "contractParityValue": 1,
+    "envelopeClass": "eligible"
+  },
+  "previous": {
+    "generatedAt": "2026-03-18T21:23:41.182Z",
+    "profile": "standard",
+    "parityVerdict": "parity_pass",
+    "invariantDriftDeltaPct": 0.8500000000000001,
+    "timingParityValue": 0.9067882472137792,
+    "contractParityValue": 1,
+    "envelopeClass": "eligible"
+  },
+  "regress": {
+    "parityVerdict": false,
+    "invariantDriftDelta": false,
+    "timingParity": false,
+    "any": false
+  },
+  "history": [
+    {
+      "generatedAt": "2026-03-18T21:23:41.182Z",
+      "profile": "standard",
+      "parityVerdict": "parity_pass",
+      "invariantDriftDeltaPct": 0.8500000000000001,
+      "timingParityValue": 0.9067882472137792,
+      "contractParityValue": 1,
+      "envelopeClass": "eligible"
+    },
+    {
+      "generatedAt": "2026-03-18T23:56:11.911Z",
+      "profile": "standard",
+      "parityVerdict": "parity_pass",
+      "invariantDriftDeltaPct": 0.8500000000000001,
+      "timingParityValue": 0.9067882472137792,
+      "contractParityValue": 1,
+      "envelopeClass": "eligible"
+    }
+  ]
+}

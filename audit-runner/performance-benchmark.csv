@@ -1,0 +1,42 @@
+benchmark,parameter,value,unit
+biot_savart_scaling,N=64_directMs,1.377,ms
+biot_savart_scaling,N=64_fmmMs,1.749,ms
+biot_savart_scaling,N=64_speedup,0.79,x
+biot_savart_scaling,N=128_directMs,1.105,ms
+biot_savart_scaling,N=128_fmmMs,1.205,ms
+biot_savart_scaling,N=128_speedup,0.92,x
+biot_savart_scaling,N=256_directMs,4.529,ms
+biot_savart_scaling,N=256_fmmMs,4.422,ms
+biot_savart_scaling,N=256_speedup,1.02,x
+biot_savart_scaling,N=512_directMs,19.008,ms
+biot_savart_scaling,N=512_fmmMs,21.195,ms
+biot_savart_scaling,N=512_speedup,0.90,x
+biot_savart_scaling,N=1024_directMs,76.282,ms
+biot_savart_scaling,N=1024_fmmMs,52.772,ms
+biot_savart_scaling,N=1024_speedup,1.45,x
+biot_savart_scaling,N=2048_directMs,295.711,ms
+biot_savart_scaling,N=2048_fmmMs,88.201,ms
+biot_savart_scaling,N=2048_speedup,3.35,x
+pipeline_breakdown,Biot-Savart (N²)_ms,26.427,ms
+pipeline_breakdown,Biot-Savart (N²)_pct,48.1,%
+pipeline_breakdown,Advection_ms,0.107,ms
+pipeline_breakdown,Advection_pct,0.2,%
+pipeline_breakdown,Stretching_ms,3.591,ms
+pipeline_breakdown,Stretching_pct,6.5,%
+pipeline_breakdown,PSE Diffusion_ms,24.804,ms
+pipeline_breakdown,PSE Diffusion_pct,45.2,%
+throughput,N=128_stepMs,17.699,ms
+throughput,N=128_stepsPerSec,56,steps/s
+throughput,N=256_stepMs,32.027,ms
+throughput,N=256_stepsPerSec,31,steps/s
+throughput,N=512_stepMs,53.646,ms
+throughput,N=512_stepsPerSec,19,steps/s
+throughput,N=1024_stepMs,1062.507,ms
+throughput,N=1024_stepsPerSec,1,steps/s
+throughput,N=2048_stepMs,1199.961,ms
+throughput,N=2048_stepsPerSec,1,steps/s
+memory_scaling,N=1000_memMB,0.345,MB
+memory_scaling,N=5000_memMB,0.000,MB
+memory_scaling,N=10000_memMB,1.608,MB
+memory_scaling,N=20000_memMB,3.245,MB
+memory_scaling,N=50000_memMB,6.431,MB
